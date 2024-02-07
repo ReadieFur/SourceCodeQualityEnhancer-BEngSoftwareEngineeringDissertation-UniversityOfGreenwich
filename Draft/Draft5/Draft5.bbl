@@ -1,0 +1,47 @@
+\begin{thebibliography}{xx}
+
+\harvarditem[Abbes et~al.]{Abbes, Khomh, Gueheneuc \harvardand\ Antoniol}{2011}{ImpactOfAntipatterns}
+Abbes, M., Khomh, F., Gueheneuc, Y.-G. \harvardand\ Antoniol, G.  \harvardyearleft 2011\harvardyearright , An empirical study of the impact of two antipatterns, blob and spaghetti code, on program comprehension, {\em in} `Software maintenance and reengineering(CSMR), 2011 15th European conference on'.
+
+\harvarditem[Ashfaq et~al.]{Ashfaq, Khan \harvardand\ Farooq}{2019}{8681007}
+Ashfaq, Q., Khan, R. \harvardand\ Farooq, S.  \harvardyearleft 2019\harvardyearright , A comparative analysis of static code analysis tools that check java code adherence to java coding standards, {\em in} `2019 2nd International Conference on Communication, Computing and Digital systems (C-CODE)', pp.~98--103.
+
+\harvarditem[Grano et~al.]{Grano, Palomba \harvardand\ Gall}{2019}{TestCasesAndCodeQuality}
+Grano, G., Palomba, F. \harvardand\ Gall, H.~C.  \harvardyearleft 2019\harvardyearright , Lightweight assessment of test-case effectiveness using source-code-quality indicators, {\em in} `IEEE Transactions on Software Engineering'.
+
+\harvarditem[Khomh et~al.]{Khomh, Penta, Guéhéneuc \harvardand\ Antoniol}{2012}{ImpactOfAntipatterns2}
+Khomh, F., Penta, M.~D., Guéhéneuc, Y.-G. \harvardand\ Antoniol, G.  \harvardyearleft 2012\harvardyearright , An exploratory study of the impact of antipatterns on class change-and fault-proneness, {\em in} `Empirical Software Engineering'.
+
+\harvarditem[Kirk et~al.]{Kirk, Tempero, Luxton-Reilly \harvardand\ Crow}{2020}{10.1145/3428029.3428047}
+Kirk, D., Tempero, E., Luxton-Reilly, A. \harvardand\ Crow, T.  \harvardyearleft 2020\harvardyearright , High school teachers' understanding of code style, {\em in} `Proceedings of the 20th Koli Calling International Conference on Computing Education Research', Koli Calling '20, Association for Computing Machinery, New York, NY, USA.
+\newline\harvardurl{https://doi.org/10.1145/3428029.3428047}
+
+\harvarditem{Kummamuru \harvardand\ Hussaini}{2015}{7372958}
+Kummamuru, S. \harvardand\ Hussaini, S.~W.  \harvardyearleft 2015\harvardyearright , Designing an organization structure for large and complex it programs using the viable system model(vsm), {\em in} `TENCON 2015 - 2015 IEEE Region 10 Conference', pp.~1--5.
+
+\harvarditem{Liu}{2019}{8802820}
+Liu, Y.  \harvardyearleft 2019\harvardyearright , Jsoptimizer: An extensible framework for javascript program optimization, {\em in} `2019 IEEE/ACM 41st International Conference on Software Engineering: Companion Proceedings (ICSE-Companion)', pp.~168--170.
+
+\harvarditem[Neto et~al.]{Neto, Bezerra \harvardand\ Serafim~Martins}{2022}{10.1145/3555228.3555268}
+Neto, A., Bezerra, C. \harvardand\ Serafim~Martins, J.  \harvardyearleft 2022\harvardyearright , Code smell co-occurrences: A systematic mapping, {\em in} `Proceedings of the XXXVI Brazilian Symposium on Software Engineering', SBES '22, Association for Computing Machinery, New York, NY, USA, pp.~331--336.
+\newline\harvardurl{https://doi.org/10.1145/3555228.3555268}
+
+\harvarditem[Palomba et~al.]{Palomba, Bavota, Penta, Oliveto \harvardand\ Lucia}{2017}{CodeSmellsAndMaintainability}
+Palomba, F., Bavota, G., Penta, M.~D., Oliveto, F. F.~R. \harvardand\ Lucia, A.~D.  \harvardyearleft 2017\harvardyearright , On the diffuseness and the impact on maintainability of code smells: a large scale empirical investigation, {\em in} `Empirical Software Engineering'.
+
+\harvarditem[Pecorelli et~al.]{Pecorelli, Palomba, Khomh \harvardand\ De~Lucia}{2020}{10.1145/3379597.3387457}
+Pecorelli, F., Palomba, F., Khomh, F. \harvardand\ De~Lucia, A.  \harvardyearleft 2020\harvardyearright , Developer-driven code smell prioritization, {\em in} `Proceedings of the 17th International Conference on Mining Software Repositories', MSR '20, Association for Computing Machinery, New York, NY, USA, pp.~220--231.
+\newline\harvardurl{https://doi.org/10.1145/3379597.3387457}
+
+\harvarditem{Saraiva}{2013}{6606742}
+Saraiva, J.  \harvardyearleft 2013\harvardyearright , A roadmap for software maintainability measurement, {\em in} `2013 35th International Conference on Software Engineering (ICSE)', pp.~1453--1455.
+
+\harvarditem[Singh et~al.]{Singh, Singh \harvardand\ Kaur}{2013}{10.1145/2507288.2507312}
+Singh, P., Singh, S. \harvardand\ Kaur, J.  \harvardyearleft 2013\harvardyearright , `Tool for generating code metrics for c\# source code using abstract syntax tree technique', {\em SIGSOFT Softw. Eng. Notes} {\bf 38}(5),~1--6.
+\newline\harvardurl{https://doi.org/10.1145/2507288.2507312}
+
+\harvarditem[Stegeman et~al.]{Stegeman, Barendsen \harvardand\ Smetsers}{2014}{10.1145/2674683.2674702}
+Stegeman, M., Barendsen, E. \harvardand\ Smetsers, S.  \harvardyearleft 2014\harvardyearright , Towards an empirically validated model for assessment of code quality, {\em in} `Proceedings of the 14th Koli Calling International Conference on Computing Education Research', Koli Calling '14, Association for Computing Machinery, New York, NY, USA, p.~99–108.
+\newline\harvardurl{https://doi.org/10.1145/2674683.2674702}
+
+\end{thebibliography}
