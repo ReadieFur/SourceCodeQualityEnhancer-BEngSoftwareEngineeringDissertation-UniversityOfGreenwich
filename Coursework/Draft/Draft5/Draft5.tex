@@ -1,0 +1,96 @@
+\documentclass{article} %specifies the document being created is an article
+\usepackage{graphicx} %tells LaTeX we want to include images in the document 
+\usepackage{natbib} % this allows you work on the references and citations in Harvard format
+\begin{document} %start the document
+
+\title{Project Proposal: Source Code Quality Enhancer} %title of document
+\author{Tristan Percy Read - 001151378} %author of document (i.e. you)
+
+\maketitle %prints the title on the page
+{
+	\centering
+	A Project Proposal for the Degree of BEng H SOFTWARE ENGINEERING
+
+} %this command can be used to center any text within LaTeX.
+
+\section{Introduction} %sections within LaTeX can be created like this
+This project proposal seeks to provide a solution to the problem of creating high quality code and structured code. Research was made into the area of software quality and the different approaches that have been proposed to measure software quality, and it had been found that there is a lack of standardization in the way software quality is measured and that there is a demand for high quality code. It was also found that while there are many proposed approaches to measuring software quality, not many of them have not been widely adopted. The proposed solution is to create a tool that can analyze source code and format it to a schema while making use of object oriented programming principles.
+
+\section{Problem Domain}
+
+The object oriented programming paradigm has become one of the most popular programming paradigms in the industry \citep{6606742}. The wide adoptation of this paradigm has resulted in many large projects being written in an object oriented language.
+Unfortunately, IT programs often fail to deliver intended results due to poor program management and governance \citep{7372958}. It becomes increasingly important to maintain high quality source code as it becomes harder to find bugs in later stages of development \citep{8681007} as well as potentially becoming too expensive and increasingly difficult to maintain \citep{8802820, 10.1145/2507288.2507312, 10.1145/3379597.3387457, 6606742, 7372958}, which then means programs can't be kept up-to-date which in turn could then introduce security vulnerabilities.
+Developing healthy software is always a challenge \citep{8681007} and research indicates that there is a lack of standardization in the way software quality is measured \citep{6606742, 8681007}. This can make it difficult for developers to decide what methodologies to adopt \citep{6606742}. These issues all exist while there remains a high demand for high quality code \citep{6606742}.
+
+Many of the papers in this area cover how important software quality is and the problems around the topic but only few provide approaches and solutions to solve the issues. For example, in the research conducted by \cite{6606742} they investigated a large number of papers that looked into software quality. Amongst those papers only 14.4\% of them went on to discuss the real world problems of software quality and of those papers only 2.7\% proposed solutions to solve the problem.
+
+Further research into the area of software quality shows that teachers are struggling to teach students how to write high quality code \citep{10.1145/3428029.3428047}. This can have a knock on effect into the industry as students will be entering the industry with a lack of understanding of how to write high quality code, and so poorly written code may become more common despite the amount of research that is being conducted in the area of software quality.
+
+It is clear, then, that there is a problem with software quality. While many papers have been written on the topic and the issues have been discussed, there is evidently a lack of real world solutions to the problem which is causing issues within the industry.
+
+\section{Methodology}
+
+The proposal project will seek to present a solution to the problem of software quality by creating a tool that can analyze source code and reformat it such that it makes use of object oriented programming principles in combination with design patterns to create a well structured and higher quality codebase from a pre-existing codebase.
+However, such a tool cannot be created without researching further into the following topics: Existing approaches; Defining software quality; Object oriented programming principles and design patterns.
+
+\subsection{Existing Approaches}
+\cite{8681007} covers how there are many tools that have been created to measure software quality. Some existing tools used to aid developers in maintaining particular coding styles include:
+\begin{itemize}
+	\item Lint4j - Checks the performance of code.
+	\item Checkstyle \& Codacy - Indicates errors and flags when language conventions are not followed.
+	\item PMD - Checks for code duplication.
+\end{itemize}
+While tools like these exist and can be very helpful in conjunction with each other, given how many tools there are it can be difficult to decide which tools to use \citep{}.
+
+\subsection{Defining Software Quality}
+\cite{6606742} said that "Software Engineering (SE) has very peculiar characteristics that strongly relate it to social sciences that encourage the implementation of empirical studies that are able to assess the effectiveness of techniques, methodologies and processes proposed in the area". This is an important quote as we can interpret this as meaning that software quality is a broad topic and that the definition of what is considered high quality software can vary from person to person. In the paper by \cite{10.1145/3428029.3428047}, it is inferred that teachers define high quality code by how readable the source code is to other developers. \cite{10.1145/3428029.3428047, 10.1145/2674683.2674702} defined code quality as what can be determined by "just looking at the source code, i.e. without checking against the specification".
+
+My research shows, and that conducted by others, there is no standardized way to measure software quality. \cite{10.1145/3428029.3428047, 10.1145/2674683.2674702} said that "current approaches do not take the developer's perception of design issues into account", therefore we cannot just create a tool that coheres to a standard. Instead the tool should be able to accept a schema that defines patterns and rules that to tool will attempt to adhere to.
+
+\subsection{Object Oriented Programming Principles and Design Patterns}
+
+There are many object oriented programming principles and design patterns that can be used to create a well structured codebase. In the paper \cite{10.1145/3428029.3428047} a few principles and patterns are discussed in relation to code quality. The principles and patterns discussed are as follows:
+\begin{itemize}
+	\item Documentation - Comments.
+	\item Presentation - Layout \& formatting.
+	\item Algorithmic - Flow, idiom \& expressions.
+	\item Structure - Decomposition \& modularization.
+\end{itemize}
+
+My proposal will want to make use of as many of these principles and patterns as possible in order to improve the quality of the code that can be produced. Abstraction and inherence can be extremely useful when it comes to the structure of a program and the deduplication of code as well as maintainability, which was also mentioned by \cite{8681007} where they said "Modularization of code marks better reuse of the code and compilation time".
+
+However it is important that one doesn't abuse these abilities as they can lead to code smells which affect program program comprehensibility \citep{8681007, ImpactOfAntipatterns}, maintainability \citep{8681007, ImpactOfAntipatterns2, CodeSmellsAndMaintainability}, testability \citep{8681007, TestCasesAndCodeQuality}. As indicated in the paper by \cite{10.1145/3555228.3555268} there are several types of code smells, such as: Comments; Duplicated code; Feature envy; Large class/God class; Long method; Lazy class; Long parameter list; Shotgun surgery. Therefore in considering a solution, care will be needed about our use of these principles and patterns such as abstraction and inheritance and automated comments as they can lead to these undesirable code smells.
+
+\subsection{Approach}
+
+The task will be to create a tool that can analyze source code and reformat it such that it makes use of object oriented programming principles in combination with design patterns to create a well structured and higher quality codebase from a pre-existing codebase. In order to do this, use will be made of various static code analysis techniques.
+
+Static code analysis is the process of analyzing source code without executing it \citep{8802820}. A method that can be used to build a structure of how the program works is by using an Abstract Syntax Tree (AST) \citep{8802820}.
+
+For this task the C\# will be used. This is a suitable choice as the is object oriented and is popular in the industry, as well as having many features that can be used to create a well structured codebase.
+
+In order for the tool to work a codebase will need to be provided as well as a set of rules to adhere to, however as noted, there is no standardized way to measure software quality. \cite{8681007} proposed definition of software quality is "the degree of conformance to explicit or implicit requirements and expectations". This definition for the project by allowing a user to define a schema that sets the requirements and expectations of the codebase. This way an individual or team can define their own standards and then use this tool to enforce those standards.
+
+The output of this tool will attempt to provide a reformatted codebase that adheres to the set schema. In addition to this, a report can be produced. The report will contain information about the codebase such as UML diagrams as a visual overview of the codebase as well as documentation. This is another important metric because it can allow developers to get an overview of the codebase so they can more easily figure out what a program does and how it works, which can then save time and money when it comes to maintaining and migrating a codebase between developers and teams.
+
+% TODO: Briefly discuss techniques and technical details of how we will achieve this.
+
+\section{Evaluation}
+
+In order to evaluate this tool the following will be assessed:
+\begin{itemize}
+	\item Function.
+	\item Comprehensibility.
+	\item Performance.
+\end{itemize}
+The function of the reproduced code should maintain the result of the original code. This can be measured by running the original code and the reproduced code either through manual or automated testing and then comparing the results.
+
+The comprehensibility of the reproduced code should be no harder to digest than the original code. This is a harder metric to measure as it is subjective, so in order to evaluate this peer review can be used as well as tools that measure cyclomatic complexity.
+
+Finally, the performance of the reproduced code should be on-par or better than the original code. This can be measured by running the original code and the reproduced code and comparing the time taken to run each. While this tool will not aim to optimize the performance of the code, it should not make it worse.
+
+In the paper by \cite{8681007}, it was said that "no tool succeeds in all respects". By this they mean that no tool is perfect and that each tool has its own strengths and weaknesses. This statement is something that should be kept in mind with this project as it will not aim to create a tool that succeeds in all respects. Instead it will aim to create a tool that can combine the strengths of each tool to create a more complete tool.
+
+\bibliographystyle{agsm}
+\bibliography{bibliography} %import bibliography to be used for references here, replace the bibliography.bib with the name of your .bib file
+\end{document} %end the document

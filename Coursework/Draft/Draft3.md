@@ -1,0 +1,56 @@
+### Problem Domain
+
+The object oriented programming paradigm has become one of the most popular programming paradigms in the industry (IEEE-6606742). The wide adoptation of this paradigm has resulted in many large projects being written in an object oriented language.
+Unfortunatly IT programs often fail to deliver intended results due to poor program management and governance (IEEE-7372958). It becomes increasingly important to maintain high quality source code as it becomes harder to find bugs in later stages of development (IEEE-8681007) as well as potentially becoming too expensive and increasingly difficult to maintain (IEEE-8802820, ACM-10.1145_2507288.2507312, ACM-10.1145_3379597.3387457, IEEE-6606742, IEEE-7372958), which then means programs can't be kept up-to-date which could then introduce security vulnerabilities.
+Developing healthy software is always a challange (IEEE-8681007) and research indicates that there is a lack of standardisation in the way software quality is measured (IEEE-6606742, IEEE-8681007). This can make it difficult for developers to decide what methodologies to adopt (IEEE-6606742). Therefore there has become a high demand for high quality code (IEEE-6606742).
+
+Many of the papers in this area go over how important software quality is and the problems around the topic but only few provide approaches and solutions to solve the issues. For example in the research conducted by (IEEE-6606742) they investigated a large number of papers that looked into software quality. Amongst these papers only 14.4% of them went on to discuss the real world problems of software quality and of those papers only 2.7% proposed solutions to solve the problem.
+
+Further research into the area of software quality shows that teachers are struggling to teach students how to write high quality code (ACM-10.1145_3428029.3428047). This can have a knock on effect into the industry as students will be entering the industry with a lack of understanding of how to write high quality code, and so poorly written code may become more common despite the amount of research that is being conducted in the area of software quality.
+
+It is clear then that there is a problem with software quality. While many papers have been written on the topic and the issues have been discussed, there is evidently a lack of real world solutions to the problem which is causing issues within the industry.
+
+### Methodology
+
+This paper propses a solution to the problem of software quality by creating a tool that can analyze source code and reformat it such that it makes use of object oriented programming principles in combination with design patterns to create a well structured and higher quality codebase from a pre-existing codebase.
+However, we cannot create such a tool without researching further into the following topics; Existing approaches, Defining software quality, Object oriented programming principles and design patterns, and finally our approach.
+
+#### Existing Approaches
+There are many approaches that have been proposed to measure software quality. In the paper (IEEE-8681007) they go over how there are many tools that have been created to measure software quality. Some existing tools used to aid developers in maintaining particular coding styles are as follows in this non-exhaustive list; Lint4j, Checkstyle, Codacy and PMD.
+Lint4j is a tool that checks the peformance of code. Checkstyle and Codacy are both tools that will indicate errors if language conventions are not followed. PMD is a tool that checks for code duplication.
+
+#### Defining Software Quality
+The paper (IEEE-6606742) said that "Software Engineering (SE) has very peculiar characteristics that strongly relate it to social sciences that encourage the implementation of empirical studies that are able to assess the effectiveness of techniques, methodologies and processes proposed in the area". This is an important quote as we can interperte this as meaning that software quality is a broad topic and that the definition of what is considered high quality software can vary from person to person. In the paper (ACM-10.1145_3428029.3428047) it is infered that teachers define high quality code by how readable the source code is to others and Stegeman defined code quality as what can be determined by "just looking at the source code, i.e. without checking against the specification" (ACM-10.1145_3428029.3428047, 23).
+
+As our research shows, and that conducted by others, there is no standardised way to measure software quality (IEEE-6606742, IEEE-8681007). Therefore we cannot just create a tool that cohears to a standard. Instead the tool should be able to accept a schema that defines patterns and rules that to tool will attempt to adhear to.
+
+#### Object Oriented Programming Principles and Design Patterns
+
+There are many object oriented programming principles and design patterns that can be used to create a well structured codebase. In the paper (ACM-10.1145_3428029.3428047) a few principles and patterns are discussed in relation to code quality. The principles and patterns discussed are as follows; Documentation (comments), Presentation (layout & formatting), Algorithmic (flow, idiom, expressions) and Structure (decomposition, modularisation).
+
+Our program will want to make use of as many of these principles and patterns as possible in order to improve the quality of the code that can be produced. Abstraction and inheretence can be extremely useful when it comes to the structure of a program and the deduplication of code as well as maintainability, this was also mentioned in the paper (IEEE-8681007) where they said "Modularization of code marks better reuse of the code and compilation time".
+
+However it is important that we don't abuse these abilities as they can lead to code smells. As indicated in the paper (ACM-10.1145_3555228.3555268) there are several types of code smells, such as: Comments, Duplicated Code, Feature Envy, Large Class/God Class, Long Method, Lazy Class, Long Parameter List and Shotgun Surgery. Therefore we must be careful about our use of these principles and patterns such as abstraction and inheritance and automated comments as they can lead to these undesirable code smells.
+
+#### Approach
+
+Out task then will be to create a tool that can analyze source code and reformat it such that it makes use of object oriented programming principles in combination with design patterns to create a well structured and higher quality codebase from a pre-existing codebase.
+
+For this task we will be making use of the C# language as it is an object oriented language that is popular in the industry and has many features that can be used to create a well structured codebase.
+
+In order for our tool to work we need to provide a codebase as well as a set of rules to adhear to, however as we have previously discussed there is no standardised way to measure software quality. The paper (IEEE-8681007) a proposed definition of software quality is "the degree of conformance to explicit or implicit requirements and expectations". We can adapt this definition for our project by allowing a user to define a schema that sets the requirements and expectations of the codebase. This way an individual or team can define their own standards and then use this tool to enforce those standards.
+
+The output of this tool will attempt to provide a reformatted codebase that adhears to the set schema. In addition to this we can produce another important peice of information, that being a report. The report will contain information about the codebase such as UML diagrams as a visual overview of the codebase as well as documentation. The reason this is another important metric is because it can allow developers to get an overview of the codebase so they can more easily figure out what a program does and how it works, this can then save time and money when it comes to maintaining and migrating a codebase between developers and teams.
+
+### Evaluation
+
+In order to evaluate this tool we will take into account the following; Function, Comprehensibility and Performance.
+The function of the reproduced code should maintain the result of the original code. We can measure this by running the original code and the reproduced code either through manual or automated testing and then comparing the results.
+The comprehensibility of the reproduced code should be no harder to digest than the original code. This is a harder metric to measure as it is subjective. So in order to evaulate this we can use peer review as well as making use of tools that measure cyclomatic complexity.
+Finally the peformance of the reproduced code should be on-par or better than the original code. This can be measured by running the original code and the reproduced code and comparing the time taken to run each. While this tool will not aim to optimise the performance of the code, it should not make it worse.
+
+In the paper (IEEE-8681007) they said "no tool succeeds in all respects". By this they mean that no tool is perfect and that each tool has its own strengths and weaknesses. This statment is something that should be kept in mind with this project as we will not aim to create a tool that succeeds in all respects, instead we will aim to create a tool that can combine the strengths of each tool to create a more complete tool.
+
+### Introduction
+
+This project aims to provide a solution to the problem of creating high quality code and structured code. Research was made into the area of software quality and the different approaches that have been proposed to measure software quality. It was found that there is a lack of standardisation in the way software quality is measured and that there is a demand for high quality code. It was also found that while there are many proposed approaches to measuring software quality, not many of them have not been widely adopted. The proposed solution is to create a tool that can analyze source code and format it to a schema while making use of object oriented programming principles.

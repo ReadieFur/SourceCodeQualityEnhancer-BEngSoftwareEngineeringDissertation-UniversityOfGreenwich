@@ -1,0 +1,7 @@
+- Code analysis/software metrics
+    - Place comments in code based on the source code
+    - Detect duplicated code
+    - Detect copied code from other projects
+    - Graph object relations and references
+    - Detect unreferenced and unreached code
+    - Refractor code

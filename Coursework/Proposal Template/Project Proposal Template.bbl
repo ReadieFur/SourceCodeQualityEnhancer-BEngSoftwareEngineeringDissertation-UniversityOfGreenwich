@@ -1,0 +1,12 @@
+\begin{thebibliography}{xx}
+
+\harvarditem[B{\"a}ck et~al.]{B{\"a}ck, Fogel \harvardand\ Michalewicz}{1997}{back1997handbook}
+B{\"a}ck, T., Fogel, D.~B. \harvardand\ Michalewicz, Z.  \harvardyearleft 1997\harvardyearright , {\em Handbook of evolutionary computation}, CRC Press.
+
+\harvarditem{Doe}{2019}{citeme}
+Doe, J.  \harvardyearleft 2019\harvardyearright , A project proposal citation, {\em in} `Best seller book: how to write a proposal?'.
+
+\harvarditem{Kennedy \harvardand\ Eberhart}{1995}{kennedy1995particle}
+Kennedy, J. \harvardand\ Eberhart, R.  \harvardyearleft 1995\harvardyearright , Particle swarm optimization, {\em in} `Proceedings of ICNN'95-International Conference on Neural Networks', Vol.~4, IEEE, pp.~1942--1948.
+
+\end{thebibliography}

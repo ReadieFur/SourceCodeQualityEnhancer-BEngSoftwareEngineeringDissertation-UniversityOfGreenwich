@@ -1,0 +1,1 @@
+- Write down the ideas of how you'd implement the project in hopes that it will help us find ideas that we can research that are more useful to the topic.
