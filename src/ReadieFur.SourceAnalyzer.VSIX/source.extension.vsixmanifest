@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+  
     <Metadata>
         <Identity Id="ReadieFur.SourceAnalyzer.VSIX.fc6e8d46-3ac5-4f1f-938d-47b48a351d49" Version="1.0" Language="en-US" Publisher="dev@readiefur.com" />
         <DisplayName>ReadieFur.SourceAnalyzer.VSIX</DisplayName>
         <Description xml:space="preserve">A collection of various source code analysis tools.</Description>
     </Metadata>
+  
     <Installation>
-        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 18.0)">
+        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0,)">
             <ProductArchitecture>amd64</ProductArchitecture>
         </InstallationTarget>
     </Installation>
+  
     <Dependencies>
         <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
     </Dependencies>
+  
     <Assets>
-        <Asset d:Source="Project" Type="Microsoft.VisualStudio.MefComponent" d:ProjectName="ReadieFur.SourceAnalyzer.Core" Path="|ReadieFur.SourceAnalyzer.Core|" />
+        <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="ReadieFur.SourceAnalyzer.Core" Path="|ReadieFur.SourceAnalyzer.Core|" />
         <Asset Type="Microsoft.VisualStudio.Analyzer" d:Source="Project" d:ProjectName="ReadieFur.SourceAnalyzer.Core" Path="|ReadieFur.SourceAnalyzer.Core|" />
     </Assets>
+  
     <Prerequisites>
-        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[17.0,18.0)" DisplayName="Visual Studio core editor" />
+      <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[17.0,)" DisplayName="Visual Studio core editor" />
+      <Prerequisite Id="Microsoft.VisualStudio.Component.Roslyn.LanguageServices" Version="[17.0,)" DisplayName="Roslyn Language Services" />
     </Prerequisites>
+  
 </PackageManifest>

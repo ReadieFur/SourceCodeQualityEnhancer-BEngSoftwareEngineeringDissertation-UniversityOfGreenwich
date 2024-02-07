@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34309.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReadieFur.SourceAnalyzer.Test.Live", "ReadieFur.SourceAnalyzer.Test.Live.csproj", "{580D0A2D-A2E0-4C02-8D02-A19DC67ADDF8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{580D0A2D-A2E0-4C02-8D02-A19DC67ADDF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{580D0A2D-A2E0-4C02-8D02-A19DC67ADDF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{580D0A2D-A2E0-4C02-8D02-A19DC67ADDF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{580D0A2D-A2E0-4C02-8D02-A19DC67ADDF8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {84EB8BAF-0145-423B-9B8A-BAD58C315D3A}
+	EndGlobalSection
+EndGlobal
