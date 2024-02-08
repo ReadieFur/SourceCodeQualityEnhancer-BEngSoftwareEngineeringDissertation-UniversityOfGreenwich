@@ -396,3 +396,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+src/ReadieFur.SourceAnalyzer.VSIX/Resources/Thumbs.db

@@ -11,7 +11,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     internal class Analyzers : DiagnosticAnalyzer
     {
-        private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(
+        private static DiagnosticDescriptor Rule = new DiagnosticDescriptor(
             "Analyzer1",
             "Type name contains lowercase letters",
             "Type name '{0}' contains lowercase letters",
@@ -40,6 +40,18 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             {
                 if (namedTypeSymbol.Name.ToCharArray().Any(char.IsLower))
                 {
+                    DiagnosticDescriptor rule = Rule;
+                    if (namedTypeSymbol.Name.StartsWith("F"))
+                    {
+                        rule = new(
+                            rule.Id + "F",
+                            rule.Title,
+                            rule.MessageFormat,
+                            rule.Category,
+                            DiagnosticSeverity.Error,
+                            rule.IsEnabledByDefault,
+                            description: "My foo property");
+                    }
                     var diagnostic = Diagnostic.Create(Rule, namedTypeSymbol.Locations[0], namedTypeSymbol.Name);
                     context.ReportDiagnostic(diagnostic);
                 }
