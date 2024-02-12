@@ -1,0 +1,58 @@
+//https://code.visualstudio.com/docs/languages/json#_define-snippets-in-json-schemas
+{
+	"definitions":
+	{
+		"enabled":
+		{
+			"type": "boolean",
+			"description": "Enable the feature."
+		},
+		"severity":
+		{
+			"type": "string",
+			"enum": ["none", "info", "warning", "error"],
+			"description": "The severity of the rule violation."
+		},
+		"naming_convention":
+		{
+			"type": "object",
+			"properties":
+			{
+				"enabled": { "$ref": "#/definitions/enabled" },
+				"pattern":
+				{
+					"type": "string",
+					"description": "The regular expression pattern to use for the naming convention."
+				},
+				"severity": { "$ref": "#/definitions/severity" }
+			},
+			"required": ["enabled", "pattern"]
+		}
+	},
+	"type": "object",
+	"properties":
+	{
+		"naming":
+		{
+			"type": "object",
+			"description": "Naming conventions for the source code.",
+			"properties":
+			{
+				"private_field": { "$ref": "#/definitions/naming_convention" },
+				"public_field": { "$ref": "#/definitions/naming_convention" },
+				"protected_field": { "$ref": "#/definitions/naming_convention" },
+				"internal_field": { "$ref": "#/definitions/naming_convention" },
+				"property": { "$ref": "#/definitions/naming_convention" },
+				"method": { "$ref": "#/definitions/naming_convention" },
+				"class": { "$ref": "#/definitions/naming_convention" },
+				"interface": { "$ref": "#/definitions/naming_convention" },
+				"enum": { "$ref": "#/definitions/naming_convention" },
+				"struct": { "$ref": "#/definitions/naming_convention" },
+				"local_variable": { "$ref": "#/definitions/naming_convention" },
+				"parameter": { "$ref": "#/definitions/naming_convention" },
+				"constant": { "$ref": "#/definitions/naming_convention" },
+				"namespace": { "$ref": "#/definitions/naming_convention" }
+			}
+		}
+	}
+}

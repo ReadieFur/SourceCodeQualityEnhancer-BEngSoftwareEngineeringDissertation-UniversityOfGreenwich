@@ -1,0 +1,81 @@
+#Originally I had placed my definitions here, however the YAML parser I am using has issues with undefined C# properties so I am using some janky inline referencing instead.
+#I was running into race conditions with the parser when using anchors and due to the above issue I have decided to just fill all of the properties in manually for now.
+#https://stackoverflow.com/questions/2103596/regex-that-matches-camel-and-pascal-case
+
+naming:
+  private_field:
+    # <<: &base
+    #   enabled: true
+    #   severity: "warning"
+    enabled: true
+    severity: "warning"
+    pattern: "^_[a-z]+(?:[A-Z][a-z]+)*$" #_camelCase
+  internal_field:
+    # <<: &pascal
+    #   <<: *base
+    #   pattern: "^[A-Z][a-z]+(?:[A-Z][a-z]+)*$"
+    enabled: true
+    severity: "warning"
+    pattern: "^[A-Z][a-z]+(?:[A-Z][a-z]+)*$"
+  protected_field:
+    # <<: *pascal
+    enabled: true
+    severity: "warning"
+    pattern: "^[A-Z][a-z]+(?:[A-Z][a-z]+)*$"
+  public_field:
+    # <<: *pascal
+    enabled: true
+    severity: "warning"
+    pattern: "^[A-Z][a-z]+(?:[A-Z][a-z]+)*$"
+  property:
+    # <<: *pascal
+    enabled: true
+    severity: "warning"
+    pattern: "^[A-Z][a-z]+(?:[A-Z][a-z]+)*$"
+  method:
+    # <<: *pascal
+    enabled: true
+    severity: "warning"
+    pattern: "^[A-Z][a-z]+(?:[A-Z][a-z]+)*$"
+  class:
+    # <<: *pascal
+    enabled: true
+    severity: "warning"
+    pattern: "^[A-Z][a-z]+(?:[A-Z][a-z]+)*$"
+  interface:
+    # <<: *base
+    enabled: true
+    severity: "warning"
+    pattern: "^I[A-Z][a-z]+(?:[A-Z][a-z]+)*$" #IPascalCase
+  enum:
+    # <<: *base
+    enabled: true
+    severity: "warning"
+    pattern: "^E[A-Z][a-z]+(?:[A-Z][a-z]+)*$" #EPascalCase
+  struct:
+    # <<: *base
+    enabled: true
+    severity: "warning"
+    pattern: "^S[A-Z][a-z]+(?:[A-Z][a-z]+)*$" #EPascalCase
+  local_variable:
+    # <<: &camel
+    #   <<: *base
+    #   pattern: "^[a-z]+(?:[A-Z][a-z]+)*$"
+    enabled: true
+    severity: "warning"
+    pattern: "^[a-z]+(?:[A-Z][a-z]+)*$"
+  parameter:
+    # <<: *camel
+    enabled: true
+    severity: "warning"
+    pattern: "^[a-z]+(?:[A-Z][a-z]+)*$"
+  constant:
+    # <<: *base
+    enabled: true
+    severity: "warning"
+    pattern: "^[A-Z]+(?:_[A-Z]+)*$" #https://stackoverflow.com/questions/43224835/regex-to-match-all-capital-and-underscore
+  namespace:
+    # <<: *base
+    enabled: true
+    severity: "warning"
+    pattern: "^[A-Z][a-z]+(?:\\.?[A-Z][a-z]+)*$" #Pascal.Case

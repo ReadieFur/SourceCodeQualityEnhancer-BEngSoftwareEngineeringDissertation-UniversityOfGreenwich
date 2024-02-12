@@ -12,6 +12,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		TextFile1.txt = TextFile1.txt
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReadieFur.SourceAnalyzer.Test.Live", "ReadieFur.SourceAnalyzer.Test.Live\ReadieFur.SourceAnalyzer.Test.Live.csproj", "{6018EAA4-57D3-480F-BDBA-71FF7A53118F}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ReadieFur.SourceAnalyzer.Shared", "ReadieFur.SourceAnalyzer.Shared\ReadieFur.SourceAnalyzer.Shared.shproj", "{15A5756B-B82A-41D0-98D6-4AA5F1FAD10B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,11 +50,26 @@ Global
 		{09EE6327-77C2-42DD-ABAC-2AA5C34AF065}.Release|arm64.Build.0 = Release|arm64
 		{09EE6327-77C2-42DD-ABAC-2AA5C34AF065}.Release|x86.ActiveCfg = Release|x86
 		{09EE6327-77C2-42DD-ABAC-2AA5C34AF065}.Release|x86.Build.0 = Release|x86
+		{6018EAA4-57D3-480F-BDBA-71FF7A53118F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6018EAA4-57D3-480F-BDBA-71FF7A53118F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6018EAA4-57D3-480F-BDBA-71FF7A53118F}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{6018EAA4-57D3-480F-BDBA-71FF7A53118F}.Debug|arm64.Build.0 = Debug|Any CPU
+		{6018EAA4-57D3-480F-BDBA-71FF7A53118F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6018EAA4-57D3-480F-BDBA-71FF7A53118F}.Debug|x86.Build.0 = Debug|Any CPU
+		{6018EAA4-57D3-480F-BDBA-71FF7A53118F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6018EAA4-57D3-480F-BDBA-71FF7A53118F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6018EAA4-57D3-480F-BDBA-71FF7A53118F}.Release|arm64.ActiveCfg = Release|Any CPU
+		{6018EAA4-57D3-480F-BDBA-71FF7A53118F}.Release|arm64.Build.0 = Release|Any CPU
+		{6018EAA4-57D3-480F-BDBA-71FF7A53118F}.Release|x86.ActiveCfg = Release|Any CPU
+		{6018EAA4-57D3-480F-BDBA-71FF7A53118F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D222029D-10FA-4412-8A8C-3BA7432D5D4C}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		ReadieFur.SourceAnalyzer.Shared\ReadieFur.SourceAnalyzer.Shared.projitems*{15a5756b-b82a-41d0-98d6-4aa5f1fad10b}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal

@@ -54,6 +54,14 @@ namespace ReadieFur.SourceAnalyzer.VSIX
 
         private void Init()
         {
+#if DEBUG
+            //Wait for the debugger when in debug mode as this package loads asyncronously and seems to never be loaded if a solution is opened too fast.
+            //By waiting I can wait for this to trigger before manually proceeding.
+            while (!System.Diagnostics.Debugger.IsAttached)
+                System.Threading.Thread.Sleep(100);
+            System.Diagnostics.Debugger.Break();
+#endif
+
             ThreadHelper.ThrowIfNotOnUIThread();
 
             //Register to IVsSolution.

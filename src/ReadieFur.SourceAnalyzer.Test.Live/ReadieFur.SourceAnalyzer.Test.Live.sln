@@ -5,10 +5,7 @@ VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReadieFur.SourceAnalyzer.Test.Live", "ReadieFur.SourceAnalyzer.Test.Live.csproj", "{580D0A2D-A2E0-4C02-8D02-A19DC67ADDF8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5BCEBB2F-B4CC-4D65-9323-C98D5EEBADC3}"
-	ProjectSection(SolutionItems) = preProject
-		Text.txt = Text.txt
-	EndProjectSection
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ReadieFur.SourceAnalyzer.Shared", "..\ReadieFur.SourceAnalyzer.Shared\ReadieFur.SourceAnalyzer.Shared.shproj", "{15A5756B-B82A-41D0-98D6-4AA5F1FAD10B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,5 +23,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {84EB8BAF-0145-423B-9B8A-BAD58C315D3A}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\ReadieFur.SourceAnalyzer.Shared\ReadieFur.SourceAnalyzer.Shared.projitems*{15a5756b-b82a-41d0-98d6-4aa5f1fad10b}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal
