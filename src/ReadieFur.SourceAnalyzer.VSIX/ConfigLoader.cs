@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio;
+using EnvDTE;
 
 namespace ReadieFur.SourceAnalyzer.VSIX
 {
@@ -31,8 +32,12 @@ namespace ReadieFur.SourceAnalyzer.VSIX
 #else
         Package
 #endif
+        //TODO: Work around the package being loaded asyncronously as this can cause the package to not catch the loading of a solution thereby missing the events we need to react to below.
         , IVsSolutionEvents
     {
+        private IVsSolution? _currentSolution = null;
+        private string? _solutionConfigFile = null;
+
 #if USE_BACKGROUND_THREAD
         protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
@@ -52,19 +57,79 @@ namespace ReadieFur.SourceAnalyzer.VSIX
             ThreadHelper.ThrowIfNotOnUIThread();
 
             //Register to IVsSolution.
-            IVsSolution solution = (IVsSolution)GetService(typeof(SVsSolution));
-            solution.AdviseSolutionEvents(this, out _);
+            (GetService(typeof(SVsSolution)) as IVsSolution).AdviseSolutionEvents(this, out _);
+        }
+
+        //TODO: Check how this class is used, is it reloaded between sessions or should I check for a new session.
+        private bool CheckForConfigurationFile(string filePath)
+        {
+            if (!filePath.EndsWith("source-analyzer.yaml"))
+                return false;
+
+            bool loadSuccess = false;
+            JoinableTaskFactory.Run(async delegate { loadSuccess = await Core.Config.ConfigLoader.Load(filePath); });
+            return loadSuccess;
         }
 
         public int OnAfterOpenProject(IVsHierarchy pHierarchy, int fAdded)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             //Called before OnAfterOpenSolution. If OnAfterOpenSolution did not find any configuration files then check for a file here.
+            if (pHierarchy is null)
+                return VSConstants.S_FALSE;
+
+            IVsSolution solution = GetService(typeof(SVsSolution)) as IVsSolution;
+            if (solution.Equals(_currentSolution) && _solutionConfigFile is not null)
+                return VSConstants.S_OK;
+            _currentSolution = solution;
+            _solutionConfigFile = null;
+
+            pHierarchy.GetProperty(VSConstants.VSITEMID_ROOT, (int)__VSHPROPID.VSHPROPID_ExtObject, out object project);
+
+            if (project is not Project dteProject || dteProject.ProjectItems is null)
+                return VSConstants.S_FALSE;
+                
+            foreach (ProjectItem item in dteProject.ProjectItems)
+                if (item.FileCount > 0 && CheckForConfigurationFile(item.FileNames[1]))
+                    break;
+
             return VSConstants.S_OK;
         }
 
         public int OnAfterOpenSolution(object pUnkReserved, int fNewSolution)
         {
-            //Check for a solution config file.
+            ThreadHelper.ThrowIfNotOnUIThread();
+
+            IVsSolution solution = GetService(typeof(SVsSolution)) as IVsSolution;
+            if (solution.Equals(_currentSolution))
+                return VSConstants.S_OK;
+            _currentSolution = solution;
+
+            solution.GetProjectEnum((uint)__VSENUMPROJFLAGS.EPF_LOADEDINSOLUTION, Guid.Empty, out IEnumHierarchies enumHierarchies);
+            if (enumHierarchies is null)
+                return VSConstants.S_FALSE;
+
+            IVsHierarchy[] hierarchies = new IVsHierarchy[1];
+            while (enumHierarchies.Next(1, hierarchies, out uint fetched) == VSConstants.S_OK && fetched == 1)
+            {
+                IVsHierarchy projectHierarchy = hierarchies[0];
+                if (projectHierarchy != null)
+                {
+                    projectHierarchy.GetProperty(VSConstants.VSITEMID_ROOT, (int)__VSHPROPID.VSHPROPID_ExtObject, out object project);
+
+                    if (project is Project dteProject)
+                    {
+                        bool foundValidConfigurationFile = false;
+                        foreach (ProjectItem item in dteProject.ProjectItems)
+                            if (foundValidConfigurationFile = CheckForConfigurationFile(item.FileNames[1]))
+                                break;
+                        if (foundValidConfigurationFile)
+                            break;
+                    }
+                }
+            }
+
             return VSConstants.S_OK;
         }
 
