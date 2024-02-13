@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReadieFur.SourceAnalyzer.Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReadieFur.SourceAnalyzer.VSIX", "ReadieFur.SourceAnalyzer.VSIX\ReadieFur.SourceAnalyzer.VSIX.csproj", "{09EE6327-77C2-42DD-ABAC-2AA5C34AF065}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReadieFur.SourceAnalyzer.Test.Live", "ReadieFur.SourceAnalyzer.Test.Live\ReadieFur.SourceAnalyzer.Test.Live.csproj", "{6018EAA4-57D3-480F-BDBA-71FF7A53118F}"
+Project("{551109f6-fca9-436b-a252-c640239294ab}") = "ReadieFur.SourceAnalyzer.Test.Live", "ReadieFur.SourceAnalyzer.Test.Live\ReadieFur.SourceAnalyzer.Test.Live.csproj", "{6018EAA4-57D3-480F-BDBA-71FF7A53118F}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ReadieFur.SourceAnalyzer.Shared", "ReadieFur.SourceAnalyzer.Shared\ReadieFur.SourceAnalyzer.Shared.shproj", "{15A5756B-B82A-41D0-98D6-4AA5F1FAD10B}"
 EndProject

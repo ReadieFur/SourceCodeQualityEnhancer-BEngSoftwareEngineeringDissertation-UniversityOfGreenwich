@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="ReadieFur.SourceAnalyzer.VSIX.0a81642d-0f3a-41b0-9059-00b9bad6ea78" Version="1.0" Language="en-US" Publisher="Company" />
+        <Identity Id="ReadieFur.SourceAnalyzer.VSIX.0a81642d-0f3a-41b0-9059-00b9bad6ea78" Version="1.0" Language="en-GB" Publisher="ReadieFur" />
         <DisplayName>ReadieFur.SourceAnalyzer.VSIX</DisplayName>
         <Description>Empty VSIX Project.</Description>
     </Metadata>

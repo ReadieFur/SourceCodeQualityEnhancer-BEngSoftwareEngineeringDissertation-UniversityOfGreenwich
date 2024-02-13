@@ -13,10 +13,9 @@ using System.Linq;
 namespace ReadieFur.SourceAnalyzer.Core.Analyzers
 {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("MicrosoftCodeAnalysisCorrectness", "RS1036:Specify analyzer banned API enforcement setting", Justification = "Added")]
     internal class NamingAnalyzer : DiagnosticAnalyzer
     {
-#if NET472 && false
+#if VSIX && false
         //Triggers the ConfigLoader to do it's initial setup if the VSIX setup was missed (hacky workaround, shouldn't be used).
         //Volatile causes the compiler to not optimise out the variable.
         private volatile ConfigRoot _configRoot = ConfigLoader.Configuration;
