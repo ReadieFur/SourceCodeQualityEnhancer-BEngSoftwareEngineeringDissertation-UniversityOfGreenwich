@@ -51,7 +51,8 @@
 				"local_variable": { "$ref": "#/definitions/naming_convention" },
 				"parameter": { "$ref": "#/definitions/naming_convention" },
 				"constant": { "$ref": "#/definitions/naming_convention" },
-				"namespace": { "$ref": "#/definitions/naming_convention" }
+				"namespace": { "$ref": "#/definitions/naming_convention" },
+				"generic_parameter": { "$ref": "#/definitions/naming_convention" }
 			}
 		}
 	}

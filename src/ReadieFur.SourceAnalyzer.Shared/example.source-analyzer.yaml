@@ -79,3 +79,8 @@ naming:
     enabled: true
     severity: "warning"
     pattern: "^[A-Z][a-z]+(?:\\.?[A-Z][a-z]+)*$" #Pascal.Case
+  generic_parameter:
+    # <<: *base
+    enabled: true
+    severity: "warning"
+    pattern: "^T[A-Z][a-z]+(?:[A-Z][a-z]+)*$" #TPascalCase

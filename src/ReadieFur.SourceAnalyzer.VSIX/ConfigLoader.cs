@@ -21,11 +21,14 @@ namespace ReadieFur.SourceAnalyzer.VSIX
     )]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] //TODO: Template values to be populated in a .resx file.
     [Guid("30618704-b18b-4501-8174-2164f88112a5")]
-    [ProvideAutoLoad(UIContextGuids.NoSolution, PackageAutoLoadFlags.BackgroundLoad)]
-    //[ProvideAutoLoad(UIContextGuids.SolutionExists, PackageAutoLoadFlags.BackgroundLoad)]
+    [ProvideAutoLoad(VSConstants.UICONTEXT.NoSolution_string, PackageAutoLoadFlags.BackgroundLoad)]
+    [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionOpening_string, PackageAutoLoadFlags.BackgroundLoad)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string, PackageAutoLoadFlags.BackgroundLoad)]
-    [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionHasMultipleProjects_string, PackageAutoLoadFlags.BackgroundLoad)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionHasSingleProject_string, PackageAutoLoadFlags.BackgroundLoad)]
+    [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionHasMultipleProjects_string, PackageAutoLoadFlags.BackgroundLoad)]
+    //https://stackoverflow.com/questions/61313164/how-to-have-a-vspackage-notified-when-initial-solution-loaded-asynchronously
+    //[ProvideToolWindow(typeof(ToolWindow))]
+    //TODO: (HIGH PRIORITY) Figure out why the VsPackage is never loaded if opening a solution directly. UPDATE: It does load but as it is asyncronous, at least while debugging, it loads too slowly so it misses the events.
     public sealed class ConfigLoader :
 #if USE_BACKGROUND_THREAD
         AsyncPackage
@@ -54,7 +57,7 @@ namespace ReadieFur.SourceAnalyzer.VSIX
 
         private void Init()
         {
-#if DEBUG
+#if DEBUG && false
             //Wait for the debugger when in debug mode as this package loads asyncronously and seems to never be loaded if a solution is opened too fast.
             //By waiting I can wait for this to trigger before manually proceeding.
             while (!System.Diagnostics.Debugger.IsAttached)
@@ -65,7 +68,16 @@ namespace ReadieFur.SourceAnalyzer.VSIX
             ThreadHelper.ThrowIfNotOnUIThread();
 
             //Register to IVsSolution.
-            (GetService(typeof(SVsSolution)) as IVsSolution).AdviseSolutionEvents(this, out _);
+            if (GetService(typeof(SVsSolution)) is not IVsSolution solution)
+                throw new InvalidOperationException();
+
+            //Subscribe to the IDE solution events.
+            solution.AdviseSolutionEvents(this, out _);
+
+            //If we are already loaded into a solution then it is highly likley that we missed the above events and so we should call the OnAfterOpenSolution method manually.
+            solution.GetProjectEnum((uint)__VSENUMPROJFLAGS.EPF_LOADEDINSOLUTION, Guid.Empty, out IEnumHierarchies enumHierarchies);
+            if (enumHierarchies is not null)
+                OnAfterOpenSolution(null, 0);
         }
 
         //TODO: Check how this class is used, is it reloaded between sessions or should I check for a new session.
@@ -75,7 +87,13 @@ namespace ReadieFur.SourceAnalyzer.VSIX
                 return false;
 
             bool loadSuccess = false;
-            JoinableTaskFactory.Run(async delegate { loadSuccess = await Core.Config.ConfigLoader.Load(filePath); });
+#if USE_BACKGROUND_THREAD
+            JoinableTaskFactory.Run(async delegate { loadSuccess = await Core.Config.ConfigLoader.LoadAsync(filePath); });
+#else
+#pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
+            loadSuccess = Core.Config.ConfigLoader.Load(filePath).Result;
+#pragma warning restore VSTHRD002 // Avoid problematic synchronous waits
+#endif
             return loadSuccess;
         }
 

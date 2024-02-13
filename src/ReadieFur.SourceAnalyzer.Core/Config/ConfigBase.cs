@@ -2,6 +2,7 @@
 {
     public abstract class ConfigBase
     {
-        public bool Enabled { get; set; }
+        public bool Enabled { get; set; } = false;
+        public ESeverity Severity { get; set; }
     }
 }

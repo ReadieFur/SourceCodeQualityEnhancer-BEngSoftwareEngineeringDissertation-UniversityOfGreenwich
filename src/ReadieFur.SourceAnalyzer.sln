@@ -7,11 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReadieFur.SourceAnalyzer.Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReadieFur.SourceAnalyzer.VSIX", "ReadieFur.SourceAnalyzer.VSIX\ReadieFur.SourceAnalyzer.VSIX.csproj", "{09EE6327-77C2-42DD-ABAC-2AA5C34AF065}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{47E5F18B-FF89-4D4E-B3C6-81ABB3F241F2}"
-	ProjectSection(SolutionItems) = preProject
-		TextFile1.txt = TextFile1.txt
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReadieFur.SourceAnalyzer.Test.Live", "ReadieFur.SourceAnalyzer.Test.Live\ReadieFur.SourceAnalyzer.Test.Live.csproj", "{6018EAA4-57D3-480F-BDBA-71FF7A53118F}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ReadieFur.SourceAnalyzer.Shared", "ReadieFur.SourceAnalyzer.Shared\ReadieFur.SourceAnalyzer.Shared.shproj", "{15A5756B-B82A-41D0-98D6-4AA5F1FAD10B}"
