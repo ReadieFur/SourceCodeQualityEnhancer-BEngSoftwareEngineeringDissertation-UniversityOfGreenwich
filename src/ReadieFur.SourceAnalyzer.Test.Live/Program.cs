@@ -1,6 +1,6 @@
 ﻿namespace ReadieFur.SourceAnalyzer.Test.Live
 {
-    internal class Program
+    internal class program
     {
         static void Main(string[] args)
         {

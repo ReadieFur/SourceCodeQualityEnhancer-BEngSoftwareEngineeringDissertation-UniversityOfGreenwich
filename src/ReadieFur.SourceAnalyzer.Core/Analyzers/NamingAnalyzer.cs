@@ -8,10 +8,12 @@ using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ReadieFur.SourceAnalyzer.Core.Config;
+using System.Linq;
 
 namespace ReadieFur.SourceAnalyzer.Core.Analyzers
 {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("MicrosoftCodeAnalysisCorrectness", "RS1036:Specify analyzer banned API enforcement setting", Justification = "Added")]
     internal class NamingAnalyzer : DiagnosticAnalyzer
     {
 #if NET472 && false
@@ -19,60 +21,8 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
         //Volatile causes the compiler to not optimise out the variable.
         private volatile ConfigRoot _configRoot = ConfigLoader.Configuration;
 #endif
-        private readonly IReadOnlyDictionary<NamingConvention, DiagnosticDescriptor> _descriptors;
+        private readonly IReadOnlyDictionary<NamingConvention, DiagnosticDescriptor> _descriptors = Helpers.GetNamingDescriptors().ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => _descriptors.Values.ToImmutableArray();
-
-        public NamingAnalyzer()
-        {
-            Dictionary<NamingConvention, DiagnosticDescriptor> descriptors = new();
-
-            //Using reflection here is ok as it is a one-time thing, I am only using it to reduce the amount of code I have to manually write here (ideally I'd have something auto-generate static code here).
-            foreach (PropertyInfo? prop in typeof(Naming).GetProperties(BindingFlags.Instance | BindingFlags.Public))
-            {
-                if (prop is null
-                    || prop.PropertyType != typeof(NamingConvention)
-                    //|| prop.GetCustomAttribute<AnalyzerPropertiesAttribute>() is not AnalyzerPropertiesAttribute attributeProperties
-                    || !Helpers.TryGetAnalyzerID(prop.Name, out string id, out ENamingAnalyzer enumValue)
-                    || prop.GetValue(ConfigLoader.Configuration.Naming) is not NamingConvention value
-                    || string.IsNullOrEmpty(value.Pattern))
-                    continue;
-
-                //Make sure the regex format is valid.
-                try { new Regex(value.Pattern); }
-                catch { continue; }
-
-                DiagnosticSeverity severity;
-                switch (value.Severity)
-                {
-                    case ESeverity.None:
-                        severity = DiagnosticSeverity.Hidden;
-                        break;
-                    case ESeverity.Info:
-                        severity = DiagnosticSeverity.Info;
-                        break;
-                    case ESeverity.Warning:
-                        severity = DiagnosticSeverity.Warning;
-                        break;
-                    case ESeverity.Error:
-                        severity = DiagnosticSeverity.Error;
-                        break;
-                    default:
-                        //This shouldn't be reached.
-                        throw new InvalidOperationException();
-                }
-
-                descriptors.Add(value, new(
-                    id: id,
-                    title: $"{prop.Name} does not match the provided naming schema.",
-                    messageFormat: "'{0}' does not match the regular expression '{1}'",
-                    category: "Naming",
-                    defaultSeverity: severity,
-                    isEnabledByDefault: value.Enabled
-                ));
-            }
-
-            _descriptors = descriptors;
-        }
 
         private void AnalyzeSymbol(SymbolAnalysisContext context)
         {
@@ -181,8 +131,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
             context.EnableConcurrentExecution();
 
-            context.RegisterSymbolAction(AnalyzeSymbol,
-                SymbolKind.Field, SymbolKind.Property, SymbolKind.Method, SymbolKind.NamedType, /*SymbolKind.Local,*/ SymbolKind.Parameter, SymbolKind.Namespace);
+            context.RegisterSymbolAction(AnalyzeSymbol, SymbolKind.Field, SymbolKind.Property, SymbolKind.Method, SymbolKind.NamedType, /*SymbolKind.Local,*/ SymbolKind.Parameter, SymbolKind.Namespace);
             //SymbolKind.Local is not supported by RegisterSymbolAction, it must be preprocessed through RegisterSyntaxNodeAction first.
             context.RegisterSyntaxNodeAction(AnalyzeNode, SyntaxKind.LocalDeclarationStatement);
         }
