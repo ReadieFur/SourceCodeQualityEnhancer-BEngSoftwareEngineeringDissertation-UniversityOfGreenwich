@@ -1,6 +1,6 @@
-﻿namespace ReadieFur.SourceAnalyzer.Core.Config
+﻿namespace ReadieFur.SourceAnalyzer.Core.Configuration
 {
-    public abstract class ConfigBase
+    public class ConfigBase
     {
         public bool Enabled { get; set; } = false;
         public ESeverity Severity { get; set; }

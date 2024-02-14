@@ -8,12 +8,6 @@
     <MinimumVisualStudioVersion>17.0</MinimumVisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -56,41 +50,25 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="DudAnalyzer.cs" />
+    <Compile Include="CoreExtensions\ConfigManager.cs" />
+    <Compile Include="Helpers\ParentProcessUtilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VSPackage.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Key.snk" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces">
+      <Version>4.8.0</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.SDK" Version="17.0.32112.339" ExcludeAssets="runtime" />
     <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.8.2365" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ReadieFur.SourceAnalyzer.Core\ReadieFur.SourceAnalyzer.Core.csproj">
-      <Project>{63039863-C6CE-4214-9957-6D6472C0EF00}</Project>
-      <Name>ReadieFur.SourceAnalyzer.Core</Name>
-      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
-      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Resources\VSPackage.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="VSPackage.resx">
-      <DependentUpon>VSPackage.cs</DependentUpon>
-      <MergeWithCTO>true</MergeWithCTO>
-      <ManifestResourceName>VSPackage</ManifestResourceName>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
+  <ItemGroup />
+  <Import Project="..\ReadieFur.SourceAnalyzer.Core\ReadieFur.SourceAnalyzer.Core.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

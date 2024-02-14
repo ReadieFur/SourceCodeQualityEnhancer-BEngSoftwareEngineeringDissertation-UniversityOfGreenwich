@@ -1,4 +1,4 @@
-﻿namespace ReadieFur.SourceAnalyzer.Core.Config
+﻿namespace ReadieFur.SourceAnalyzer.Core.Configuration
 {
     public class ConfigRoot
     {

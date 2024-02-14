@@ -1,7 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.Text;
-using ReadieFur.SourceAnalyzer.Core.Config;
+using ReadieFur.SourceAnalyzer.Core.Configuration;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Composition;

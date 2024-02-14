@@ -1,4 +1,4 @@
-﻿namespace ReadieFur.SourceAnalyzer.Core
+﻿namespace ReadieFur.SourceAnalyzer.Core.Analyzers
 {
     internal enum ENamingAnalyzer
     {

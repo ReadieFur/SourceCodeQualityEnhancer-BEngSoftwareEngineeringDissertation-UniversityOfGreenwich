@@ -5,7 +5,7 @@ VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReadieFur.SourceAnalyzer.Test.Live", "ReadieFur.SourceAnalyzer.Test.Live.csproj", "{580D0A2D-A2E0-4C02-8D02-A19DC67ADDF8}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ReadieFur.SourceAnalyzer.Shared", "..\ReadieFur.SourceAnalyzer.Shared\ReadieFur.SourceAnalyzer.Shared.shproj", "{15A5756B-B82A-41D0-98D6-4AA5F1FAD10B}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ReadieFur.SourceAnalyzer.Core", "O:\University of Greenwich\COMP1682 - Final Year Projects\University_Of_Greenwich-COMP1682-Final-Year-Project\src\ReadieFur.SourceAnalyzer.Core\ReadieFur.SourceAnalyzer.Core.shproj", "{CFE8E53C-D2B4-4A65-A79B-F7E8FB460DD0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +25,6 @@ Global
 		SolutionGuid = {84EB8BAF-0145-423B-9B8A-BAD58C315D3A}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		..\ReadieFur.SourceAnalyzer.Shared\ReadieFur.SourceAnalyzer.Shared.projitems*{15a5756b-b82a-41d0-98d6-4aa5f1fad10b}*SharedItemsImports = 13
+		O:\University of Greenwich\COMP1682 - Final Year Projects\University_Of_Greenwich-COMP1682-Final-Year-Project\src\ReadieFur.SourceAnalyzer.Core\ReadieFur.SourceAnalyzer.Core.projitems*{cfe8e53c-d2b4-4a65-a79b-f7e8fb460dd0}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal

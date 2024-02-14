@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>cfe8e53c-d2b4-4a65-a79b-f7e8fb460dd0</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>ReadieFur.SourceAnalyzer.Core</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)example.source-analyzer.yaml" />
+    <None Include="$(MSBuildThisFileDirectory)source-anlyzer.schema.jsonc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\ENamingAnalyzer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\Helpers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\NamingAnalyzer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\NamingFixProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\ConfigBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\ConfigManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\ConfigRoot.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\ESeverity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\IConfigManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\Naming.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\NamingConvention.cs" />
+  </ItemGroup>
+</Project>

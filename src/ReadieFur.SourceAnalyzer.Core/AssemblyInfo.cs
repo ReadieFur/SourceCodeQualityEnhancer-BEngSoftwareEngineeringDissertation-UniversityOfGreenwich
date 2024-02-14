@@ -1,23 +1,7 @@
-﻿using ReadieFur.SourceAnalyzer.Core;
-using System.Reflection;
-using System.Runtime.InteropServices;
-
-//[assembly: AssemblyTitle($"{AssemblyInfo.ASSEMBLY_NAME}.VSIX")]
-[assembly: AssemblyDescription(AssemblyInfo.DESCRIPTION)]
-//[assembly: AssemblyConfiguration("")]
-//[assembly: AssemblyCompany("")]
-//[assembly: AssemblyProduct($"{AssemblyInfo.ASSEMBLY_NAME}.VSIX")]
-[assembly: AssemblyCopyright(AssemblyInfo.AUTHOR)]
-[assembly: AssemblyTrademark(AssemblyInfo.LICENSE)]
-[assembly: AssemblyCulture("")]
-[assembly: ComVisible(false)]
-//[assembly: AssemblyVersion(AssemblyInfo.VERSION)]
-//[assembly: AssemblyFileVersion(AssemblyInfo.VERSION)]
-
-
-namespace ReadieFur.SourceAnalyzer.Core
+﻿namespace ReadieFur.SourceAnalyzer.Core
 {
-    public static class AssemblyInfo
+    //I have switched to using a shared project for the core library. Normally I would use a class library, howver due to various complications with the VSIX project, I have decided to use a shared project instead.
+    internal static class AssemblyInfo
     {
         public const string PRODUCT_NAME = "Source Analyzer";
         public const string ASSEMBLY_NAME = "ReadieFur.SourceAnalyzer";

@@ -1,14 +1,13 @@
 ﻿using Microsoft.CodeAnalysis;
-using ReadieFur.SourceAnalyzer.Core.Config;
+using ReadieFur.SourceAnalyzer.Core.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using static ReadieFur.SourceAnalyzer.Core.Config.ConfigMaster;
 
 namespace ReadieFur.SourceAnalyzer.Core.Analyzers
 {
-    internal static class Helpers
+    internal class Helpers
     {
         public const string ANALYZER_ID_PREFIX = "SA";
 
@@ -34,7 +33,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                 if (prop is null
                     || prop.PropertyType != typeof(NamingConvention)
                     || !TryGetAnalyzerID(prop.Name, out string id, out ENamingAnalyzer enumValue)
-                    || prop.GetValue(Configuration.Naming) is not NamingConvention value
+                    || prop.GetValue(ConfigManager.Configuration.Naming) is not NamingConvention value
                     || string.IsNullOrEmpty(value.Pattern))
                     continue;
 
