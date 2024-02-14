@@ -5,7 +5,12 @@
     <Nullable>enable</Nullable>
     <WeaverConfiguration>
       <Weavers>
-        <ModuleInit />
+        <Costura CreateTemporaryAssemblies="true" IncludeRuntimeReferences="false">
+          <IncludeAssemblies>
+            ReadieFur.SourceAnalyzer.Core
+            YamlDotNet
+          </IncludeAssemblies>
+        </Costura>
       </Weavers>
     </WeaverConfiguration>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -30,6 +35,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Costura.Fody" Version="5.7.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.SDK" Version="17.0.32112.339" ExcludeAssets="runtime" />
     <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.9.3168">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
