@@ -9,10 +9,6 @@
     <Import_RootNamespace>ReadieFur.SourceAnalyzer.Core</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)example.source-analyzer.yaml" />
-    <None Include="$(MSBuildThisFileDirectory)source-anlyzer.schema.jsonc" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\ENamingAnalyzer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\Helpers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\NamingAnalyzer.cs" />
@@ -25,5 +21,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\IConfigManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\Naming.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\NamingConvention.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\YamlLoader.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)example.source-analyzer.yaml" />
+    <None Include="$(MSBuildThisFileDirectory)source-anlyzer.schema.jsonc" />
   </ItemGroup>
 </Project>
