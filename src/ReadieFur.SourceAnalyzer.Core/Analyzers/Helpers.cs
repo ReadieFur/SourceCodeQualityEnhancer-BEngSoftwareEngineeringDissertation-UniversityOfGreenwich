@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using static ReadieFur.SourceAnalyzer.Core.Config.ConfigMaster;
 
 namespace ReadieFur.SourceAnalyzer.Core.Analyzers
 {
@@ -33,7 +34,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                 if (prop is null
                     || prop.PropertyType != typeof(NamingConvention)
                     || !TryGetAnalyzerID(prop.Name, out string id, out ENamingAnalyzer enumValue)
-                    || prop.GetValue(ConfigLoader.Configuration.Naming) is not NamingConvention value
+                    || prop.GetValue(Configuration.Naming) is not NamingConvention value
                     || string.IsNullOrEmpty(value.Pattern))
                     continue;
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
@@ -9,11 +8,11 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ReadieFur.SourceAnalyzer.Core.Config;
 using System.Linq;
-using System.Diagnostics;
+using static ReadieFur.SourceAnalyzer.Core.Config.ConfigMaster;
 
 namespace ReadieFur.SourceAnalyzer.Core.Analyzers
 {
-    //[DiagnosticAnalyzer(LanguageNames.CSharp, LanguageNames.FSharp)]
+    [DiagnosticAnalyzer(LanguageNames.CSharp, LanguageNames.FSharp)]
     public class NamingAnalyzer : DiagnosticAnalyzer
     {
         //https://michaelscodingspot.com/debug-3rd-party-code-dotnet/
@@ -53,16 +52,16 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                     switch (fieldSymbol.DeclaredAccessibility)
                     {
                         case Accessibility.Private:
-                            namingConvention = ConfigLoader.Configuration.Naming.PrivateField;
+                            namingConvention = Configuration.Naming.PrivateField;
                             break;
                         case Accessibility.Internal:
-                            namingConvention = ConfigLoader.Configuration.Naming.InternalField;
+                            namingConvention = Configuration.Naming.InternalField;
                             break;
                         case Accessibility.Protected:
-                            namingConvention = ConfigLoader.Configuration.Naming.ProtectedField;
+                            namingConvention = Configuration.Naming.ProtectedField;
                             break;
                         case Accessibility.Public:
-                            namingConvention = ConfigLoader.Configuration.Naming.PublicField;
+                            namingConvention = Configuration.Naming.PublicField;
                             break;
                         default:
                             //TODO: Look into the And/Or Friend values more.
@@ -70,41 +69,41 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                     }
                     break;
                 case IPropertySymbol:
-                    namingConvention = ConfigLoader.Configuration.Naming.Property;
+                    namingConvention = Configuration.Naming.Property;
                     break;
                 case IMethodSymbol:
-                    namingConvention = ConfigLoader.Configuration.Naming.Method;
+                    namingConvention = Configuration.Naming.Method;
                     break;
                 case INamedTypeSymbol namedTypeSymbol:
                     switch (namedTypeSymbol.TypeKind)
                     {
                         case TypeKind.Class:
-                            namingConvention = ConfigLoader.Configuration.Naming.Class;
+                            namingConvention = Configuration.Naming.Class;
                             break;
                         case TypeKind.Interface:
-                            namingConvention = ConfigLoader.Configuration.Naming.Interface;
+                            namingConvention = Configuration.Naming.Interface;
                             break;
                         case TypeKind.Enum:
-                            namingConvention = ConfigLoader.Configuration.Naming.Enum;
+                            namingConvention = Configuration.Naming.Enum;
                             break;
                         case TypeKind.Struct:
-                            namingConvention = ConfigLoader.Configuration.Naming.Struct;
+                            namingConvention = Configuration.Naming.Struct;
                             break;
                         case TypeKind.TypeParameter:
-                            namingConvention = ConfigLoader.Configuration.Naming.GenericParameter;
+                            namingConvention = Configuration.Naming.GenericParameter;
                             break;
                         default:
                             return;
                     }
                     break;
                 case ILocalSymbol:
-                    namingConvention = ConfigLoader.Configuration.Naming.LocalVariable;
+                    namingConvention = Configuration.Naming.LocalVariable;
                     break;
                 case IParameterSymbol:
-                    namingConvention = ConfigLoader.Configuration.Naming.Parameter;
+                    namingConvention = Configuration.Naming.Parameter;
                     break;
                 case INamespaceSymbol:
-                    namingConvention = ConfigLoader.Configuration.Naming.Namespace;
+                    namingConvention = Configuration.Naming.Namespace;
                     break;
                 default:
                     return;

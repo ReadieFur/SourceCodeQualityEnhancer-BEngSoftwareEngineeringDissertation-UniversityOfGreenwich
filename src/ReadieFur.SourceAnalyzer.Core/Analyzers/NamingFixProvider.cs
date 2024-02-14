@@ -1,19 +1,17 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeFixes;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using ReadieFur.SourceAnalyzer.Core.Config;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Composition;
 using System.Linq;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ReadieFur.SourceAnalyzer.Core.Analyzers
 {
-    //[ExportCodeFixProvider(LanguageNames.CSharp), Shared]
+    [ExportCodeFixProvider(LanguageNames.CSharp), Shared]
     public class NamingFixProvider : CodeFixProvider
     {
         private static readonly Regex WELL_KNOWN_NAMING_SCHEME_PASCAL_CASE = new("^[A-Z][a-z]+(?:[A-Z][a-z]+)*$");

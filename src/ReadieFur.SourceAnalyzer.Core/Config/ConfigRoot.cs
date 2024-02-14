@@ -2,6 +2,6 @@
 {
     public class ConfigRoot
     {
-        public Naming Naming { get; set; }
+        public Naming Naming { get; set; } = new();
     }
 }
