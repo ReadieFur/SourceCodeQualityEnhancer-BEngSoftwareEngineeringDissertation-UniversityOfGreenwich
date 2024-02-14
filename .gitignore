@@ -399,3 +399,4 @@ FodyWeavers.xsd
 src/ReadieFur.SourceAnalyzer.VSIX/Resources/Thumbs.db
 
 .stignore
+*.sync-conflict*
