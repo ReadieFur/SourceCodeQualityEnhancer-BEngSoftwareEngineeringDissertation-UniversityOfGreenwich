@@ -1,0 +1,3 @@
+[submodule "src/Submodules/ReadieFur.CSharpTools"]
+	path = src/Submodules/ReadieFur.CSharpTools
+	url = https://github.com/ReadieFur/CSharpTools.git
