@@ -18,6 +18,8 @@
         <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
         <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="ReadieFur.SourceAnalyzer.Core" Path="|ReadieFur.SourceAnalyzer.Core|" />
         <Asset Type="Microsoft.VisualStudio.Analyzer" d:Source="Project" d:ProjectName="ReadieFur.SourceAnalyzer.Core" Path="|ReadieFur.SourceAnalyzer.Core|" />
+        <!--By including the VSIX package as a MefComponent it will always get loaded shortly after startup.-->
+        <!--This is critical for my dll injection initialization.-->
     </Assets>
     <Prerequisites>
         <Prerequisite Id="Microsoft.VisualStudio.Component.VSSDK" Version="[17.8.34129.139,18.0)" DisplayName="Visual Studio SDK" />

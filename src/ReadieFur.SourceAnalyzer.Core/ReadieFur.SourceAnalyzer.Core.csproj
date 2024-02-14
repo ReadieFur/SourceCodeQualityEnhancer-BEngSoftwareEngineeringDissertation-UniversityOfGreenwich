@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net472;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <IsPackable>false</IsPackable>
     <!-- Avoid ID conflicts with the package project. -->
     <PackageId>*$(MSBuildProjectFile)*</PackageId>
@@ -9,15 +9,6 @@
     <Nullable>enable</Nullable>
     <ProjectGuid>{63039863-C6CE-4214-9957-6D6472C0EF00}</ProjectGuid>
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net472'">
-    <DefineConstants>VSIX</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="$(DefineConstants.Contains('VSIX'))">
-    <!--https://github.com/Fody/Home/blob/master/pages/configuration.md-->
-    <!--https://github.com/Fody/Costura?tab=readme-ov-file#configuration-options-->
     <WeaverConfiguration>
       <Weavers>
         <Costura CreateTemporaryAssemblies="true" IncludeRuntimeReferences="false">
@@ -34,53 +25,11 @@
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.8.0" />
-    <!--https://github.com/dotnet/roslyn/issues/52017#issuecomment-1699966100-->
-    <!--I will not pack the above dlls as they should exist in the enviroment already due to the prerequisites-->
-    <PackageReference Include="YamlDotNet" Version="15.1.1" Pack="true" />
-  </ItemGroup>
-
-  <!--https://stackoverflow.com/questions/40566552/how-do-i-get-msbuild-to-use-only-one-of-the-defineconstants-for-condition-test-->
-  <ItemGroup Condition="$(DefineConstants.Contains('VSIX'))">
-    <PackageReference Include="Microsoft.VisualStudio.Shell.15.0" Version="17.8.37221" Pack="true" />
+    <PackageReference Include="YamlDotNet" Version="15.1.1"/>
     <!--I'm resorting to using the tool I had come across a very long time ago (Costura.Fody) in order to embed my specified references as I cannot be bothered right now to manually change figure out the build targets required to do this task.-->
     <PackageReference Include="Costura.Fody" Version="5.7.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-
-  <!--#region Unused-->
-  <!--https://til.cazzulino.com/msbuild/how-to-include-package-reference-files-in-your-nuget-package-->
-  <!-- For every PackageReference with Pack=true, we include the assemblies from it in the package -->
-  <!--<Target Name="AddPackDependencies" Inputs="@(RuntimeCopyLocalItems)" Outputs="%(RuntimeCopyLocalItems.NuGetPackageId)" DependsOnTargets="ResolvePackageAssets" BeforeTargets="GenerateNuspec" AfterTargets="ResolvePackageAssets">
-    <ItemGroup>
-      <NuGetPackageId Include="@(RuntimeCopyLocalItems -> '%(NuGetPackageId)')" />
-    </ItemGroup>
-    <PropertyGroup>
-      <NuGetPackageId>@(NuGetPackageId -&gt; Distinct())</NuGetPackageId>
-    </PropertyGroup>
-    <ItemGroup>
-      <PackageReferenceDependency Include="@(PackageReference -&gt; WithMetadataValue('Identity', '$(NuGetPackageId)'))" />
-    </ItemGroup>
-    <PropertyGroup>
-      <NuGetPackagePack>@(PackageReferenceDependency -> '%(Pack)')</NuGetPackagePack>
-    </PropertyGroup>
-    <ItemGroup Condition="'$(NuGetPackagePack)' == 'true'">
-      <_PackageFiles Include="@(RuntimeCopyLocalItems)" PackagePath="$(BuildOutputTargetFolder)/$(TargetFramework)/%(Filename)%(Extension)" />
-      <RuntimeCopyLocalItems Update="@(RuntimeCopyLocalItems)" CopyLocal="true" Private="true" />
-      <ResolvedFileToPublish Include="@(RuntimeCopyLocalItems)" CopyToPublishDirectory="PreserveNewest" RelativePath="%(Filename)%(Extension)" />
-    </ItemGroup>
-  </Target>-->
-  
-  <!--https://gist.github.com/x1unix/7bced85295bb3fbc21a7308bf541e2b8-->
-  <!--<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />-->
-  <!--<Target Name="AfterResolveReferences">
-    <Message Text="Second occurrence" />
-    <ItemGroup>
-      <EmbeddedResource Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Extension)' == '.dll'">
-        <LogicalName>%(ReferenceCopyLocalPaths.DestinationSubDirectory)%(ReferenceCopyLocalPaths.Filename)%(ReferenceCopyLocalPaths.Extension)</LogicalName>
-      </EmbeddedResource>
-    </ItemGroup>
-  </Target>-->
-  <!--#endregion-->
 </Project>

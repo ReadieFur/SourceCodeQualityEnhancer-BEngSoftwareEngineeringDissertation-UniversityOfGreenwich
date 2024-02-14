@@ -32,7 +32,6 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             {
                 if (prop is null
                     || prop.PropertyType != typeof(NamingConvention)
-                    //|| prop.GetCustomAttribute<AnalyzerPropertiesAttribute>() is not AnalyzerPropertiesAttribute attributeProperties
                     || !TryGetAnalyzerID(prop.Name, out string id, out ENamingAnalyzer enumValue)
                     || prop.GetValue(ConfigLoader.Configuration.Naming) is not NamingConvention value
                     || string.IsNullOrEmpty(value.Pattern))

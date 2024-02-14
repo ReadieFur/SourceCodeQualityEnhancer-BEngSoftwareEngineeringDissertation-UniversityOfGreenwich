@@ -8,6 +8,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio;
 using EnvDTE;
+using Microsoft.CodeAnalysis.Host.Mef;
+using Microsoft.CodeAnalysis.Host;
+using Microsoft.VisualStudio.Package;
 
 namespace ReadieFur.SourceAnalyzer.VSIX
 {
@@ -21,11 +24,13 @@ namespace ReadieFur.SourceAnalyzer.VSIX
     )]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] //TODO: Template values to be populated in a .resx file.
     [Guid("30618704-b18b-4501-8174-2164f88112a5")]
+#if USE_BACKGROUND_THREAD || true
     [ProvideAutoLoad(VSConstants.UICONTEXT.NoSolution_string, PackageAutoLoadFlags.BackgroundLoad)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionOpening_string, PackageAutoLoadFlags.BackgroundLoad)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string, PackageAutoLoadFlags.BackgroundLoad)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionHasSingleProject_string, PackageAutoLoadFlags.BackgroundLoad)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionHasMultipleProjects_string, PackageAutoLoadFlags.BackgroundLoad)]
+#endif
     //https://stackoverflow.com/questions/61313164/how-to-have-a-vspackage-notified-when-initial-solution-loaded-asynchronously
     //[ProvideToolWindow(typeof(ToolWindow))]
     //TODO: (HIGH PRIORITY) Figure out why the VsPackage is never loaded if opening a solution directly. UPDATE: It does load but as it is asyncronous, at least while debugging, it loads too slowly so it misses the events.
@@ -92,7 +97,7 @@ namespace ReadieFur.SourceAnalyzer.VSIX
             JoinableTaskFactory.Run(async delegate { loadSuccess = await Core.Config.ConfigLoader.LoadAsync(filePath); });
 #else
 #pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
-            loadSuccess = Core.Config.ConfigLoader.Load(filePath).Result;
+            loadSuccess = Core.Config.ConfigLoader.LoadAsync(filePath).Result;
 #pragma warning restore VSTHRD002 // Avoid problematic synchronous waits
 #endif
             return loadSuccess;

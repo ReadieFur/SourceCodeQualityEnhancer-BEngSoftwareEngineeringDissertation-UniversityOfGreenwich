@@ -9,17 +9,14 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ReadieFur.SourceAnalyzer.Core.Config;
 using System.Linq;
+using System.Diagnostics;
 
 namespace ReadieFur.SourceAnalyzer.Core.Analyzers
 {
-    [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    internal class NamingAnalyzer : DiagnosticAnalyzer
+    [DiagnosticAnalyzer(LanguageNames.CSharp, LanguageNames.FSharp)]
+    public class NamingAnalyzer : DiagnosticAnalyzer
     {
-#if VSIX && false
-        //Triggers the ConfigLoader to do it's initial setup if the VSIX setup was missed (hacky workaround, shouldn't be used).
-        //Volatile causes the compiler to not optimise out the variable.
-        private volatile ConfigRoot _configRoot = ConfigLoader.Configuration;
-#endif
+        //https://michaelscodingspot.com/debug-3rd-party-code-dotnet/
         private readonly IReadOnlyDictionary<NamingConvention, DiagnosticDescriptor> _descriptors = Helpers.GetNamingDescriptors().ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => _descriptors.Values.ToImmutableArray();
 
