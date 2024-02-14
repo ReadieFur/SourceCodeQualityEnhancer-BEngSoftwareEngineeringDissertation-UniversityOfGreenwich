@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace ReadieFur.SourceAnalyzer.Core.Analyzers
 {
-    [ExportCodeFixProvider(LanguageNames.CSharp), Shared]
+    //[ExportCodeFixProvider(LanguageNames.CSharp), Shared]
     public class NamingFixProvider : CodeFixProvider
     {
         private static readonly Regex WELL_KNOWN_NAMING_SCHEME_PASCAL_CASE = new("^[A-Z][a-z]+(?:[A-Z][a-z]+)*$");

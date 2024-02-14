@@ -9,16 +9,6 @@
     <Nullable>enable</Nullable>
     <ProjectGuid>{63039863-C6CE-4214-9957-6D6472C0EF00}</ProjectGuid>
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
-    <WeaverConfiguration>
-      <Weavers>
-        <Costura CreateTemporaryAssemblies="true" IncludeRuntimeReferences="false">
-          <IncludeAssemblies>
-            YamlDotNet
-            <!--Microsoft.VisualStudio.*-->
-          </IncludeAssemblies>
-        </Costura>
-      </Weavers>
-    </WeaverConfiguration>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,10 +16,5 @@
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.8.0" />
     <PackageReference Include="YamlDotNet" Version="15.1.1"/>
-    <!--I'm resorting to using the tool I had come across a very long time ago (Costura.Fody) in order to embed my specified references as I cannot be bothered right now to manually change figure out the build targets required to do this task.-->
-    <PackageReference Include="Costura.Fody" Version="5.7.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
 </Project>

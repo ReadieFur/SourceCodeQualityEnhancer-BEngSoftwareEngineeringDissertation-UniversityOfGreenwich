@@ -13,7 +13,7 @@ using System.Diagnostics;
 
 namespace ReadieFur.SourceAnalyzer.Core.Analyzers
 {
-    [DiagnosticAnalyzer(LanguageNames.CSharp, LanguageNames.FSharp)]
+    //[DiagnosticAnalyzer(LanguageNames.CSharp, LanguageNames.FSharp)]
     public class NamingAnalyzer : DiagnosticAnalyzer
     {
         //https://michaelscodingspot.com/debug-3rd-party-code-dotnet/
