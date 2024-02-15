@@ -2,12 +2,12 @@
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
 
-namespace Analyzer1.Test
+namespace ReadieFur.SourceAnalyzer.UnitTests.Verifiers
 {
     public static partial class CSharpAnalyzerVerifier<TAnalyzer>
         where TAnalyzer : DiagnosticAnalyzer, new()
     {
-        public class Test : CSharpAnalyzerTest<TAnalyzer, MSTestVerifier>
+        public class Test : CSharpAnalyzerTest<TAnalyzer, NUnitVerifier>
         {
             public Test()
             {

@@ -2,12 +2,12 @@
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
 
-namespace Analyzer1.Test
+namespace ReadieFur.SourceAnalyzer.UnitTests.Verifiers
 {
     public static partial class CSharpCodeRefactoringVerifier<TCodeRefactoring>
         where TCodeRefactoring : CodeRefactoringProvider, new()
     {
-        public class Test : CSharpCodeRefactoringTest<TCodeRefactoring, MSTestVerifier>
+        public class Test : CSharpCodeRefactoringTest<TCodeRefactoring, NUnitVerifier>
         {
             public Test()
             {

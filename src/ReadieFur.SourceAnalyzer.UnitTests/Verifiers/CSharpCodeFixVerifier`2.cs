@@ -7,7 +7,7 @@ using Microsoft.CodeAnalysis.Testing.Verifiers;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Analyzer1.Test
+namespace ReadieFur.SourceAnalyzer.UnitTests.Verifiers
 {
     public static partial class CSharpCodeFixVerifier<TAnalyzer, TCodeFix>
         where TAnalyzer : DiagnosticAnalyzer, new()
@@ -15,15 +15,15 @@ namespace Analyzer1.Test
     {
         /// <inheritdoc cref="CodeFixVerifier{TAnalyzer, TCodeFix, TTest, TVerifier}.Diagnostic()"/>
         public static DiagnosticResult Diagnostic()
-            => CSharpCodeFixVerifier<TAnalyzer, TCodeFix, MSTestVerifier>.Diagnostic();
+            => CSharpCodeFixVerifier<TAnalyzer, TCodeFix, NUnitVerifier>.Diagnostic();
 
         /// <inheritdoc cref="CodeFixVerifier{TAnalyzer, TCodeFix, TTest, TVerifier}.Diagnostic(string)"/>
         public static DiagnosticResult Diagnostic(string diagnosticId)
-            => CSharpCodeFixVerifier<TAnalyzer, TCodeFix, MSTestVerifier>.Diagnostic(diagnosticId);
+            => CSharpCodeFixVerifier<TAnalyzer, TCodeFix, NUnitVerifier>.Diagnostic(diagnosticId);
 
         /// <inheritdoc cref="CodeFixVerifier{TAnalyzer, TCodeFix, TTest, TVerifier}.Diagnostic(DiagnosticDescriptor)"/>
         public static DiagnosticResult Diagnostic(DiagnosticDescriptor descriptor)
-            => CSharpCodeFixVerifier<TAnalyzer, TCodeFix, MSTestVerifier>.Diagnostic(descriptor);
+            => CSharpCodeFixVerifier<TAnalyzer, TCodeFix, NUnitVerifier>.Diagnostic(descriptor);
 
         /// <inheritdoc cref="CodeFixVerifier{TAnalyzer, TCodeFix, TTest, TVerifier}.VerifyAnalyzerAsync(string, DiagnosticResult[])"/>
         public static async Task VerifyAnalyzerAsync(string source, params DiagnosticResult[] expected)

@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using System;
 using System.Collections.Immutable;
 
-namespace Analyzer1.Test
+namespace ReadieFur.SourceAnalyzer.UnitTests.Verifiers
 {
     internal static class CSharpVerifierHelper
     {
