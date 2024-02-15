@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReadieFur.SourceAnalyzer.VS
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ReadieFur.SourceAnalyzer.Core", "ReadieFur.SourceAnalyzer.Core\ReadieFur.SourceAnalyzer.Core.shproj", "{CFE8E53C-D2B4-4A65-A79B-F7E8FB460DD0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReadieFur.SourceAnalyzer.UnitTests", "ReadieFur.SourceAnalyzer.UnitTests\ReadieFur.SourceAnalyzer.UnitTests.csproj", "{E52C6FC4-C7C2-435B-B281-8669EBB584DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,18 @@ Global
 		{F3AC4941-DDB5-4AAA-B198-B0E5B78710CF}.Release|arm64.Build.0 = Release|arm64
 		{F3AC4941-DDB5-4AAA-B198-B0E5B78710CF}.Release|x86.ActiveCfg = Release|x86
 		{F3AC4941-DDB5-4AAA-B198-B0E5B78710CF}.Release|x86.Build.0 = Release|x86
+		{E52C6FC4-C7C2-435B-B281-8669EBB584DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E52C6FC4-C7C2-435B-B281-8669EBB584DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E52C6FC4-C7C2-435B-B281-8669EBB584DB}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{E52C6FC4-C7C2-435B-B281-8669EBB584DB}.Debug|arm64.Build.0 = Debug|Any CPU
+		{E52C6FC4-C7C2-435B-B281-8669EBB584DB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E52C6FC4-C7C2-435B-B281-8669EBB584DB}.Debug|x86.Build.0 = Debug|Any CPU
+		{E52C6FC4-C7C2-435B-B281-8669EBB584DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E52C6FC4-C7C2-435B-B281-8669EBB584DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E52C6FC4-C7C2-435B-B281-8669EBB584DB}.Release|arm64.ActiveCfg = Release|Any CPU
+		{E52C6FC4-C7C2-435B-B281-8669EBB584DB}.Release|arm64.Build.0 = Release|Any CPU
+		{E52C6FC4-C7C2-435B-B281-8669EBB584DB}.Release|x86.ActiveCfg = Release|Any CPU
+		{E52C6FC4-C7C2-435B-B281-8669EBB584DB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
