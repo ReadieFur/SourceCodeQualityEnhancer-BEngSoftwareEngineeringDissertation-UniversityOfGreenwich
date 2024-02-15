@@ -48,6 +48,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Analyzers
         private static async Task TestFixProvider(Type sourceType, params ENamingAnalyzer[] namingAnalyzers)
         {
             SFileInterpreter source = await CommonTasks(sourceType);
+            await CodeFixer.VerifyCodeFixAsync(source.codeFixText, source.codeFixText);
         }
 
         [MTest]

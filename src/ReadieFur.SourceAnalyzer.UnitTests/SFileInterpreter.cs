@@ -8,6 +8,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
         public string sourceText { get; private set; }
         public string interpretedText { get; private set; }
         public string codeFixText { get; private set; }
+        public string codeFixCorrectedText { get; private set; }
 
         public static async Task<SFileInterpreter> Interpret(Type sourceType)
         {
@@ -33,6 +34,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
             }
 
             string codeFixText = interpretedText;
+            string codeFixCorrectedText = interpretedText;
             foreach (int position in attributePositions)
             {
                 //TODO: Interpret the text.
@@ -47,7 +49,8 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
                 sourceType = sourceType,
                 sourceText = sourceText,
                 interpretedText = interpretedText,
-                codeFixText = codeFixText
+                codeFixText = codeFixText,
+                codeFixCorrectedText = codeFixCorrectedText
             };
         }
     }
