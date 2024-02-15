@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace ReadieFur.SourceAnalyzer.Core.Analyzers
 {
-    internal class Helpers
+    internal static class Helpers
     {
         public const string ANALYZER_ID_PREFIX = "SA";
 
@@ -41,35 +41,27 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                 try { new Regex(value.Pattern); }
                 catch { continue; }
 
-                DiagnosticSeverity severity;
-                switch (value.Severity)
-                {
-                    case ESeverity.None:
-                        severity = DiagnosticSeverity.Hidden;
-                        break;
-                    case ESeverity.Info:
-                        severity = DiagnosticSeverity.Info;
-                        break;
-                    case ESeverity.Warning:
-                        severity = DiagnosticSeverity.Warning;
-                        break;
-                    case ESeverity.Error:
-                        severity = DiagnosticSeverity.Error;
-                        break;
-                    default:
-                        //This shouldn't be reached.
-                        throw new InvalidOperationException();
-                }
-
                 yield return new(value, new(
                     id: id,
                     title: $"{prop.Name} does not match the provided naming schema.",
                     messageFormat: "'{0}' does not match the regular expression '{1}'",
                     category: "Naming",
-                    defaultSeverity: severity,
+                    defaultSeverity: value.Severity.ToDiagnosticSeverity(),
                     isEnabledByDefault: value.Enabled
                 ));
             }
+        }
+
+        public static DiagnosticSeverity ToDiagnosticSeverity(this ESeverity severity)
+        {
+            return severity switch
+            {
+                ESeverity.None => DiagnosticSeverity.Hidden,
+                ESeverity.Info => DiagnosticSeverity.Info,
+                ESeverity.Warning => DiagnosticSeverity.Warning,
+                ESeverity.Error => DiagnosticSeverity.Error,
+                _ => throw new InvalidOperationException()
+            };
         }
     }
 }
