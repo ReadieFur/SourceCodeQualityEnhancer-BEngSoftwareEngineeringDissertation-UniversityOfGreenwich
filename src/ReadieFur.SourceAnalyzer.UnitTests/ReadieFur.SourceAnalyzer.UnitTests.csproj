@@ -1,12 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
+    <!--<TargetFramework>net472</TargetFramework>-->
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
+    <PlatformTarget>x64</PlatformTarget>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,6 +22,15 @@
     <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
     <PackageReference Include="NUnit.Analyzers" Version="3.6.1" />
     <PackageReference Include="coverlet.collector" Version="6.0.0" />
+    <PackageReference Include="YamlDotNet" Version="15.1.1" />
   </ItemGroup>
+
+  <Import Project="..\ReadieFur.SourceAnalyzer.Core\ReadieFur.SourceAnalyzer.Core.projitems" Label="Shared" />
+
+  <Import Project="..\ReadieFur.SourceAnalyzer.StandaloneHelpers\ReadieFur.SourceAnalyzer.StandaloneHelpers.projitems" Label="Shared" />
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy $(SolutionDir)ReadieFur.SourceAnalyzer.Core\example.source-analyzer.yaml $(ProjectDir)$(OutDir)&#xD;&#xA;copy $(SolutionDir)ReadieFur.SourceAnalyzer.Core\source-anlyzer.schema.jsonc $(ProjectDir)$(OutDir)" />
+  </Target>
 
 </Project>

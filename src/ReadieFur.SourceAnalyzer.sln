@@ -11,6 +11,8 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ReadieFur.SourceAnalyzer.Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReadieFur.SourceAnalyzer.UnitTests", "ReadieFur.SourceAnalyzer.UnitTests\ReadieFur.SourceAnalyzer.UnitTests.csproj", "{FB2CC5EA-2DAE-458F-8991-25F437E0D4A7}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ReadieFur.SourceAnalyzer.StandaloneHelpers", "ReadieFur.SourceAnalyzer.StandaloneHelpers\ReadieFur.SourceAnalyzer.StandaloneHelpers.shproj", "{7C9676C1-AEB0-41C2-98EE-B21D90524C6F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,7 +67,10 @@ Global
 		SolutionGuid = {D222029D-10FA-4412-8A8C-3BA7432D5D4C}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		ReadieFur.SourceAnalyzer.StandaloneHelpers\ReadieFur.SourceAnalyzer.StandaloneHelpers.projitems*{7c9676c1-aeb0-41c2-98ee-b21d90524c6f}*SharedItemsImports = 13
 		ReadieFur.SourceAnalyzer.Core\ReadieFur.SourceAnalyzer.Core.projitems*{cfe8e53c-d2b4-4a65-a79b-f7e8fb460dd0}*SharedItemsImports = 13
 		ReadieFur.SourceAnalyzer.Core\ReadieFur.SourceAnalyzer.Core.projitems*{f3ac4941-ddb5-4aaa-b198-b0e5b78710cf}*SharedItemsImports = 4
+		ReadieFur.SourceAnalyzer.Core\ReadieFur.SourceAnalyzer.Core.projitems*{fb2cc5ea-2dae-458f-8991-25f437e0d4a7}*SharedItemsImports = 5
+		ReadieFur.SourceAnalyzer.StandaloneHelpers\ReadieFur.SourceAnalyzer.StandaloneHelpers.projitems*{fb2cc5ea-2dae-458f-8991-25f437e0d4a7}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal
