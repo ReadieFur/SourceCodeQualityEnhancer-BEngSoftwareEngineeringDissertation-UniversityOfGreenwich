@@ -1,19 +1,19 @@
 using Microsoft.CodeAnalysis.Testing;
 using ReadieFur.SourceAnalyzer.Core.Analyzers;
 using ReadieFur.SourceAnalyzer.Core.Configuration;
-using System.Reflection;
+using ReadieFur.SourceAnalyzer.UnitTests.Compatibility;
 using Analyzer = ReadieFur.SourceAnalyzer.UnitTests.Verifiers.CSharpAnalyzerVerifier<ReadieFur.SourceAnalyzer.Core.Analyzers.NamingAnalyzer>;
 using CodeFixer = ReadieFur.SourceAnalyzer.UnitTests.Verifiers.CSharpCodeFixVerifier<ReadieFur.SourceAnalyzer.Core.Analyzers.NamingAnalyzer, ReadieFur.SourceAnalyzer.Core.Analyzers.NamingFixProvider>;
 
 namespace ReadieFur.SourceAnalyzer.UnitTests.Analyzers
 {
+    [CTest]
     public class NamingTests
     {
-        [SetUp]
-        public async Task Setup() => await LoadConfiguration();
-
         private static async Task TestAnalyzer(Type sourceType, params ENamingAnalyzer[] namingAnalyzer)
         {
+            await LoadConfiguration();
+
             //Get the source file for the provided type.
             if (await GetSourceFile(sourceType) is not string sourceFileContents)
             {
@@ -44,7 +44,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Analyzers
             await Analyzer.VerifyAnalyzerAsync(sourceFileContents, diagnostics.ToArray());
         }
 
-        [Test]
-        public Task ClassNameTest() => TestAnalyzer(typeof(TestFiles._class_name_), ENamingAnalyzer.Class);
+        [MTest]
+        public async Task TestClassName() => await TestAnalyzer(typeof(TestFiles._class_name_), ENamingAnalyzer.Class);
     }
 }

@@ -7,8 +7,8 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
         public static async Task LoadConfiguration()
         {
             string? path = Directory.EnumerateFiles(Environment.CurrentDirectory).FirstOrDefault(path => path.EndsWith("source-analyzer.yaml"));
-            Assert.False(string.IsNullOrEmpty(path), "Could not find source-analyzer.yaml");
-            Assert.True(await ConfigManager.Instance.LoadAsync(path!), "Failed to load source-analyzer.yaml");
+            Assert.IsFalse(string.IsNullOrEmpty(path), "Could not find source-analyzer.yaml");
+            Assert.IsTrue(await ConfigManager.Instance.LoadAsync(path!), "Failed to load source-analyzer.yaml");
         }
 
         public static async Task<string> GetSourceFile(Type sourceType)

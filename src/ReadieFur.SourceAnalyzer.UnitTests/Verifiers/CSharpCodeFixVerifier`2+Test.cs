@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
+using ReadieFur.SourceAnalyzer.UnitTests.Compatibility;
 
 namespace ReadieFur.SourceAnalyzer.UnitTests.Verifiers
 {
@@ -9,7 +10,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Verifiers
         where TAnalyzer : DiagnosticAnalyzer, new()
         where TCodeFix : CodeFixProvider, new()
     {
-        public class Test : CSharpCodeFixTest<TAnalyzer, TCodeFix, NUnitVerifier>
+        public class Test : CSharpCodeFixTest<TAnalyzer, TCodeFix, UnitVerifier>
         {
             public Test()
             {

@@ -1,13 +1,14 @@
 ﻿using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
+using ReadieFur.SourceAnalyzer.UnitTests.Compatibility;
 
 namespace ReadieFur.SourceAnalyzer.UnitTests.Verifiers
 {
     public static partial class CSharpCodeRefactoringVerifier<TCodeRefactoring>
         where TCodeRefactoring : CodeRefactoringProvider, new()
     {
-        public class Test : CSharpCodeRefactoringTest<TCodeRefactoring, NUnitVerifier>
+        public class Test : CSharpCodeRefactoringTest<TCodeRefactoring, UnitVerifier>
         {
             public Test()
             {
