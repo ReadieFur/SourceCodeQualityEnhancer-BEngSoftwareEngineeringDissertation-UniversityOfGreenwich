@@ -2,6 +2,7 @@ using Microsoft.CodeAnalysis.Testing;
 using ReadieFur.SourceAnalyzer.Core.Analyzers;
 using ReadieFur.SourceAnalyzer.Core.Configuration;
 using ReadieFur.SourceAnalyzer.UnitTests.Compatibility;
+using ReadieFur.SourceAnalyzer.UnitTests.TestFiles;
 using Analyzer = ReadieFur.SourceAnalyzer.UnitTests.Verifiers.CSharpAnalyzerVerifier<ReadieFur.SourceAnalyzer.Core.Analyzers.NamingAnalyzer>;
 using CodeFixer = ReadieFur.SourceAnalyzer.UnitTests.Verifiers.CSharpCodeFixVerifier<ReadieFur.SourceAnalyzer.Core.Analyzers.NamingAnalyzer, ReadieFur.SourceAnalyzer.Core.Analyzers.NamingFixProvider>;
 
@@ -45,6 +46,6 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Analyzers
         }
 
         [MTest]
-        public async Task TestClassName() => await TestAnalyzer(typeof(TestFiles._class_name_), ENamingAnalyzer.Class);
+        public async Task TestClassName() => await TestAnalyzer(typeof(_class_name_), ENamingAnalyzer.Class);
     }
 }
