@@ -1,22 +1,27 @@
 ﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CodeFixes;
+using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Text;
 using ReadieFur.SourceAnalyzer.Core.Configuration;
 using System.Text.RegularExpressions;
+using NamingFixer = ReadieFur.SourceAnalyzer.UnitTests.Verifiers.CSharpCodeFixVerifier<ReadieFur.SourceAnalyzer.Core.Analyzers.NamingAnalyzer, ReadieFur.SourceAnalyzer.Core.Analyzers.NamingFixProvider>;
 
 namespace ReadieFur.SourceAnalyzer.UnitTests
 {
-    internal class FileInterpreter
+    internal class FileInterpreter/*<TAnalyzer, TCodeFix>
+        where TAnalyzer : DiagnosticAnalyzer, new()
+        where TCodeFix : CodeFixProvider, new()*/
     {
         public readonly Type SourceType;
         public readonly string SourceText;
         private List<DiagnosticResult> _analyzerDiagnostics = new();
-        //private List<DiagnosticResult> _codeFixDiagnostics = new();
+        private List<DiagnosticResult> _codeFixDiagnostics = new();
         public string AnalyzerInput { get; private set; } = string.Empty;
         public string CodeFixInput { get; private set; } = string.Empty;
         public string CodeFixExpected { get; private set; } = string.Empty;
         public DiagnosticResult[] AnalyzerDiagnostics => _analyzerDiagnostics.ToArray();
-        //public IReadOnlyList<DiagnosticResult> CodeFixDiagnostics => _codeFixDiagnostics;
+        public DiagnosticResult[] CodeFixDiagnostics => _codeFixDiagnostics.ToArray();
 
         private FileInterpreter(Type sourceType, string sourceText)
         {
@@ -33,6 +38,8 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
 
         private void Process()
         {
+            //Yes I am doing all of this just so I can have valid C# code with IDE hints in the test files.
+
             #region Usings
             string noCustomUsings = SourceText;
             int usingsStart = SourceText.IndexOf("using", StringComparison.Ordinal);
@@ -57,6 +64,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
             Match match;
             int offset = 0;
             string regexSource = SourceText;
+            int count = 0;
             while ((match = regex.Match(regexSource)).Success) //The overload "startat" didn't seem to be working for me so I am manually tracking the offset.
             {
                 string diagnosticId = match.Groups[1].Value;
@@ -71,7 +79,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
                 //For each of the various interpretations, replace the input with the expected value.
                 AnalyzerInput = AnalyzerInput.Remove(start, length).Insert(start, input);
                 //https://learn.microsoft.com/en-us/dotnet/csharp/roslyn-sdk/tutorials/how-to-write-csharp-analyzer-code-fix
-                string codeFixToken = $"{{|{diagnosticId}:{input}|}}";
+                string codeFixToken = $"{{|#{count}:{input}|}}";
                 CodeFixInput = CodeFixInput.Remove(start, length).Insert(start, codeFixToken);
                 CodeFixExpected = CodeFixExpected.Remove(start, length).Insert(start, expected);
                 #endregion
@@ -89,7 +97,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
                     namingDescriptor.Value.Value.DefaultSeverity,
                     namingDescriptor.Value.Value.IsEnabledByDefault
                 );
-                DiagnosticResult diagnosticResult = new(descriptor);
+                DiagnosticResult analyzerDiagnosticResult = new(descriptor);
 
                 //Get the bounds of the diagnostic.
                 string startPart = AnalyzerInput.Substring(0, start);
@@ -102,9 +110,16 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
                 int codeFixEndColumn = SourceText.Substring(start, codeFixToken.Length).LastIndexOf('\n');*/
 
                 //Update the diagnostic result with the bounds.
-                diagnosticResult = diagnosticResult.WithLocation(startLine, startColumn);
-                _analyzerDiagnostics.Add(diagnosticResult);
+                //TODO: Probably use the "WithLocation" method instead of the "WithSpan" method sharing the analyzer and code fix inputs.
+                analyzerDiagnosticResult = analyzerDiagnosticResult.WithLocation(startLine, startColumn);
+                _analyzerDiagnostics.Add(analyzerDiagnosticResult);
+
+                //Generate the code fix diagnostic.
+                DiagnosticResult codeFixDiagnosticResult = NamingFixer.Diagnostic(descriptor).WithLocation(count).WithArguments(input, namingDescriptor.Value.Key.Pattern!);
+                _codeFixDiagnostics.Add(codeFixDiagnosticResult);
                 #endregion
+
+                count++;
             }
             #endregion
         }

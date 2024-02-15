@@ -27,17 +27,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Analyzers
         private static async Task TestFixProvider(Type sourceType)
         {
             FileInterpreter file = await CommonTasks(sourceType);
-            
-            await CodeFixer.VerifyCodeFixAsync(
-                file.CodeFixInput,
-                //TODO: Figure out why when providing the expected diagnostics results the test fails due to it believing one more diagnostic has been provided than what has actually been provided.
-                //UPDATE: It could be failing becuase my code fix provider has not been properly implemented yet.
-#if true
-                file.AnalyzerDiagnostics,
-#else
-                new DiagnosticResult[0],
-#endif
-                file.CodeFixExpected);
+            await CodeFixer.VerifyCodeFixAsync(file.CodeFixInput, file.CodeFixDiagnostics, file.CodeFixExpected);
         }
 
         [MTest]

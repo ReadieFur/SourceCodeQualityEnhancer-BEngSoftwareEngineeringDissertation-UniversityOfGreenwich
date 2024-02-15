@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\Helpers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\NamingAnalyzer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\NamingFixProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\RegexTemplates.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\ConfigBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\ConfigManager.cs" />

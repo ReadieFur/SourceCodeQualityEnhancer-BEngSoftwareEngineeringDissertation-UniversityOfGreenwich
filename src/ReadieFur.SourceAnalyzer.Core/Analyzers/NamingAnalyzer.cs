@@ -112,12 +112,14 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                 || new Regex(namingConvention.Pattern).IsMatch(symbol.Name))
                 return;
 
-            reportDiagnosticMethod(Diagnostic.Create(
+            Diagnostic diagnostic = Diagnostic.Create(
                 _descriptors[namingConvention],
                 symbol.Locations[0],
                 symbol.Name,
                 namingConvention.Pattern
-            ));
+            );
+
+            reportDiagnosticMethod(diagnostic);
         }
 
         public override void Initialize(AnalysisContext context)
