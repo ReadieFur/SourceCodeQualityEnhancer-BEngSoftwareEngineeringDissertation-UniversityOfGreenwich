@@ -8,7 +8,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Verifiers
     public static partial class CSharpCodeRefactoringVerifier<TCodeRefactoring>
         where TCodeRefactoring : CodeRefactoringProvider, new()
     {
-        public class Test : CSharpCodeRefactoringTest<TCodeRefactoring, UnitVerifier>
+        public class Test : CSharpCodeRefactoringTest<TCodeRefactoring, MSTestVerifier>
         {
             public Test()
             {

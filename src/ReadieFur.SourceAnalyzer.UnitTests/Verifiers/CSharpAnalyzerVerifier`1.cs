@@ -16,15 +16,15 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Verifiers
     {
         /// <inheritdoc cref="AnalyzerVerifier{TAnalyzer, TTest, TVerifier}.Diagnostic()"/>
         public static DiagnosticResult Diagnostic()
-            => CSharpAnalyzerVerifier<TAnalyzer, UnitVerifier>.Diagnostic();
+            => CSharpAnalyzerVerifier<TAnalyzer, MSTestVerifier>.Diagnostic();
 
         /// <inheritdoc cref="AnalyzerVerifier{TAnalyzer, TTest, TVerifier}.Diagnostic(string)"/>
         public static DiagnosticResult Diagnostic(string diagnosticId)
-            => CSharpAnalyzerVerifier<TAnalyzer, UnitVerifier>.Diagnostic(diagnosticId);
+            => CSharpAnalyzerVerifier<TAnalyzer, MSTestVerifier>.Diagnostic(diagnosticId);
 
         /// <inheritdoc cref="AnalyzerVerifier{TAnalyzer, TTest, TVerifier}.Diagnostic(DiagnosticDescriptor)"/>
         public static DiagnosticResult Diagnostic(DiagnosticDescriptor descriptor)
-            => CSharpAnalyzerVerifier<TAnalyzer, UnitVerifier>.Diagnostic(descriptor);
+            => CSharpAnalyzerVerifier<TAnalyzer, MSTestVerifier>.Diagnostic(descriptor);
 
         /// <inheritdoc cref="AnalyzerVerifier{TAnalyzer, TTest, TVerifier}.VerifyAnalyzerAsync(string, DiagnosticResult[])"/>
         public static async Task VerifyAnalyzerAsync(string source, params DiagnosticResult[] expected)
@@ -38,6 +38,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Verifiers
 
             test.ExpectedDiagnostics.AddRange(expected);
 
+#if false
             try
             {
                 await test.RunAsync(CancellationToken.None);
@@ -74,6 +75,9 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Verifiers
                     Assert.IsTrue(actualDiagnostics.Contains(diagnosticString), $"Expected diagnostic '{diagnosticString}' not found.");
                 }
             }
+#else
+            await test.RunAsync(CancellationToken.None);
+#endif
         }
     }
 }

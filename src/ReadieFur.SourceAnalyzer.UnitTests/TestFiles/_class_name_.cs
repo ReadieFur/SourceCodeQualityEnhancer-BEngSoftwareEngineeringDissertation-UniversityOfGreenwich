@@ -1,10 +1,8 @@
-﻿using ReadieFur.SourceAnalyzer.UnitTests.Analyzers;
-using System;
+﻿using System;
 
 namespace ReadieFur.SourceAnalyzer.UnitTests.TestFiles
 {
-    [NamingAnalyzer]
-    public class _class_name_
+    public class /*SA0007*/_class_name_/*ClassName*/
     {
     }
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿#if false
 namespace ReadieFur.SourceAnalyzer.UnitTests.Compatibility
 {
     public class UnitVerifier :
@@ -13,3 +10,4 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Compatibility
     {
     }
 }
+#endif

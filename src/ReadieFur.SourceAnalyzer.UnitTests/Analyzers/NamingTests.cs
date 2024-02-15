@@ -3,6 +3,7 @@ using ReadieFur.SourceAnalyzer.Core.Analyzers;
 using ReadieFur.SourceAnalyzer.Core.Configuration;
 using ReadieFur.SourceAnalyzer.UnitTests.Compatibility;
 using ReadieFur.SourceAnalyzer.UnitTests.TestFiles;
+using System.Collections.Immutable;
 using Analyzer = ReadieFur.SourceAnalyzer.UnitTests.Verifiers.CSharpAnalyzerVerifier<ReadieFur.SourceAnalyzer.Core.Analyzers.NamingAnalyzer>;
 using CodeFixer = ReadieFur.SourceAnalyzer.UnitTests.Verifiers.CSharpCodeFixVerifier<ReadieFur.SourceAnalyzer.Core.Analyzers.NamingAnalyzer, ReadieFur.SourceAnalyzer.Core.Analyzers.NamingFixProvider>;
 
@@ -11,50 +12,38 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Analyzers
     [CTest]
     public class NamingTests
     {
-        private static async Task<SFileInterpreter> CommonTasks(Type sourceType)
+        private static async Task<FileInterpreter> CommonTasks(Type sourceType)
         {
             await LoadConfiguration();
-            return await SFileInterpreter.Interpret(sourceType);
+            return await FileInterpreter.Interpret(sourceType);
         }
 
-        private static async Task TestAnalyzer(Type sourceType, params ENamingAnalyzer[] namingAnalyzers)
+        private static async Task TestAnalyzer(Type sourceType)
         {
-            SFileInterpreter source = await CommonTasks(sourceType);
-
-            //Verify the configuration.
-            List<DiagnosticResult> diagnostics = new();
-            foreach (ENamingAnalyzer namingAnalyzer in namingAnalyzers)
-            {
-                if (typeof(Naming).GetProperty(namingAnalyzer.ToString())!.GetValue(ConfigManager.Configuration.Naming) is not NamingConvention namingConvention)
-                {
-                    Assert.Fail($"Could not find naming convention for '{namingAnalyzer}'.");
-                    return;
-                }
-
-                if (!Core.Analyzers.Helpers.TryGetAnalyzerID<ENamingAnalyzer>(namingAnalyzer.ToString(), out string analyzerID, out _))
-                {
-                    Assert.Fail($"Could not find analyzer ID for '{namingAnalyzer}'.");
-                    return;
-                }
-
-                //TODO: Use the diagnostics with positional arguments.
-                diagnostics.Add(new(analyzerID, namingConvention.Severity.ToDiagnosticSeverity()));
-            }
-
-            //Verify the analyzers.
-            await Analyzer.VerifyAnalyzerAsync(source.interpretedText, diagnostics.ToArray());
+            FileInterpreter file = await CommonTasks(sourceType);
+            await Analyzer.VerifyAnalyzerAsync(file.AnalyzerInput, file.AnalyzerDiagnostics);
         }
 
-        private static async Task TestFixProvider(Type sourceType, params ENamingAnalyzer[] namingAnalyzers)
+        private static async Task TestFixProvider(Type sourceType)
         {
-            SFileInterpreter source = await CommonTasks(sourceType);
-            await CodeFixer.VerifyCodeFixAsync(source.codeFixText, source.codeFixText);
+            FileInterpreter file = await CommonTasks(sourceType);
+            
+            await CodeFixer.VerifyCodeFixAsync(
+                file.CodeFixInput,
+                //TODO: Figure out why when providing the expected diagnostics results the test fails due to it believing one more diagnostic has been provided than what has actually been provided.
+                //UPDATE: It could be failing becuase my code fix provider has not been properly implemented yet.
+#if true
+                file.AnalyzerDiagnostics,
+#else
+                new DiagnosticResult[0],
+#endif
+                file.CodeFixExpected);
         }
 
         [MTest]
-        public async Task TestClassNameAnalyzer() => await TestAnalyzer(typeof(_class_name_), ENamingAnalyzer.Class);
+        public async Task TestClassNameAnalyzer() => await TestAnalyzer(typeof(_class_name_));
 
         [MTest]
-        public async Task TestClassNameFixProvider() => await TestFixProvider(typeof(_class_name_), ENamingAnalyzer.Class);
+        public async Task TestClassNameFixProvider() => await TestFixProvider(typeof(_class_name_));
     }
 }

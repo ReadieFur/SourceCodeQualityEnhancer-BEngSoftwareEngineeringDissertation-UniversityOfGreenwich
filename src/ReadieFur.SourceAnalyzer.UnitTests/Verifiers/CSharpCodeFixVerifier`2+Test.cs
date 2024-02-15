@@ -10,7 +10,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Verifiers
         where TAnalyzer : DiagnosticAnalyzer, new()
         where TCodeFix : CodeFixProvider, new()
     {
-        public class Test : CSharpCodeFixTest<TAnalyzer, TCodeFix, UnitVerifier>
+        public class Test : CSharpCodeFixTest<TAnalyzer, TCodeFix, MSTestVerifier>
         {
             public Test()
             {
