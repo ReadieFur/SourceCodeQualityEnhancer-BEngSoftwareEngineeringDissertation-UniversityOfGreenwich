@@ -1,6 +1,5 @@
 namespace ReadieFur.SourceAnalyzer.UnitTests.Analyzers
 {
-    [TestFixture]
     public class NamingTests
     {
         [SetUp]
