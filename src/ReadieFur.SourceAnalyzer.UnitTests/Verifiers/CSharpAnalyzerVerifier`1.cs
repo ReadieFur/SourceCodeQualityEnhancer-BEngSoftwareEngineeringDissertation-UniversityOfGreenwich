@@ -4,6 +4,8 @@ using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
 using ReadieFur.SourceAnalyzer.UnitTests.Compatibility;
+using System.Collections.Immutable;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -32,6 +34,8 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Verifiers
                 TestCode = source,
             };
 
+            //test.ReferenceAssemblies.AddAssemblies(ImmutableArray.Create(Assembly.GetExecutingAssembly().Location));
+
             test.ExpectedDiagnostics.AddRange(expected);
 
             try
@@ -54,6 +58,9 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Verifiers
                     // /0/Test0.cs(5,18): warning SA0007: '_class_name_' does not match the regular expression '^[A-Z][a-z]+(?:[A-Z][a-z]+)*$'
                 VerifyCS.Diagnostic(NamingAnalyzer.SA0007).WithSpan(5, 18, 5, 30).WithArguments("_class_name_", "^[A-Z][a-z]+(?:[A-Z][a-z]+)*$"),
                 */
+
+                if (!ex.Message.Contains("Expected a project diagnostic with no location:"))
+                    throw;
 
                 IEnumerable<string> actualDiagnostics = ex.Message
                     .Split("Actual diagnostic:")[1]
