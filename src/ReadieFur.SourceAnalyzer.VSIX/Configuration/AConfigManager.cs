@@ -17,6 +17,22 @@ namespace ReadieFur.SourceAnalyzer.VSIX.Configuration
 
         protected ConfigRoot? CachedConfiguration { get; set; } = null;
 
+        protected virtual string _configPath { get; set; } = string.Empty;
+        public virtual string ConfigPath
+        {
+            get
+            {
+                if (CachedConfiguration is null)
+                    GetConfiguration();
+
+                if (CachedConfiguration is null)
+                    throw new InvalidOperationException("Failed to load a configuration file.");
+                
+                return _configPath;
+            }
+            protected set => _configPath = value;
+        }
+
         public AConfigManager(string ipcName)
         {
             _sharedMemory = MemoryMappedFile.CreateOrOpen(ipcName + "_memory", MaxBufferSize);

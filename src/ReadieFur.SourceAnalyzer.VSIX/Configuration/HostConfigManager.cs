@@ -54,6 +54,7 @@ namespace ReadieFur.SourceAnalyzer.VSIX.Configuration
                 if (CachedConfiguration is null)
                     throw new InvalidOperationException("Failed to load the configuration.");
 
+                ConfigPath = configurationPath;
                 WriteSharedMemory(configurationPath);
 
                 return CachedConfiguration;

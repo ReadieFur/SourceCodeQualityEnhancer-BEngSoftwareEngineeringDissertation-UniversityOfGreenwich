@@ -11,9 +11,9 @@ namespace ReadieFur.SourceAnalyzer.Core.Configuration
         /// Check if we are running under the visual studio environment or not.
         /// </summary>
         /// <returns></returns>
-        private static readonly bool IsVisualStudioInstance = Process.GetCurrentProcess().ProcessName == "devenv";
+        internal static readonly bool IsVisualStudioInstance = Process.GetCurrentProcess().ProcessName == "devenv";
 
-        private AConfigManager _configManager;
+        internal AConfigManager Manager;
 
         public ConfigManager()
         {
@@ -32,13 +32,13 @@ namespace ReadieFur.SourceAnalyzer.Core.Configuration
             string ipcName = $"{AssemblyInfo.ASSEMBLY_NAME}_{nameof(ConfigManager)}";
             
             if (IsVisualStudioInstance)
-                _configManager = new HostConfigManager(ipcName);
+                Manager = new HostConfigManager(ipcName);
             else
-                _configManager = new ClientConfigManager(ipcName);
+                Manager = new ClientConfigManager(ipcName);
         }
 
-        ConfigRoot IConfigManager.GetConfiguration() => _configManager.GetConfiguration();
+        ConfigRoot IConfigManager.GetConfiguration() => Manager.GetConfiguration();
 
-        void IDisposable.Dispose() => _configManager.Dispose();
+        void IDisposable.Dispose() => Manager.Dispose();
     }
 }

@@ -29,6 +29,8 @@ namespace ReadieFur.SourceAnalyzer.VSIX.Configuration
                 if (CachedConfiguration is null)
                     throw new InvalidOperationException("Failed to load the configuration from the host.");
 
+                ConfigPath = path;
+
                 return CachedConfiguration;
             }
         }
