@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReadieFur.SourceAnalyzer.Test.Live", "ReadieFur.SourceAnalyzer.Test.Live\ReadieFur.SourceAnalyzer.Test.Live.csproj", "{6018EAA4-57D3-480F-BDBA-71FF7A53118F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReadieFur.SourceAnalyzer.VSIX", "ReadieFur.SourceAnalyzer.VSIX\ReadieFur.SourceAnalyzer.VSIX.csproj", "{F3AC4941-DDB5-4AAA-B198-B0E5B78710CF}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ReadieFur.SourceAnalyzer.Core", "ReadieFur.SourceAnalyzer.Core\ReadieFur.SourceAnalyzer.Core.shproj", "{CFE8E53C-D2B4-4A65-A79B-F7E8FB460DD0}"
@@ -23,18 +21,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6018EAA4-57D3-480F-BDBA-71FF7A53118F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6018EAA4-57D3-480F-BDBA-71FF7A53118F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6018EAA4-57D3-480F-BDBA-71FF7A53118F}.Debug|arm64.ActiveCfg = Debug|Any CPU
-		{6018EAA4-57D3-480F-BDBA-71FF7A53118F}.Debug|arm64.Build.0 = Debug|Any CPU
-		{6018EAA4-57D3-480F-BDBA-71FF7A53118F}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{6018EAA4-57D3-480F-BDBA-71FF7A53118F}.Debug|x86.Build.0 = Debug|Any CPU
-		{6018EAA4-57D3-480F-BDBA-71FF7A53118F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6018EAA4-57D3-480F-BDBA-71FF7A53118F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6018EAA4-57D3-480F-BDBA-71FF7A53118F}.Release|arm64.ActiveCfg = Release|Any CPU
-		{6018EAA4-57D3-480F-BDBA-71FF7A53118F}.Release|arm64.Build.0 = Release|Any CPU
-		{6018EAA4-57D3-480F-BDBA-71FF7A53118F}.Release|x86.ActiveCfg = Release|Any CPU
-		{6018EAA4-57D3-480F-BDBA-71FF7A53118F}.Release|x86.Build.0 = Release|Any CPU
 		{F3AC4941-DDB5-4AAA-B198-B0E5B78710CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F3AC4941-DDB5-4AAA-B198-B0E5B78710CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3AC4941-DDB5-4AAA-B198-B0E5B78710CF}.Debug|arm64.ActiveCfg = Debug|arm64
