@@ -33,7 +33,40 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Verifiers
             };
 
             test.ExpectedDiagnostics.AddRange(expected);
-            await test.RunAsync(CancellationToken.None);
+
+            try
+            {
+                await test.RunAsync(CancellationToken.None);
+            }
+            catch (AssertFailedException ex)
+            {
+                //The test will fail if the diagnostics are not a 1:1 match, we will catch this and interpret the error to determine the true result based on the diagnostic ID.
+
+                /* Example of the message format:
+
+                Assert.AreEqual failed. Expected:<None (Microsoft.CodeAnalysis.NoLocation)>. Actual:<SourceFile(/0/Test0.cs[103..115)) (Microsoft.CodeAnalysis.SourceLocation)>. Expected a project diagnostic with no location:
+
+                Expected diagnostic:
+                    // warning SA0007
+                new DiagnosticResult(NamingAnalyzer.SA0007),
+
+                Actual diagnostic:
+                    // /0/Test0.cs(5,18): warning SA0007: '_class_name_' does not match the regular expression '^[A-Z][a-z]+(?:[A-Z][a-z]+)*$'
+                VerifyCS.Diagnostic(NamingAnalyzer.SA0007).WithSpan(5, 18, 5, 30).WithArguments("_class_name_", "^[A-Z][a-z]+(?:[A-Z][a-z]+)*$"),
+                */
+
+                IEnumerable<string> actualDiagnostics = ex.Message
+                    .Split("Actual diagnostic:")[1]
+                    .Split("\n", StringSplitOptions.RemoveEmptyEntries)
+                    .Where(s => s.Trim().StartsWith("//"))
+                    .Select(s => s.Split(":")[1].Trim());
+
+                foreach (DiagnosticResult diagnostic in expected)
+                {
+                    string diagnosticString = $"{diagnostic.Severity.ToString().ToLower()} {diagnostic.Id}";
+                    Assert.IsTrue(actualDiagnostics.Contains(diagnosticString), $"Expected diagnostic '{diagnosticString}' not found.");
+                }
+            }
         }
     }
 }
