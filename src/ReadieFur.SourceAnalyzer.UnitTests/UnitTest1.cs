@@ -1,13 +1,16 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Threading.Tasks;
-
 namespace ReadieFur.SourceAnalyzer.UnitTests
 {
-    public class UnitTest1
+    public class Tests
     {
-        [TestMethod]
+        [SetUp]
+        public void Setup()
+        {
+        }
+
+        [Test]
         public void Test1()
         {
+            Assert.Pass();
         }
     }
 }

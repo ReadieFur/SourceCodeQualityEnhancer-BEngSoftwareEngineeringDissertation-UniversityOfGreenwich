@@ -8,6 +8,7 @@ namespace ReadieFur.SourceAnalyzer.VSIX.Configuration
         //My library I believe checks for race conditions and waits for a pipe to exist, however we don't need to check regardless as the host pipe will always be created first by the VSIX extension.
         public ClientConfigManager(string ipcName) : base(ipcName) { }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits")]
         public override ConfigRoot GetConfiguration()
         {
             lock (_lock)

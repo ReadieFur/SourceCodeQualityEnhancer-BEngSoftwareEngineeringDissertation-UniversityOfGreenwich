@@ -45,7 +45,7 @@ namespace ReadieFur.SourceAnalyzer.VSIX.Helpers
         /// </summary>
         /// <param name="handle">The process handle.</param>
         /// <returns>An instance of the Process class.</returns>
-        public static Process GetParentProcess(IntPtr handle)
+        public static Process? GetParentProcess(IntPtr handle)
         {
             ParentProcessUtilities pbi = new ParentProcessUtilities();
             int returnLength;
