@@ -1,7 +1,10 @@
-﻿using Microsoft.CodeAnalysis;
+﻿//#define THREAD_BASED
+
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
-using Microsoft.CodeAnalysis.Text;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Rename;
 using ReadieFur.SourceAnalyzer.Core.Configuration;
 using System;
 using System.Collections.Generic;
@@ -21,6 +24,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
 
         public override FixAllProvider? GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
 
+        //TODO: Check if it is ok to raise errors within the code fix provider (rather than just returning in an invalid state).
         public override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
             //Attempt to provide a code fix in this method.
@@ -32,16 +36,42 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             {
                 NamingConvention namingConvention = _descriptors[diagnostic.Id];
 
+                //Check what type of node we will be working with.
+                if (!Helpers.TryGetAnalyzerType(diagnostic.Id, out ENamingAnalyzer namingAnalyzer))
+                    continue;
+                Type? nodeType = namingAnalyzer switch
+                {
+                    //https://stackoverflow.com/questions/56676260/c-sharp-8-switch-expression-with-multiple-cases-with-same-result
+                    //"or" is not to be confused with the bitwise "|" or operator which would change the result of this switch expression.
+                    ENamingAnalyzer.PrivateField
+                    or ENamingAnalyzer.InternalField
+                    or ENamingAnalyzer.ProtectedField
+                    or ENamingAnalyzer.PublicField => typeof(FieldDeclarationSyntax),
+                    ENamingAnalyzer.Property => typeof(PropertyDeclarationSyntax),
+                    ENamingAnalyzer.Method => typeof(MethodDeclarationSyntax),
+                    ENamingAnalyzer.Class => typeof(ClassDeclarationSyntax),
+                    ENamingAnalyzer.Interface => typeof(InterfaceDeclarationSyntax),
+                    ENamingAnalyzer.Enum => typeof(EnumDeclarationSyntax),
+                    ENamingAnalyzer.Struct => typeof(StructDeclarationSyntax),
+                    ENamingAnalyzer.LocalVariable => typeof(VariableDeclaratorSyntax),
+                    ENamingAnalyzer.Parameter => typeof(ParameterSyntax),
+                    ENamingAnalyzer.Constant => typeof(FieldDeclarationSyntax),
+                    ENamingAnalyzer.Namespace => typeof(NamespaceDeclarationSyntax),
+                    ENamingAnalyzer.GenericParameter => typeof(TypeParameterSyntax),
+                    _ => null
+                };
+                if (nodeType is null)
+                    continue;
+
                 //Get the declaration node that the diagnostic is associated with.
                 //Reference: https://learn.microsoft.com/en-us/dotnet/csharp/roslyn-sdk/tutorials/how-to-write-csharp-analyzer-code-fix
-                SyntaxNode? declaration = documentRoot
+                SyntaxNode? node = documentRoot
                     .FindToken(diagnostic.Location.SourceSpan.Start) //Get the token specified by the diagnostic location.
                     .Parent? //Get the parent of the token.
-                    .AncestorsAndSelf() //This provides a "tree" of the source file contents from the root to the node that contains the specified token.
-                    .First(); //We want the first ancestor (i.e. the token node).
-
+                    .AncestorsAndSelf() //This provides a "tree" of the source file tokens from the root to the location that contains the specified token.
+                    .FirstOrDefault(ancestor => ancestor.GetType().Equals(nodeType)); //Filter the nodes to only include the ones that are of the type that we are interested in.
                 //If the declaration is null, we can't provide a code fix (shouldn't happen).
-                if (declaration is null)
+                if (node is null)
                     continue;
 
                 /* As a general rule, analyzers should exit as quickly as possible, doing minimal work. Visual Studio calls registered analyzers as the user edits code. Responsiveness is a key requirement.
@@ -53,7 +83,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                 context.RegisterCodeFix(
                     CodeAction.Create(
                         title: $"Rename to match: {namingConvention.Pattern}",
-                        createChangedSolution: ct => RenameSymbolAsync(context.Document, declaration, namingConvention, ct),
+                        createChangedSolution: ct => RenameSymbolAsync(context.Document, node, namingConvention, ct),
                         equivalenceKey: namingConvention.Pattern
                     ),
                     diagnostic
@@ -63,7 +93,69 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
 
         private async Task<Solution> RenameSymbolAsync(Document document, SyntaxNode node, NamingConvention namingConvention, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            //TODO: Possibly move this to the above method.
+            string? originalName = node switch
+            {
+                FieldDeclarationSyntax fieldDeclaration => fieldDeclaration.Declaration.Variables.First().Identifier.Text,
+                PropertyDeclarationSyntax propertyDeclaration => propertyDeclaration.Identifier.Text,
+                MethodDeclarationSyntax methodDeclaration => methodDeclaration.Identifier.Text,
+                ClassDeclarationSyntax classDeclaration => classDeclaration.Identifier.Text,
+                InterfaceDeclarationSyntax interfaceDeclaration => interfaceDeclaration.Identifier.Text,
+                EnumDeclarationSyntax enumDeclaration => enumDeclaration.Identifier.Text,
+                StructDeclarationSyntax structDeclaration => structDeclaration.Identifier.Text,
+                VariableDeclaratorSyntax variableDeclarator => variableDeclarator.Identifier.Text,
+                ParameterSyntax parameter => parameter.Identifier.Text,
+                NamespaceDeclarationSyntax namespaceDeclaration => namespaceDeclaration.Name.ToString(),
+                TypeParameterSyntax typeParameter => typeParameter.Identifier.Text,
+                _ => string.Empty
+            };
+            if (string.IsNullOrEmpty(originalName))
+                return document.Project.Solution;
+
+            if (await document.GetSemanticModelAsync(cancellationToken) is not SemanticModel semanticModel)
+                return document.Project.Solution;
+
+            string newName = string.Empty;
+
+            #region Rename wrapper
+#if THREAD_BASED
+            Thread workerThread = new Thread(async () =>
+            {
+#endif
+            try { newName = await NamingEngine.ConformToPatternAsync(originalName, namingConvention.Pattern!, cancellationToken); }
+            catch
+            {
+                //TODO: Impliment the various error handling.
+            }
+#if THREAD_BASED
+            });
+            workerThread.Start();
+            workerThread.Join();
+#else
+#endif
+            if (newName == originalName || string.IsNullOrEmpty(newName))
+                return document.Project.Solution;
+            #endregion
+
+#if VSIX
+            Solution newSolution = await Renamer.RenameSymbolAsync(
+                document.Project.Solution,
+                semanticModel.GetDeclaredSymbol(node, cancellationToken),
+                default(Microsoft.CodeAnalysis.Rename.SymbolRenameOptions),
+                newName,
+                cancellationToken
+            );
+#else
+            Solution newSolution = await Renamer.RenameSymbolAsync(
+                document.Project.Solution,
+                semanticModel.GetDeclaredSymbol(node, cancellationToken),
+                newName,
+                document.Project.Solution.Workspace.Options,
+                cancellationToken
+            );
+#endif
+
+            return newSolution;
         }
     }
 }

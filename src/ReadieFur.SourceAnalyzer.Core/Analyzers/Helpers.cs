@@ -26,6 +26,24 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             return true;
         }
 
+        public static bool TryGetAnalyzerType<TEnum>(string analyzerID, out TEnum enumValue) where TEnum : struct, IConvertible
+        {
+            enumValue = default;
+
+            if (!typeof(TEnum).IsEnum)
+                return false;
+
+            //https://stackoverflow.com/questions/79126/create-generic-method-constraining-t-to-an-enum
+            if (analyzerID.Length < ANALYZER_ID_PREFIX.Length + 4
+                || !analyzerID.StartsWith(ANALYZER_ID_PREFIX)
+                || !int.TryParse(analyzerID.Substring(ANALYZER_ID_PREFIX.Length), out int value)
+                || !Enum.IsDefined(typeof(TEnum), value))
+                return false;
+
+            enumValue = (TEnum)(object)value;
+            return true;
+        }
+
         public static IEnumerable<KeyValuePair<NamingConvention, DiagnosticDescriptor>> GetNamingDescriptors()
         {
             //Using reflection here is ok as it is a one-time thing, I am only using it to reduce the amount of code I have to manually write here (ideally I'd have something auto-generate static code here).

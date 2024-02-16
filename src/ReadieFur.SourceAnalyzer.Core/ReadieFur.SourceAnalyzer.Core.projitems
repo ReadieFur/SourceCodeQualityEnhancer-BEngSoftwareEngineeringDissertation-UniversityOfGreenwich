@@ -13,7 +13,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\Helpers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\NamingAnalyzer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\NamingFixProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\RegexTemplates.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\ConfigBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\ConfigManager.cs" />
@@ -23,6 +22,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\Naming.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\NamingConvention.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\YamlLoader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NamingEngine.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)example.source-analyzer.yaml" />

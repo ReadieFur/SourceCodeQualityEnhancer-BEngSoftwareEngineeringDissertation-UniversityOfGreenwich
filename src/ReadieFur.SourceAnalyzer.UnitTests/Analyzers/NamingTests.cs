@@ -1,6 +1,3 @@
-using Microsoft.CodeAnalysis.Testing;
-using ReadieFur.SourceAnalyzer.Core.Analyzers;
-using ReadieFur.SourceAnalyzer.Core.Configuration;
 using ReadieFur.SourceAnalyzer.UnitTests.Compatibility;
 using ReadieFur.SourceAnalyzer.UnitTests.TestFiles;
 using Analyzer = ReadieFur.SourceAnalyzer.UnitTests.Verifiers.CSharpAnalyzerVerifier<ReadieFur.SourceAnalyzer.Core.Analyzers.NamingAnalyzer>;
@@ -29,10 +26,8 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Analyzers
             await CodeFixer.VerifyCodeFixAsync(file.CodeFixInput, file.CodeFixDiagnostics, file.CodeFixExpected);
         }
 
-        /*[MTest]
-        public async Task TestClassNameAnalyzer() => await TestAnalyzer(typeof(_class_name_));*/
+        [MTest] public async Task TestClassNameAnalyzer() => await TestAnalyzer(typeof(_class_name_));
 
-        [MTest]
-        public async Task TestClassNameFixProvider() => await TestFixProvider(typeof(_class_name_));
+        [MTest] public async Task TestClassNameFixProvider() => await TestFixProvider(typeof(_class_name_));
     }
 }
