@@ -86,9 +86,9 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
 
                 #region Diagnostics
                 //Find the diagnostic descriptor that matches the diagnostic ID.
-                KeyValuePair<NamingConvention, DiagnosticDescriptor>? namingDescriptor = namingDescriptors.FirstOrDefault(kvp => kvp.Value.Id == diagnosticId);
+                KeyValuePair<NamingConvention, DiagnosticDescriptor>? namingDescriptor = namingDescriptors.FirstOrDefault(kvp => kvp.Value.Id == Core.Analyzers.Helpers.ANALYZER_ID_PREFIX + diagnosticId);
                 if (namingDescriptor is null)
-                    throw new InvalidOperationException($"Could not find diagnostic descriptor for '{diagnosticId}'.");
+                    throw new InvalidOperationException($"Could not find diagnostic descriptor for '{Core.Analyzers.Helpers.ANALYZER_ID_PREFIX + diagnosticId}'.");
                 DiagnosticDescriptor descriptor = new(
                     namingDescriptor.Value.Value.Id,
                     namingDescriptor.Value.Value.Title,

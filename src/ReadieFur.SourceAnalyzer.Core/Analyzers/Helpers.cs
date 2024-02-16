@@ -9,7 +9,8 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
 {
     internal static class Helpers
     {
-        public const string ANALYZER_ID_PREFIX = "SA";
+        //https://learn.microsoft.com/en-us/dotnet/csharp/roslyn-sdk/choosing-diagnostic-ids?source=recommendations
+        public const string ANALYZER_ID_PREFIX = "RFSA"; //ReadieFur Source Analyzer
 
         public static bool TryGetAnalyzerID<TEnum>(string propertyName, out string id, out TEnum enumValue) where TEnum : struct, IConvertible
         {

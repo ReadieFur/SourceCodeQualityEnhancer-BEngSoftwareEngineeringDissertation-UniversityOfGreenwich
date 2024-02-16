@@ -1,5 +1,6 @@
 ﻿namespace ReadieFur.SourceAnalyzer.Core.Analyzers
 {
+    //TODO: Add more selectors e.g. private methods, protected methods, etc.
     internal enum ENamingAnalyzer
     {
         PrivateField = 1,
