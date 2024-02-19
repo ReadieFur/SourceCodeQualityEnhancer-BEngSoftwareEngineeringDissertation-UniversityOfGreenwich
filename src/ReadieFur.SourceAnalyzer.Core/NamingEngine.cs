@@ -54,7 +54,6 @@ namespace ReadieFur.SourceAnalyzer.Core
             Reconstruct();
             Validate();
         }
-        #endregion
 
         //TODO: Possibly create a dictionary of common words to split on if we cannot match reliably.
         private void Deconstruct()
@@ -95,7 +94,6 @@ namespace ReadieFur.SourceAnalyzer.Core
         private void Reconstruct()
         {
             //I believe in order for this to work I will need to create my own Regex engine so I can construct a string based on a pattern and input.
-            //Reference: https://kean.blog/post/lets-build-regex
             throw new NotImplementedException();
         }
 
@@ -103,5 +101,6 @@ namespace ReadieFur.SourceAnalyzer.Core
         {
             throw new NotImplementedException();
         }
+        #endregion
     }
 }
