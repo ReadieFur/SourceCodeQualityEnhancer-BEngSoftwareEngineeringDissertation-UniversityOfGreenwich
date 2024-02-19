@@ -41,18 +41,20 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
                 {
                     #region Group types
                     case '[':
-                        char? nextChar = CharAt(i + 1);
-                        switch (nextChar)
                         {
-                            case '^':
-                                OpenQuantifier(EMetacharacter.NotGroup);
-                                i++;
-                                break;
-                            default:
-                                OpenQuantifier(EMetacharacter.Group);
-                                break;
+                            char? nextChar = CharAt(i + 1);
+                            switch (nextChar)
+                            {
+                                case '^':
+                                    OpenQuantifier(EMetacharacter.NotGroup);
+                                    i++;
+                                    break;
+                                default:
+                                    OpenQuantifier(EMetacharacter.Group);
+                                    break;
+                            }
+                            break;
                         }
-                        break;
                     case '(':
                         //If the parent is a group then the ( should be interpreted as a set, otherwise it should be a subexpression.
                         OpenQuantifier(_parent is Quantifier && _parent.Metacharacter.HasFlag(EMetacharacter.Group) ? EMetacharacter.Set : EMetacharacter.Subexpression);
@@ -78,7 +80,68 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
                     case '$':
                         break;
                     case '\\':
-                        break;
+                        {
+                            char? nextChar = CharAt(i + 1);
+                            switch (nextChar)
+                            {
+                                /*case 'n':
+                                    break;*/
+                                /*case 'r':
+                                    break;*/
+                                /*case 't':
+                                    break;*/
+                                /*case 'o':
+                                    break;*/
+                                case 'G':
+                                    break;
+                                case 'A':
+                                    break;
+                                case 'Z':
+                                    break;
+                                case 'b':
+                                    break;
+                                case 'B':
+                                    break;
+                                case 's':
+                                    break;
+                                case 'S':
+                                    break;
+                                case 'd':
+                                    break;
+                                case 'D':
+                                    break;
+                                case 'w':
+                                    break;
+                                case 'W':
+                                    break;
+                                /*case 'X':
+                                    break;*/
+                                /*case 'C':
+                                    break;*/
+                                /*case '#':
+                                    break;*/
+                                case '|':
+                                case '^':
+                                case '$':
+                                case '+':
+                                case '<':
+                                case '=':
+                                case '>':
+                                case '.':
+                                    Atom atom = new(nextChar.Value)
+                                    {
+                                        Parent = _parent,
+                                        Previous = _current
+                                    };
+                                    _current.Next = atom;
+                                    _current = atom;
+                                    break;
+                                default:
+                                    throw new InvalidOperationException("Invalid escape sequence.");
+                            }
+                            i++;
+                            break;
+                        }
                     case '*':
                         break;
                     case ',':
@@ -92,14 +155,18 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
                     #endregion
                     #region Atom
                     default:
-                        Atom atom = new(c)
                         {
-                            Parent = _parent,
-                            Previous = _current
-                        };
-                        _current.Next = atom;
-                        _current = atom;
-                        break;
+                            char? nextChar = CharAt(i + 1);
+
+                            Atom atom = new(c)
+                            {
+                                Parent = _parent,
+                                Previous = _current
+                            };
+                            _current.Next = atom;
+                            _current = atom;
+                            break;
+                        }
                         #endregion
                 }
             }
