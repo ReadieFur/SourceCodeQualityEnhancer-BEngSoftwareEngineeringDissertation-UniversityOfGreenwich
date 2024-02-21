@@ -23,8 +23,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\NamingConvention.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\YamlLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NamingEngine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\Anchor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\Atom.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\EMetacharacter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\CharacterClass.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\CharacterRange.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\GroupConstruct.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\MetaSequence.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\Quantifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\Regex.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\Token.cs" />

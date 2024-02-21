@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
 {
@@ -17,227 +14,44 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
         public readonly string Pattern;
 
         private readonly Token _root;
-        private Quantifier? _parent;
-        private Token _current;
 
         public Regex(string pattern)
         {
             Pattern = pattern;
 
-            _parent = null;
-            _root = new Quantifier(EMetacharacter.Subexpression);
-            _current = _root;
+            //Specify the token types that we will be using. This MUST be in order of the process we want to check against.
+            Type[] tokenTypes =
+            [
+                //typeof(Anchor),
+                typeof(GroupConstruct),
+                typeof(CharacterClass),
+            ];
 
-            ParsePattern();
-        }
+            //Create a copy of the string so we can modify it.
+            string refPattern = pattern.Substring(0);
+            //For now I will wrap whatever pattern is given into a group construct (helps with the initial parsing).
+            refPattern = $"({refPattern})";
 
-        private void ParsePattern()
-        {
-            for (int i = 0; i < Pattern.Length; i++)
+            //Attempt to find a valid parser for the root of the pattern.
+            foreach (Type type in tokenTypes)
             {
-                char c = Pattern[i];
-
-                switch (c)
-                {
-                    #region Group types
-                    case '[':
-                        {
-                            char? nextChar = CharAt(i + 1);
-                            switch (nextChar)
-                            {
-                                case '^':
-                                    OpenQuantifier(EMetacharacter.NotGroup);
-                                    i++;
-                                    break;
-                                default:
-                                    OpenQuantifier(EMetacharacter.Group);
-                                    break;
-                            }
-                            break;
-                        }
-                    case '(':
-                        //If the parent is a group then the ( should be interpreted as a set, otherwise it should be a subexpression.
-                        OpenQuantifier(_parent is Quantifier && _parent.Metacharacter.HasFlag(EMetacharacter.Group) ? EMetacharacter.Set : EMetacharacter.Subexpression);
-                        break;
-                    case '{':
-                        OpenQuantifier(EMetacharacter.CurlyBracket);
-                        break;
-                    case ']':
-                        CloseQuantifier(EMetacharacter.Group);
-                        break;
-                    case ')':
-                        CloseQuantifier(EMetacharacter.Subexpression);
-                        break;
-                    case '}':
-                        CloseQuantifier(EMetacharacter.CurlyBracket);
-                        break;
-                    #endregion
-                    #region Metacharacters
-                    case '^':
-                        break;
-                    case '.':
-                        break;
-                    case '$':
-                        break;
-                    case '\\':
-                        {
-                            char? nextChar = CharAt(i + 1);
-                            switch (nextChar)
-                            {
-                                /*case 'n':
-                                    break;*/
-                                /*case 'r':
-                                    break;*/
-                                /*case 't':
-                                    break;*/
-                                /*case 'o':
-                                    break;*/
-                                case 'G':
-                                    break;
-                                case 'A':
-                                    break;
-                                case 'Z':
-                                    break;
-                                case 'b':
-                                    break;
-                                case 'B':
-                                    break;
-                                case 's':
-                                    break;
-                                case 'S':
-                                    break;
-                                case 'd':
-                                    break;
-                                case 'D':
-                                    break;
-                                case 'w':
-                                    break;
-                                case 'W':
-                                    break;
-                                /*case 'X':
-                                    break;*/
-                                /*case 'C':
-                                    break;*/
-                                /*case '#':
-                                    break;*/
-                                case '|':
-                                case '^':
-                                case '$':
-                                case '+':
-                                case '<':
-                                case '=':
-                                case '>':
-                                case '.':
-                                    Atom atom = new(nextChar.Value)
-                                    {
-                                        Parent = _parent,
-                                        Previous = _current
-                                    };
-                                    _current.Next = atom;
-                                    _current = atom;
-                                    break;
-                                default:
-                                    throw new InvalidOperationException("Invalid escape sequence.");
-                            }
-                            i++;
-                            break;
-                        }
-                    case '*':
-                        break;
-                    case ',':
-                        break;
-                    case '?':
-                        break;
-                    case '+':
-                        break;
-                    case '|':
-                        break;
-                    #endregion
-                    #region Atom
-                    default:
-                        {
-                            char? nextChar = CharAt(i + 1);
-
-                            Atom atom = new(c)
-                            {
-                                Parent = _parent,
-                                Previous = _current
-                            };
-                            _current.Next = atom;
-                            _current = atom;
-                            break;
-                        }
-                        #endregion
-                }
+                //Check if the pattern can be parsed.
+                _root = (Token)Activator.CreateInstance(type);
+                if (_root.CanParse(ref refPattern) is not null)
+                    break;
             }
+
+            if (_root is null)
+                throw new InvalidOperationException("Invalid pattern.");
+
+            //Build the token tree.
+            _root.Parse(ref refPattern);
         }
 
-        private void OpenQuantifier(EMetacharacter metacharacter)
+        public bool Test(string input)
         {
-            //Create the new token and set it's parent and previous to the current token.
-            Quantifier nextToken = new(metacharacter)
-            {
-                Parent = _parent,
-                Previous = _current
-            };
-            _current.Next = nextToken;
-            //The new parent will be the quantifier we just created.
-            _parent = nextToken;
-            _current = nextToken;
-        }
-
-        private void CloseQuantifier(EMetacharacter metacharacter)
-        {
-            //Ensure that the quantifier we are closing matches the current parent metacharacter, if it doesn't then the pattern syntax is incorrect.
-            if (_parent is null)
-                throw new InvalidOperationException("No parent token to close.");
-
-            //I am not quite sure but may need to check this against the exact metacharacter (adds complexity).
-            //if (_parent.Metacharacter != metacharacter)
-            if (!_parent.Metacharacter.HasFlag(metacharacter))
-                throw new InvalidOperationException("Mismatched parent token.");
-
-            //Create a new token to close the quantifier.
-            Quantifier closingQuantifier = new(metacharacter)
-            {
-                Parent = _parent.Parent,
-                Previous = _current
-            };
-            _current.Next = closingQuantifier;
-            _current = closingQuantifier;
-
-            //The new parent will be the parent of the quantifier we just closed as we have navigated up the tree.
-            _parent = closingQuantifier.Parent as Quantifier;
-        }
-
-        private char? CharAt(int index)
-        {
-            if (index < 0 || index >= Pattern.Length)
-                return null;
-            return Pattern[index];
-        }
-
-        //For debugging purposes.
-        public override string ToString()
-        {
-            StringBuilder sb = new();
-            Token current = _root;
-            while (current != null)
-            {
-                sb.Append(current);
-                current = current.Next;
-            }
-            return sb.ToString();
-        }
-
-        public void Test(string input)
-        {
-            for (int i = 0; i < input.Length; i++)
-            {
-                char c = input[i];
-
-                //Compare to the nodes in the tree.
-            }
+            int index = 0;
+            return _root.Test(input, ref index);
         }
     }
 }
