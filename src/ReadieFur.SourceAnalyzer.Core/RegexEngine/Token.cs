@@ -38,7 +38,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
         /// <param name="input"></param>
         /// <param name="index"></param>
         /// <param name="output"></param>
-        public abstract bool Conform(string input, ref int index, ref string output);
+        public abstract bool Conform(string input, ref int index, ref string output, SConformOptions options);
 
         /// <summary>
         /// Obtains a substring from the input string and modifies the index.

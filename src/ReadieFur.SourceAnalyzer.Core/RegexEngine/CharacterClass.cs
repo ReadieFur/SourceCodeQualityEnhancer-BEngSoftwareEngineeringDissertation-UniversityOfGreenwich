@@ -54,11 +54,11 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             return true;
         }
 
-        public override bool Conform(string input, ref int index, ref string output)
+        public override bool Conform(string input, ref int index, ref string output, SConformOptions options)
         {
             foreach (Token token in Children)
             {
-                bool result = token.Conform(input, ref index, ref output);
+                bool result = token.Conform(input, ref index, ref output, options);
                 if (_negated)
                     result = !result;
                 if (!result)

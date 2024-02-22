@@ -156,15 +156,13 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             return result;
         }
 
-        public override bool Conform(string input, ref int index, ref string output)
+        public override bool Conform(string input, ref int index, ref string output, SConformOptions options)
         {
             lock (_conformLock)
             {
                 if (_isConforming)
                     return true;
                 _isConforming = true;
-                //TODO: Fix the issue here where the quantifier conform fails due to the input having already been consumed by the parent once.
-                //Fix: Set the conform count to 1 by default as the parent will have already consumed the input once, if the parent failed to consume the input then this method would've never been reached.
                 _conformCount = 1;
             }
 
@@ -174,15 +172,55 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
                 throw new InvalidOperationException();
             }
 
+            bool isGreedy = _max == int.MaxValue;
+
             //TODO: try to make the greedy quantifiers not greedy (if even possible, perhaps pass an options object that allows for breaking on certain patterns for manual interpretation).
             int lastSuccessfulIterationIndex = index;
             try
             {
                 //The order in which these checks are done IS important as we are dealing with references as well as the conform method not supposed to being able to run when the input has been saturated.
-                while (_conformCount < _max && index < input.Length && Parent.Conform(input, ref index, ref output))
+                while (_conformCount < _max && index < input.Length && Parent.Conform(input, ref index, ref output, options))
                 {
                     _conformCount++;
                     lastSuccessfulIterationIndex = index;
+
+                    //If this is a greedy quantifier then we need to check against the provided options...
+                    if (!isGreedy)
+                        continue;
+
+                    char nextChar = input[index];
+
+                    if (options.GreedyQuantifiersSplitOnCaseChange)
+                    {
+                        char previousChar = input[index - 1];
+
+                        if (char.IsLetter(previousChar)
+                            && char.IsLetter(nextChar)
+                            && char.IsUpper(previousChar) != char.IsUpper(nextChar))
+                            break;
+                    }
+
+                    if (options.GreedyQuantifiersSplitOnAlphanumericChange)
+                    {
+                        char previousChar = input[index - 1];
+
+                        if (char.IsLetterOrDigit(previousChar) != char.IsLetterOrDigit(nextChar))
+                            break;
+                    }
+
+                    bool hitDelimiter = false;
+                    foreach (char delimiter in options.GreedyQuantifierDelimiters)
+                    {
+                        if (nextChar != delimiter)
+                            continue;
+
+                        //As the character is a delimiter, we must consume it.
+                        lastSuccessfulIterationIndex = ++index;
+                        hitDelimiter = true;
+                        break;
+                    }
+                    if (hitDelimiter)
+                        break;
                 }
             }
             catch (IndexOutOfRangeException)

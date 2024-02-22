@@ -27,6 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\Atom.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\CharacterClass.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\CharacterRange.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\SConformOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\GroupConstruct.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\MetaSequence.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\Quantifier.cs" />

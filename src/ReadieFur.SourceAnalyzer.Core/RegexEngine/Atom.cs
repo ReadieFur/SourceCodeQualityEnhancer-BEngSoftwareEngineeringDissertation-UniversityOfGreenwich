@@ -44,7 +44,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             return Read(input, ref index, 1)[0] == Value;
         }
 
-        public override bool Conform(string input, ref int index, ref string output)
+        public override bool Conform(string input, ref int index, ref string output, SConformOptions options)
         {
             char c = Read(input, ref index, 1)[0];
             

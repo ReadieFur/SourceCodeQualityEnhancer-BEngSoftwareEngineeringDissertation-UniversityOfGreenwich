@@ -20,7 +20,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             throw new NotImplementedException();
         }
 
-        public override bool Conform(string input, ref int index, ref string output)
+        public override bool Conform(string input, ref int index, ref string output, SConformOptions options)
         {
             throw new NotImplementedException();
         }

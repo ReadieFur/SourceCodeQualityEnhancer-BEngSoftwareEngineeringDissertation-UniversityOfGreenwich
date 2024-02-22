@@ -55,11 +55,11 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
         }
 
         //The built-in C# Regex library can replace text in a string however it does not quite meet the complexity requirements that I have for text transformation.
-        public string Conform(string input)
+        public string Conform(string input, SConformOptions options = new())
         {
             int index = 0;
             string output = "";
-            if (!_root.Conform(input, ref index, ref output))
+            if (!_root.Conform(input, ref index, ref output, options))
                 throw new Exception();
             return output;
         }
