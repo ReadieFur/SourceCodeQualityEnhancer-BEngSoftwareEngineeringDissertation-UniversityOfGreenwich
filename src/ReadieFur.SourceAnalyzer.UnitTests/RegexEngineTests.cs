@@ -35,11 +35,23 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
         #endregion
 
         #region Match tests
-        [MTest] public void MatchPascal() => Assert.IsTrue(new Regex(PATTERN_PASCAL).Test(INPUT_PASCAL_CASE));
+        #region Pascal case
+        [MTest] public void MatchPascal1() => Assert.IsTrue(new Regex(PATTERN_PASCAL).Test(INPUT_PASCAL_CASE));
 
-        [MTest] public void MatchCamel() => Assert.IsTrue(new Regex(PATTERN_CAMEL).Test(INPUT_CAMEL_CASE));
+        [MTest] public void MatchPascal2() => Assert.IsTrue(new Regex(PATTERN_PASCAL).Test("Pascal"));
+        #endregion
 
-        [MTest] public void MatchSnake() => Assert.IsTrue(new Regex(PATTERN_SNAKE).Test(INPUT_SNAKE_CASE));
+        #region Camel case
+        [MTest] public void MatchCamel1() => Assert.IsTrue(new Regex(PATTERN_CAMEL).Test(INPUT_CAMEL_CASE));
+
+        [MTest] public void MatchCamel2() => Assert.IsTrue(new Regex(PATTERN_CAMEL).Test("camel"));
+        #endregion
+
+        #region Snake case
+        [MTest] public void MatchSnake1() => Assert.IsTrue(new Regex(PATTERN_SNAKE).Test(INPUT_SNAKE_CASE));
+
+        [MTest] public void MatchSnake2() => Assert.IsTrue(new Regex(PATTERN_SNAKE).Test("snake"));
+        #endregion
         #endregion
 
         #region Conform tests
