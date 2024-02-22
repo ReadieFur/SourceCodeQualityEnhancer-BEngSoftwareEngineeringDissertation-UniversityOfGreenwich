@@ -1,4 +1,6 @@
-﻿namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
+﻿using System;
+
+namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
 {
     //Anchors ignored for now.
     internal class Anchor : Token
@@ -14,6 +16,11 @@
         }
 
         public override bool Test(string input, ref int index)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool Conform(string input, ref int index, ref string output)
         {
             throw new NotImplementedException();
         }

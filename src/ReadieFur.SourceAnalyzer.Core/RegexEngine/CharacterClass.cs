@@ -53,5 +53,18 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             }
             return true;
         }
+
+        public override bool Conform(string input, ref int index, ref string output)
+        {
+            foreach (Token token in Children)
+            {
+                bool result = token.Conform(input, ref index, ref output);
+                if (_negated)
+                    result = !result;
+                if (!result)
+                    return false;
+            }
+            return true;
+        }
     }
 }

@@ -67,14 +67,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             consumablePattern = consumablePattern.Substring(Type.HasFlag(MetaSequenceType.Character) ? 1 : 2);
 
             Token endToken = this;
-            if (quantifier is not null)
-            {
-                Children.Add(quantifier);
-                quantifier.Parent = this;
-                quantifier.Previous = endToken;
-                endToken.Next = quantifier;
-                endToken = quantifier.Parse(ref consumablePattern);
-            }
+            endToken = Quantifier.CheckForQuantifier(ref consumablePattern, this, endToken);
 
             return endToken;
         }
@@ -102,6 +95,12 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
                 result = !result;
 
             return result;
+        }
+
+        public override bool Conform(string input, ref int index, ref string output)
+        {
+            //As far as I can tell not much can be done here for character transformation.
+            return Test(input, ref index);
         }
     }
 }

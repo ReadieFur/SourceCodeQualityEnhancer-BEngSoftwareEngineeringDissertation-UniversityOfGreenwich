@@ -19,8 +19,11 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
         private bool _isTesting = false; //It is ok to use a plain boolean here as this object should not be called asynchronously.
         private int _testCount = 0;
         private object _testLock = new();
+        private bool _isConforming = false;
+        private int _conformCount = 0;
+        private object _conformLock = new();
 
-        public override Token CanParse(ref string consumablePattern)
+        public override Token? CanParse(ref string consumablePattern)
         {
             if (consumablePattern.StartsWith("?"))
             {
@@ -126,12 +129,15 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             {
                 if (_isTesting)
                     return true;
+                _isTesting = true;
             }
 
             if (_min is null || _max is null || Parent is null)
+            {
+                _isTesting = false;
                 throw new InvalidOperationException();
+            }
 
-            _isTesting = true;
             //We need to keep a count of the index upon each iteration so that when an iteration fails we can reset the index to the last successful index for successor token checks.
             int lastSuccessfulIterationIndex = index;
             while (Parent.Test(input, ref index) && index < input.Length)
@@ -151,9 +157,37 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             return result;
         }
 
-        public override void Conform(string input, ref int index, ref string output)
+        public override bool Conform(string input, ref int index, ref string output)
         {
-            throw new NotImplementedException();
+            lock (_conformLock)
+            {
+                if (_isConforming)
+                    return true;
+                _isConforming = true;
+            }
+
+            if (_min is null || _max is null || Parent is null)
+            {
+                _isConforming = false;
+                throw new InvalidOperationException();
+            }
+
+            int lastSuccessfulIterationIndex = index;
+            while (Parent.Conform(input, ref index, ref output) && index < input.Length && _conformCount < _max)
+            {
+                _conformCount++;
+                lastSuccessfulIterationIndex = index;
+            }
+            index = lastSuccessfulIterationIndex;
+
+            lock (_conformLock)
+            {
+                _isConforming = false;
+            }
+
+            bool result = _conformCount >= _min;
+            _conformCount = 0;
+            return result;
         }
 
         /// <summary>
@@ -166,8 +200,17 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
         public static Token CheckForQuantifier(ref string consumablePattern, Token parent, Token endToken)
         {
             //Check if there are any quantifiers that could be applied to this group.
-            Token quantifier = new Quantifier().CanParse(ref consumablePattern);
+            Token? quantifier = new Quantifier().CanParse(ref consumablePattern);
             if (quantifier is not null)
             {
+                parent.Children.Add(quantifier);
+                quantifier.Parent = parent;
+                quantifier.Previous = endToken;
+                endToken.Next = quantifier;
+                return quantifier.Parse(ref consumablePattern);
+            }
+            
+            return endToken;
+        }
     }
 }

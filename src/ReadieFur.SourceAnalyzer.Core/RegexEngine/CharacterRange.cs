@@ -32,8 +32,41 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
         {
             int c;
             try { c = Read(input, ref index, 1)[0]; }
-            catch (IndexOutOfRangeException) { return true; } //If we are at the end of the string, return true.
+            catch (IndexOutOfRangeException) { return true; } //If we are at the end of the string, return true. EDIT: I am not sure if this is desired behaviour.
             return c >= _start && c <= _end;
+        }
+
+        public override bool Conform(string input, ref int index, ref string output)
+        {
+            char c = Read(input, ref index, 1)[0];
+
+            //If the character is already in the range then just add it to the output.
+            if (c >= _start && c <= _end)
+            {
+                output += c;
+                return true;
+            }
+
+            //Otherwise we need to check if the provided character can be transformed.
+            //The following operation is only applicable to letters.
+            if (!char.IsLetter(c))
+            {
+                index--;
+                return false;
+            }
+            
+            //Check if the character is valid by changing the case.
+            c = char.IsUpper(c) ? char.ToLower(c) : char.ToUpper(c);
+            if (c >= _start && c <= _end)
+            {
+                output += c;
+                return true;
+            }
+            else
+            {
+                index--;
+                return false;
+            }
         }
     }
 }

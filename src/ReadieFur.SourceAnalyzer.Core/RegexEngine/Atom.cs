@@ -34,14 +34,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             consumablePattern = consumablePattern.Substring(IsEscaped ? 2 : 1);
 
             Token endToken = this;
-            if (quantifier is not null)
-            {
-                Children.Add(quantifier);
-                quantifier.Parent = this;
-                quantifier.Previous = endToken;
-                endToken.Next = quantifier;
-                endToken = quantifier.Parse(ref consumablePattern);
-            }
+            endToken = Quantifier.CheckForQuantifier(ref consumablePattern, this, endToken);
 
             return endToken;
         }
@@ -49,6 +42,27 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
         public override bool Test(string input, ref int index)
         {
             return Read(input, ref index, 1)[0] == Value;
+        }
+
+        public override bool Conform(string input, ref int index, ref string output)
+        {
+            char c = Read(input, ref index, 1)[0];
+            
+            //If the char is the same as the atom but the case is different then change the case, otherwise throw an exception.
+            if (char.IsLetter(c) && char.IsLetter(Value) && char.ToLower(c) == char.ToLower(Value))
+            {
+                if (char.IsUpper(c) && char.IsLower(Value))
+                    output += char.ToUpper(Value);
+                else if (char.IsLower(c) && char.IsUpper(Value))
+                    output += char.ToLower(Value);
+
+                return true;
+            }
+            else
+            {
+                index--;
+                return false;
+            }
         }
     }
 }

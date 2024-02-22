@@ -29,8 +29,16 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
         /// </summary>
         /// <param name="input"></param>
         /// <param name="index"></param>
-        /// <returns></returns>
+        /// <returns>TODO: Have this return a list of "Group" objects</returns>
         public abstract bool Test(string input, ref int index);
+
+        /// <summary>
+        /// Modifies the input string to conform to the token.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="index"></param>
+        /// <param name="output"></param>
+        public abstract bool Conform(string input, ref int index, ref string output);
 
         /// <summary>
         /// Obtains a substring from the input string and modifies the index.

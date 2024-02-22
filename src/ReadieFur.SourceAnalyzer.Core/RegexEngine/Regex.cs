@@ -53,5 +53,14 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             int index = 0;
             return _root.Test(input, ref index);
         }
+
+        public string Conform(string input)
+        {
+            int index = 0;
+            string output = "";
+            if (!_root.Conform(input, ref index, ref output))
+                throw new Exception();
+            return output;
+        }
     }
 }

@@ -113,7 +113,29 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
                 bool result = token.Test(input, ref index);
                 if (invert)
                     result = !result;
+                if (!result)
+                    return false;
+            }
 
+            return true;
+        }
+
+        public override bool Conform(string input, ref int index, ref string output)
+        {
+            //Depending on the group type we may need to either look ahead of behind before we can determine the result of the test.
+            bool invert = _type switch
+            {
+                GroupType.NegativeLookahead or
+                GroupType.NegativeLookbehind => true,
+                _ => false,
+            };
+
+            //Test each token in the group.
+            foreach (Token token in Children)
+            {
+                bool result = token.Conform(input, ref index, ref output);
+                if (invert)
+                    result = !result;
                 if (!result)
                     return false;
             }
