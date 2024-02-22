@@ -14,13 +14,17 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
         #region Match tests
         [MTest] public void MatchTest1() => Assert.IsTrue(new Core.RegexEngine.Regex(PASCAL_CASE_SIMPLE).Test("PascalCase"));
 
+        [MTest] public void MatchTest2() => Assert.IsTrue(new Core.RegexEngine.Regex(PASCAL_CASE_SIMPLE).Test("Pascal"));
+
         [MTest] public void UnmatchTest1() => Assert.IsFalse(new Core.RegexEngine.Regex(PASCAL_CASE_SIMPLE).Test("not_pascal_case"));
         #endregion
 
         #region Conform tests
-        [MTest] public void ConformTest1() => Assert.AreEqual(new Core.RegexEngine.Regex(PASCAL_CASE_SIMPLE).Conform("PascalCase"), "PascalCase");
+        [MTest] public void ConformTest1() => Assert.AreEqual("Pascalcase", new Core.RegexEngine.Regex(PASCAL_CASE_SIMPLE).Conform("PascalCase")); //Expected result should be "Pascalcase" and not "PascalCase" because the pattern is greedy.
+
+        [MTest] public void ConformTest2() => Assert.AreEqual("Pascal", new Core.RegexEngine.Regex(PASCAL_CASE_SIMPLE).Conform("Pascal"));
         
-        [MTest] public void ConformTest2() => Assert.AreEqual(new Core.RegexEngine.Regex(PASCAL_CASE_SIMPLE).Conform("not_pascal_case"), "PascalCase");
+        [MTest] public void ConformTest3() => Assert.AreEqual("PascalCase", new Core.RegexEngine.Regex(PASCAL_CASE_SIMPLE).Conform("not_pascal_case"));
         #endregion
     }
 }

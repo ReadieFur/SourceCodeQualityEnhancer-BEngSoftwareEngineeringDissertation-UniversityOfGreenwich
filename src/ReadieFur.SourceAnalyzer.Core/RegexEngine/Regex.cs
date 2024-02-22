@@ -54,6 +54,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             return _root.Test(input, ref index);
         }
 
+        //The built-in C# Regex library can replace text in a string however it does not quite meet the complexity requirements that I have for text transformation.
         public string Conform(string input)
         {
             int index = 0;

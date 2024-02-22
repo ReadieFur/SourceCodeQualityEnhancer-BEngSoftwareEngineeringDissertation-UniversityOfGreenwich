@@ -30,9 +30,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
 
         public override bool Test(string input, ref int index)
         {
-            int c;
-            try { c = Read(input, ref index, 1)[0]; }
-            catch (IndexOutOfRangeException) { return true; } //If we are at the end of the string, return true. EDIT: I am not sure if this is desired behaviour.
+            int c = Read(input, ref index, 1)[0];
             return c >= _start && c <= _end;
         }
 
@@ -51,7 +49,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             //The following operation is only applicable to letters.
             if (!char.IsLetter(c))
             {
-                index--;
+                //index--;
                 return false;
             }
             
@@ -64,7 +62,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             }
             else
             {
-                index--;
+                //index--;
                 return false;
             }
         }

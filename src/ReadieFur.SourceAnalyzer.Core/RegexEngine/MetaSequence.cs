@@ -74,10 +74,8 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
 
         public override bool Test(string input, ref int index)
         {
-            if (index >= input.Length)
-                return false;
+            char c = Read(input, ref index, 1)[0];
 
-            char c = input[index++];
             bool result = false;
 
             if (Type.HasFlag(MetaSequenceType.Whitespace))

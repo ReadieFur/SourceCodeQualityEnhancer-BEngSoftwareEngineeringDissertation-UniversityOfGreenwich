@@ -130,6 +130,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
                 if (_isTesting)
                     return true;
                 _isTesting = true;
+                _testCount = 0;
             }
 
             if (_min is null || _max is null || Parent is null)
@@ -147,13 +148,9 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             }
             index = lastSuccessfulIterationIndex;
 
-            lock (_testLock)
-            {
-                _isTesting = false;
-            }
+            _isTesting = false;
 
             bool result = _testCount >= _min && _testCount <= _max;
-            _testCount = 0;
             return result;
         }
 
@@ -164,6 +161,9 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
                 if (_isConforming)
                     return true;
                 _isConforming = true;
+                //TODO: Fix the issue here where the quantifier conform fails due to the input having already been consumed by the parent once.
+                //Fix: Set the conform count to 1 by default as the parent will have already consumed the input once, if the parent failed to consume the input then this method would've never been reached.
+                _conformCount = 1;
             }
 
             if (_min is null || _max is null || Parent is null)
@@ -172,21 +172,33 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
                 throw new InvalidOperationException();
             }
 
+            //TODO: try to make the greedy quantifiers not greedy (if even possible, perhaps pass an options object that allows for breaking on certain patterns for manual interpretation).
             int lastSuccessfulIterationIndex = index;
-            while (Parent.Conform(input, ref index, ref output) && index < input.Length && _conformCount < _max)
+            try
             {
-                _conformCount++;
-                lastSuccessfulIterationIndex = index;
+                //The order in which these checks are done IS important as we are dealing with references as well as the conform method not supposed to being able to run when the input has been saturated.
+                while (_conformCount < _max && index < input.Length && Parent.Conform(input, ref index, ref output))
+                {
+                    _conformCount++;
+                    lastSuccessfulIterationIndex = index;
+                }
+            }
+            catch (IndexOutOfRangeException)
+            {
+                //Do nothing on this type of exception.
+                //Can coccur when the conform tree reaches the end of the input string.
+                //This dosen't occur for the test method as the test method has a known pattern to follow whereas the input pattern of the conform method is unknown.
+            }
+            catch
+            {
+                _isConforming = false;
+                throw;
             }
             index = lastSuccessfulIterationIndex;
 
-            lock (_conformLock)
-            {
-                _isConforming = false;
-            }
+            _isConforming = false;
 
             bool result = _conformCount >= _min;
-            _conformCount = 0;
             return result;
         }
 

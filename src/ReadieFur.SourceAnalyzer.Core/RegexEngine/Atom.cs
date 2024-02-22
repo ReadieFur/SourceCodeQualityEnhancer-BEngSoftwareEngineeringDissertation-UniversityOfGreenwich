@@ -60,7 +60,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             }
             else
             {
-                index--;
+                //index--;
                 return false;
             }
         }
