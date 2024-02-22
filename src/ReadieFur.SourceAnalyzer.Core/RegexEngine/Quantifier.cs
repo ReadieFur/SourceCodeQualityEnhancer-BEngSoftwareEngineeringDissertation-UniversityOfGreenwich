@@ -130,7 +130,9 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
                 if (_isTesting)
                     return true;
                 _isTesting = true;
-                _testCount = 0;
+                //TODO: Fix the issue here where the quantifier conform fails due to the input having already been consumed by the parent once.
+                //Fix: Set the conform count to 1 by default as the parent will have already consumed the input once, if the parent failed to consume the input then this method would've never been reached.
+                _testCount = 1;
             }
 
             if (_min is null || _max is null || Parent is null)
