@@ -7,5 +7,6 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
         public IReadOnlyCollection<char> GreedyQuantifierDelimiters { get; set; }
         public bool GreedyQuantifiersSplitOnCaseChange { get; set; }
         public bool GreedyQuantifiersSplitOnAlphanumericChange { get; set; }
+        public bool InsertLiterals { get; set; }
     }
 }

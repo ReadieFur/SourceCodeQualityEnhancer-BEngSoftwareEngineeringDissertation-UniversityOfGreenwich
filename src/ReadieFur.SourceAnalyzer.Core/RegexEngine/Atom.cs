@@ -58,9 +58,14 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
 
                 return true;
             }
+            else if (options.InsertLiterals)
+            {
+                output += Value;
+                index--; //Decrement the index because we didn't consume a value, instead we inserted one.
+                return true;
+            }
             else
             {
-                //index--;
                 return false;
             }
         }
