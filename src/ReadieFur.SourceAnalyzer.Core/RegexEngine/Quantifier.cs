@@ -18,6 +18,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
         private int? _max = null;
         private bool _isTesting = false; //It is ok to use a plain boolean here as this object should not be called asynchronously.
         private int _testCount = 0;
+        private object _testLock = new();
 
         public override Token CanParse(ref string consumablePattern)
         {
@@ -121,17 +122,29 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             //So if we detect that we are already testing, the mutex will be locked so just return true,
             //as the parent will not reach this method if one of it's children fail (as the quantifier is always last).
 
-            //TODO: I think I need to keep a count of the index upon each iteration so that when an iteration fails we can reset the index to the last successful index for successor token checks.
-            if (_isTesting)
-                return true;
+            lock (_testLock)
+            {
+                if (_isTesting)
+                    return true;
+            }
 
             if (_min is null || _max is null || Parent is null)
                 throw new InvalidOperationException();
 
             _isTesting = true;
-            while (Parent.Test(input, ref index))
+            //We need to keep a count of the index upon each iteration so that when an iteration fails we can reset the index to the last successful index for successor token checks.
+            int lastSuccessfulIterationIndex = index;
+            while (Parent.Test(input, ref index) && index < input.Length)
+            {
                 _testCount++;
-            _isTesting = false;
+                lastSuccessfulIterationIndex = index;
+            }
+            index = lastSuccessfulIterationIndex;
+
+            lock (_testLock)
+            {
+                _isTesting = false;
+            }
 
             bool result = _testCount >= _min && _testCount <= _max;
             _testCount = 0;

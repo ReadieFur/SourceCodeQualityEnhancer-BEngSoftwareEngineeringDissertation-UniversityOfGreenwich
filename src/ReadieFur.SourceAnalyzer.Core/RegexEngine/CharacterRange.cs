@@ -39,7 +39,9 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
 
         public override bool Test(string input, ref int index)
         {
-            int c = Read(input, ref index, 1)[0];
+            int c;
+            try { c = Read(input, ref index, 1)[0]; }
+            catch (IndexOutOfRangeException) { return true; } //If we are at the end of the string, return true.
             return c >= _start && c <= _end;
         }
     }
