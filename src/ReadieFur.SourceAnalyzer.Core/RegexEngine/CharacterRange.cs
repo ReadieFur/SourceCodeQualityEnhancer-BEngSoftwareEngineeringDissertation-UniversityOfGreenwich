@@ -23,16 +23,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
                 throw new InvalidOperationException();
 
             Token endToken = this;
-            //Check if there are any quantifiers that could be applied to this group.
-            Token quantifier = new Quantifier().CanParse(ref consumablePattern);
-            if (quantifier is not null)
-            {
-                Children.Add(quantifier);
-                quantifier.Parent = this;
-                quantifier.Previous = endToken;
-                endToken.Next = quantifier;
-                endToken = quantifier.Parse(ref consumablePattern);
-            }
+            endToken = Quantifier.CheckForQuantifier(ref consumablePattern, this, endToken);
 
             return endToken;
         }

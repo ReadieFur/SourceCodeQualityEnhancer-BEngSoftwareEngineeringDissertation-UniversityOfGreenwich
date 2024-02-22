@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
+﻿namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
 {
     //Anchors ignored for now.
     internal class Anchor : Token

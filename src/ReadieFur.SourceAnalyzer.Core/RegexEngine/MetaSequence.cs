@@ -18,7 +18,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
 
         private MetaSequenceType Type { get; set; }
 
-        public override Token CanParse(ref string consumablePattern)
+        public override Token? CanParse(ref string consumablePattern)
         {
             if (consumablePattern.StartsWith("."))
             {
@@ -67,8 +67,6 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             consumablePattern = consumablePattern.Substring(Type.HasFlag(MetaSequenceType.Character) ? 1 : 2);
 
             Token endToken = this;
-            //Check if there are any quantifiers that could be applied to this group.
-            Token quantifier = new Quantifier().CanParse(ref consumablePattern);
             if (quantifier is not null)
             {
                 Children.Add(quantifier);

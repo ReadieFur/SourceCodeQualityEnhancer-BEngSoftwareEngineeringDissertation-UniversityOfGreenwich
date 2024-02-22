@@ -150,5 +150,24 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             _testCount = 0;
             return result;
         }
+
+        public override void Conform(string input, ref int index, ref string output)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Check if a quantifier is present and if so, add it to the parent token.
+        /// </summary>
+        /// <param name="consumablePattern"></param>
+        /// <param name="parent">Token dosen't need the ref keyword as objects are passed by reference by default.</param>
+        /// <param name="endToken"></param>
+        /// <returns>Returns the new end token or old end token if no quantifier was present.</returns>
+        public static Token CheckForQuantifier(ref string consumablePattern, Token parent, Token endToken)
+        {
+            //Check if there are any quantifiers that could be applied to this group.
+            Token quantifier = new Quantifier().CanParse(ref consumablePattern);
+            if (quantifier is not null)
+            {
     }
 }

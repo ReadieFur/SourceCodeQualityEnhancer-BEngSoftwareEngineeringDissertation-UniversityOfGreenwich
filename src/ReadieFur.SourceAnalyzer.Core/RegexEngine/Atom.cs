@@ -7,7 +7,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
         private bool IsEscaped;
         private char Value;
 
-        public override Token CanParse(ref string consumablePattern)
+        public override Token? CanParse(ref string consumablePattern)
         {
             if (consumablePattern.Length == 0)
                 return null;
@@ -34,8 +34,6 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             consumablePattern = consumablePattern.Substring(IsEscaped ? 2 : 1);
 
             Token endToken = this;
-            //Check if there are any quantifiers that could be applied to this group.
-            Token quantifier = new Quantifier().CanParse(ref consumablePattern);
             if (quantifier is not null)
             {
                 Children.Add(quantifier);
