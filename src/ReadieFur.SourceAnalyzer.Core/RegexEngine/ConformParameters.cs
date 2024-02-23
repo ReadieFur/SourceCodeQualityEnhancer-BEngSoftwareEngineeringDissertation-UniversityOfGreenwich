@@ -11,6 +11,7 @@
         public int Index = 0;
         public string Output = "";
         public int LastGreedyQuantifiersSplitOnCaseChange = -1;
+        public int LastInsertedLiteral = -1;
 
         public ConformParameters(string input)
         {

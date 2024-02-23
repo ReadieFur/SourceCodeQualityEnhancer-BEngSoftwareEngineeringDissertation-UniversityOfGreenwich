@@ -71,6 +71,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             else if (parameters.Options.InsertLiterals)
             {
                 parameters.Output += Value;
+                parameters.LastInsertedLiteral = parameters.Index;
                 parameters.Index--; //Decrement the index because we didn't consume a value, instead we inserted one.
                 return true;
             }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
 {
@@ -7,13 +8,15 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
     {
         //These should NEVER be null under normal circumstances, only for object comparison.
         public IReadOnlyCollection<char>? GreedyQuantifierDelimiters { get; set; }
-        public bool? GreedyQuantifiersSplitOnCaseChange { get; set; }
+        public bool? GreedyQuantifiersSplitOnCaseChangeToUpper { get; set; }
+        public bool? GreedyQuantifiersSplitOnCaseChangeToLower { get; set; }
         public bool? GreedyQuantifiersSplitOnAlphanumericChange { get; set; }
 
         public ConformQuantifierOptions()
         {
             GreedyQuantifierDelimiters = new List<char>();
-            GreedyQuantifiersSplitOnCaseChange = false;
+            GreedyQuantifiersSplitOnCaseChangeToUpper = false;
+            GreedyQuantifiersSplitOnCaseChangeToLower = false;
             GreedyQuantifiersSplitOnAlphanumericChange = false;
         }
 
@@ -23,9 +26,8 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             if (extendDefaults)
                 return;
 
-            GreedyQuantifierDelimiters = null;
-            GreedyQuantifiersSplitOnCaseChange = null;
-            GreedyQuantifiersSplitOnAlphanumericChange = null;
+            foreach (PropertyInfo property in GetType().GetProperties())
+                property.SetValue(this, null);
         }
     }
 }

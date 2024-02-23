@@ -36,7 +36,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             foreach (Type type in tokenTypes)
             {
                 //Check if the pattern can be parsed.
-                _root = (Token)Activator.CreateInstance(type);
+                _root = (Token)Activator.CreateInstance(type)!;
                 if (_root.CanParse(ref refPattern) is not null)
                     break;
             }

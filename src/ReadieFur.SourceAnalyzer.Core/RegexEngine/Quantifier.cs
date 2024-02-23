@@ -214,28 +214,27 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
                         continue;
 
                     char nextChar = parameters.Input[parameters.Index];
+                    char previousChar = parameters.Input[parameters.Index - 1];
 
-                    //We need to keep track of when we split on case change so that we don't split on the same case change twice as this can occur for nested quantifiers.
-                    if (options.GreedyQuantifiersSplitOnCaseChange!.Value && parameters.LastGreedyQuantifiersSplitOnCaseChange != parameters.Index)
+                    //Check if we should be splitting on character case changes.
+                    if ((options.GreedyQuantifiersSplitOnCaseChangeToUpper!.Value || options.GreedyQuantifiersSplitOnCaseChangeToLower!.Value)
+                        && parameters.LastGreedyQuantifiersSplitOnCaseChange != parameters.Index
+                        //Make sure that the previous and next characters are letters.
+                        && char.IsLetter(previousChar)
+                        && char.IsLetter(nextChar)
+                        //Check if the case of the characters change and match the conditions.
+                        && ((options.GreedyQuantifiersSplitOnCaseChangeToUpper!.Value && char.IsLower(previousChar) && char.IsUpper(nextChar))
+                            || (options.GreedyQuantifiersSplitOnCaseChangeToLower!.Value && char.IsUpper(previousChar) && char.IsLower(nextChar)))
+                    )
                     {
-                        char previousChar = parameters.Input[parameters.Index - 1];
-
-                        if (char.IsLetter(previousChar)
-                            && char.IsLetter(nextChar)
-                            && char.IsUpper(previousChar) != char.IsUpper(nextChar))
-                        {
-                            parameters.LastGreedyQuantifiersSplitOnCaseChange = parameters.Index;
-                            break;
-                        }
+                        //We need to keep track of when we split on case change so that we don't split on the same case change twice as this can occur for nested quantifiers.
+                        parameters.LastGreedyQuantifiersSplitOnCaseChange = parameters.Index;
+                        break;
                     }
 
-                    if (options.GreedyQuantifiersSplitOnAlphanumericChange!.Value)
-                    {
-                        char previousChar = parameters.Input[parameters.Index - 1];
-
-                        if (char.IsLetterOrDigit(previousChar) != char.IsLetterOrDigit(nextChar))
-                            break;
-                    }
+                    if (options.GreedyQuantifiersSplitOnAlphanumericChange!.Value
+                        && char.IsLetterOrDigit(previousChar) != char.IsLetterOrDigit(nextChar))
+                        break;
 
                     bool encounteredDelimiter = false;
                     foreach (char delimiter in options.GreedyQuantifierDelimiters!)
@@ -255,7 +254,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             catch (IndexOutOfRangeException)
             {
                 //Do nothing on this type of exception.
-                //Can coccur when the conform tree reaches the end of the input string.
+                //Can occur when the conform tree reaches the end of the input string.
                 //This dosen't occur for the test method as the test method has a known pattern to follow whereas the input pattern of the conform method is unknown.
             }
             parameters.Index = lastSuccessfulIterationIndex;

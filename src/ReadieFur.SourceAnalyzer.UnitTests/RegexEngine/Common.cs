@@ -24,18 +24,8 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.RegexEngine
                     GlobalQuantifierOptions = new()
                     {
                         GreedyQuantifierDelimiters = new[] { '_' },
-                        GreedyQuantifiersSplitOnCaseChange = true
+                        GreedyQuantifiersSplitOnCaseChangeToUpper = true
                     },
-                    /*QuanitifierOptions = new()
-                    {
-                        {
-                            0, //Top level quantifier
-                            new(false)
-                            {
-                                GreedyQuantifiersSplitOnCaseChange = false //We dont want to split on case changes for the top level quantifier due to patterns often having a custom first match.
-                            }
-                        }
-                    },*/
                     InsertLiterals = true
                 };
             }
