@@ -12,7 +12,8 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             if (consumablePattern.Length == 0)
                 return null;
 
-            if (consumablePattern[0] == '\\')
+            char c0 = consumablePattern[0];
+            if (c0 == '\\')
             {
                 if (consumablePattern.Length == 1)
                     throw new InvalidOperationException();
@@ -20,9 +21,13 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
                 Value = consumablePattern[1];
                 IsEscaped = true;
             }
+            else if (new[] { '{', '}', '(', ')', '[', ']' }.Any(c => c == c0))
+            {
+                throw new InvalidOperationException($"Character '{c0}' must be escaped");
+            }
             else
             {
-                Value = consumablePattern[0];
+                Value = c0;
                 IsEscaped = false;
             }
 
@@ -31,7 +36,11 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
 
         public override Token Parse(ref string consumablePattern)
         {
+            string startingPattern = consumablePattern;
+
             consumablePattern = consumablePattern.Substring(IsEscaped ? 2 : 1);
+
+            Pattern = startingPattern.Substring(0, startingPattern.Length - consumablePattern.Length);
 
             Token endToken = this;
             endToken = Quantifier.CheckForQuantifier(ref consumablePattern, this, endToken);

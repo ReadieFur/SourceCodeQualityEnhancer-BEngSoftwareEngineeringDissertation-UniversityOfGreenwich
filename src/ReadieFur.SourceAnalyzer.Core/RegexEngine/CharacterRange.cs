@@ -15,12 +15,16 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
 
         public override Token Parse(ref string consumablePattern)
         {
+            string startingPattern = consumablePattern;
+
             _start = consumablePattern[0];
             _end = consumablePattern[2];
             consumablePattern = consumablePattern.Substring(3);
 
             if (_start > _end)
                 throw new InvalidOperationException();
+
+            Pattern = startingPattern.Substring(0, startingPattern.Length - consumablePattern.Length);
 
             Token endToken = this;
             endToken = Quantifier.CheckForQuantifier(ref consumablePattern, this, endToken);

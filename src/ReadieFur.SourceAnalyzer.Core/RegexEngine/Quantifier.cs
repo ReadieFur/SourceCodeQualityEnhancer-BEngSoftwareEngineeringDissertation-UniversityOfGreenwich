@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
 using System.Collections.Generic;
 
 namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
@@ -16,12 +17,6 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
         private QuantifierType _type;
         private int? _min = null;
         private int? _max = null;
-        private bool _isTesting = false; //It is ok to use a plain boolean here as this object should not be called asynchronously.
-        private int _testCount = 0;
-        private object _testLock = new();
-        private bool _isConforming = false;
-        private int _conformCount = 0;
-        private object _conformLock = new();
 
         public override Token? CanParse(ref string consumablePattern)
         {
@@ -58,9 +53,14 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
 
         public override Token Parse(ref string consumablePattern)
         {
+            string startingPattern = consumablePattern;
+
             if (_type != QuantifierType.Range)
             {
                 consumablePattern = consumablePattern.Substring(1);
+
+                Pattern = startingPattern.Substring(0, startingPattern.Length - consumablePattern.Length);
+
                 return this;
             }
 
@@ -114,6 +114,8 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             }
             consumablePattern = consumablePattern.Substring(consume);
 
+            Pattern = startingPattern.Substring(0, startingPattern.Length - consumablePattern.Length);
+
             //Quantifiers can't have any proceeding modifiers so just return this.
             return this;
         }
@@ -125,63 +127,41 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             //So if we detect that we are already testing, the mutex will be locked so just return true,
             //as the parent will not reach this method if one of it's children fail (as the quantifier is always last).
 
-            lock (_testLock)
-            {
-                if (_isTesting)
-                    return true;
-                _isTesting = true;
-                //TODO: Fix the issue here where the quantifier conform fails due to the input having already been consumed by the parent once.
-                //Fix: Set the conform count to 1 by default as the parent will have already consumed the input once, if the parent failed to consume the input then this method would've never been reached.
-                _testCount = 1;
-            }
-
-            if (_min is null || _max is null || Parent is null)
-            {
-                _isTesting = false;
+            //A quantifier MUST have one and only one child.
+            if (_min is null || _max is null || Children.Count != 1)
                 throw new InvalidOperationException();
-            }
+
+            int testCount = 0;
 
             //We need to keep a count of the index upon each iteration so that when an iteration fails we can reset the index to the last successful index for successor token checks.
             int lastSuccessfulIterationIndex = index;
-            while (Parent.Test(input, ref index) && index < input.Length)
+            while (index < input.Length && testCount < _max && Children[0].Test(input, ref index))
             {
-                _testCount++;
+                testCount++;
                 lastSuccessfulIterationIndex = index;
             }
             index = lastSuccessfulIterationIndex;
 
-            _isTesting = false;
-
-            bool result = _testCount >= _min && _testCount <= _max;
+            bool result = testCount >= _min && testCount <= _max;
             return result;
         }
 
         public override bool Conform(string input, ref int index, ref string output, SConformOptions options)
         {
-            lock (_conformLock)
-            {
-                if (_isConforming)
-                    return true;
-                _isConforming = true;
-                _conformCount = 1;
-            }
-
-            if (_min is null || _max is null || Parent is null)
-            {
-                _isConforming = false;
+            if (_min is null || _max is null || Children.Count != 1)
                 throw new InvalidOperationException();
-            }
 
-            bool isGreedy = _max == int.MaxValue;
+            int conformCount = 0;
 
             //TODO: try to make the greedy quantifiers not greedy (if even possible, perhaps pass an options object that allows for breaking on certain patterns for manual interpretation).
             int lastSuccessfulIterationIndex = index;
+            bool isGreedy = _max == int.MaxValue;
             try
             {
                 //The order in which these checks are done IS important as we are dealing with references as well as the conform method not supposed to being able to run when the input has been saturated.
-                while (_conformCount < _max && index < input.Length && Parent.Conform(input, ref index, ref output, options))
+                while (conformCount < _max && index < input.Length && Children[0].Test(input, ref index))
                 {
-                    _conformCount++;
+                    conformCount++;
                     lastSuccessfulIterationIndex = index;
 
                     //If this is a greedy quantifier then we need to check against the provided options...
@@ -208,7 +188,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
                             break;
                     }
 
-                    bool hitDelimiter = false;
+                    bool encounteredDelimiter = false;
                     foreach (char delimiter in options.GreedyQuantifierDelimiters)
                     {
                         if (nextChar != delimiter)
@@ -216,10 +196,10 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
 
                         //As the character is a delimiter, we must consume it.
                         lastSuccessfulIterationIndex = ++index;
-                        hitDelimiter = true;
+                        encounteredDelimiter = true;
                         break;
                     }
-                    if (hitDelimiter)
+                    if (encounteredDelimiter)
                         break;
                 }
             }
@@ -229,16 +209,9 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
                 //Can coccur when the conform tree reaches the end of the input string.
                 //This dosen't occur for the test method as the test method has a known pattern to follow whereas the input pattern of the conform method is unknown.
             }
-            catch
-            {
-                _isConforming = false;
-                throw;
-            }
             index = lastSuccessfulIterationIndex;
 
-            _isConforming = false;
-
-            bool result = _conformCount >= _min;
+            bool result = conformCount >= _min;
             return result;
         }
 
@@ -246,20 +219,39 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
         /// Check if a quantifier is present and if so, add it to the parent token.
         /// </summary>
         /// <param name="consumablePattern"></param>
-        /// <param name="parent">Token dosen't need the ref keyword as objects are passed by reference by default.</param>
+        /// <param name="relatedToken">Token dosen't need the ref keyword as objects are passed by reference by default.</param>
         /// <param name="endToken"></param>
         /// <returns>Returns the new end token or old end token if no quantifier was present.</returns>
-        public static Token CheckForQuantifier(ref string consumablePattern, Token parent, Token endToken)
+        public static Token CheckForQuantifier(ref string consumablePattern, Token relatedToken, Token endToken)
         {
             //Check if there are any quantifiers that could be applied to this group.
             Token? quantifier = new Quantifier().CanParse(ref consumablePattern);
             if (quantifier is not null)
             {
-                parent.Children.Add(quantifier);
-                quantifier.Parent = parent;
-                quantifier.Previous = endToken;
-                endToken.Next = quantifier;
-                return quantifier.Parse(ref consumablePattern);
+                //Take the parent's place as the quantifier needs to come first (for later processing reasons).
+                quantifier.Next = relatedToken;
+                quantifier.Previous = relatedToken.Previous;
+                quantifier.Parent = relatedToken.Parent;
+                quantifier.Children.Add(relatedToken);
+
+                //Occurs if this quantifier isn't top level.
+                if (relatedToken.Parent is not null)
+                {
+                    //Update the parent's parent reference to point to the quantifier.
+                    relatedToken.Parent.Children.Remove(relatedToken);
+                    relatedToken.Parent.Children.Add(quantifier);
+                    relatedToken.Parent.Next = quantifier;
+                }
+
+                //This must come after all parent updates.
+                relatedToken.Previous = quantifier;
+                relatedToken.Parent = quantifier;
+
+                endToken = quantifier.Parse(ref consumablePattern);
+
+                quantifier.Pattern = relatedToken.Pattern + quantifier.Pattern;
+
+                return endToken;
             }
             
             return endToken;

@@ -21,6 +21,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
         }
 
         private GroupType _type;
+        private int _toConsume = 0;
 
         public override Token? CanParse(ref string consumablePattern)
         {
@@ -28,22 +29,22 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             if (consumablePattern.StartsWith("(?<!"))
             {
                 _type = GroupType.NegativeLookbehind;
-                consumablePattern = consumablePattern.Substring(4);
+                _toConsume = 4;
             }
             else if (consumablePattern.StartsWith("(?<="))
             {
                 _type = GroupType.PositiveLookbehind;
-                consumablePattern = consumablePattern.Substring(4);
+                _toConsume = 4;
             }
             else if (consumablePattern.StartsWith("(?="))
             {
                 _type = GroupType.PositiveLookahead;
-                consumablePattern = consumablePattern.Substring(3);
+                _toConsume = 3;
             }
             else if (consumablePattern.StartsWith("(?!"))
             {
                 _type = GroupType.NegativeLookahead;
-                consumablePattern = consumablePattern.Substring(3);
+                _toConsume = 3;
             }
             //else if (consumablePattern.StartsWith("(?(?<=")) Type = GroupType.ConditionalLookbehind;
             //else if (consumablePattern.StartsWith("(?(?=")) Type = GroupType.ConditionalLookahead;
@@ -51,22 +52,22 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             else if (consumablePattern.StartsWith("(?|"))
             {
                 _type = GroupType.ReuseID;
-                consumablePattern = consumablePattern.Substring(3);
+                _toConsume = 3;
             }
             else if (consumablePattern.StartsWith("(?>"))
             {
                 _type = GroupType.NonCapturing;
-                consumablePattern = consumablePattern.Substring(3);
+                _toConsume = 3;
             }
             else if (consumablePattern.StartsWith("(?:"))
             {
                 _type = GroupType.WithoutId;
-                consumablePattern = consumablePattern.Substring(3);
+                _toConsume = 3;
             }
             else if (consumablePattern.StartsWith("("))
             {
                 _type = GroupType.WithId;
-                consumablePattern = consumablePattern.Substring(1);
+                _toConsume = 1;
             }
             else
             {
@@ -83,6 +84,10 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             //When we encounter a closing parenthesis, we can return from this method.
             //I am using a consumable string so that subsequent calls to Parse can consume from the pattern so when that method returns we pick up from where that method left off.
 
+            string startingPattern = consumablePattern;
+
+            consumablePattern = consumablePattern.Substring(_toConsume);
+
             //Iterate over each item in the group until we find the closing parenthesis.
             Token endToken = RecursiveParse(
             [
@@ -91,6 +96,8 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
                 typeof(MetaSequence),
                 typeof(Atom),
             ], ref consumablePattern, ')');
+
+            Pattern = startingPattern.Substring(0, startingPattern.Length - consumablePattern.Length);
 
             endToken = Quantifier.CheckForQuantifier(ref consumablePattern, this, endToken);
 

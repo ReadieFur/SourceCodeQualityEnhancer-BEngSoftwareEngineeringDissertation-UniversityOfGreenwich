@@ -1,5 +1,4 @@
 ﻿using System;
-using YamlDotNet.Core.Tokens;
 
 namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
 {
@@ -16,6 +15,8 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
 
         public override Token Parse(ref string consumablePattern)
         {
+            string startingPattern = consumablePattern;
+
             if (consumablePattern.StartsWith("[^"))
             {
                 _negated = true;
@@ -35,6 +36,8 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
                 typeof(MetaSequence),
                 typeof(Atom),
             ], ref consumablePattern, ']');
+
+            Pattern = startingPattern.Substring(0, startingPattern.Length - consumablePattern.Length);
 
             endToken = Quantifier.CheckForQuantifier(ref consumablePattern, this, endToken);
 

@@ -5,6 +5,13 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
 {
     internal abstract class Token
     {
+#if DEBUG
+        private Guid _id = Guid.NewGuid();
+
+        override public string ToString() => $"{Pattern} | {GetType().Name} | {_id}";
+#endif
+
+        public string? Pattern { get; set; }
         public Token? Parent { get; set; }
         public List<Token> Children { get; set; } = new();
         public Token? Previous { get; set; }

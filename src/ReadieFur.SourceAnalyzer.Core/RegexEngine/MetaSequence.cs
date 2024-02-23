@@ -64,7 +64,11 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
 
         public override Token Parse(ref string consumablePattern)
         {
+            string startingPattern = consumablePattern;
+
             consumablePattern = consumablePattern.Substring(Type.HasFlag(MetaSequenceType.Character) ? 1 : 2);
+
+            Pattern = startingPattern.Substring(0, startingPattern.Length - consumablePattern.Length);
 
             Token endToken = this;
             endToken = Quantifier.CheckForQuantifier(ref consumablePattern, this, endToken);
