@@ -51,7 +51,11 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
         public bool Test(string input)
         {
             int index = 0;
-            return _root.Test(input, ref index);
+            bool testResult = _root.Test(input, ref index);
+            bool isEnd = index == input.Length;
+            //If we haven't reached the end of the input then the test has failed.
+            //The test can return true even if the index is not at the end of the input due to the existence of greedy quantifiers.
+            return testResult && isEnd;
         }
 
         //The built-in C# Regex library can replace text in a string however it does not quite meet the complexity requirements that I have for text transformation.
