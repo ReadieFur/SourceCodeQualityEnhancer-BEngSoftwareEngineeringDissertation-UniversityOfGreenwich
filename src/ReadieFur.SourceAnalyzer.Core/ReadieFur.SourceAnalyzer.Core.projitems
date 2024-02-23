@@ -27,11 +27,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\Atom.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\CharacterClass.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\CharacterRange.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\SConformOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\ConformParameters.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\ConformOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\GroupConstruct.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\MetaSequence.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\Quantifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\Regex.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\ConformQuantifierOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\Token.cs" />
   </ItemGroup>
   <ItemGroup>

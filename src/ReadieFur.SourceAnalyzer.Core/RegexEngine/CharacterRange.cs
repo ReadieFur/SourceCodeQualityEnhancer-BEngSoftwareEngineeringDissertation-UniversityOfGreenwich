@@ -38,14 +38,14 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             return c >= _start && c <= _end;
         }
 
-        public override bool Conform(string input, ref int index, ref string output, SConformOptions options)
+        public override bool Conform(ConformParameters parameters)
         {
-            char c = Read(input, ref index, 1)[0];
+            char c = Read(parameters.Input, ref parameters.Index, 1)[0];
 
             //If the character is already in the range then just add it to the output.
             if (c >= _start && c <= _end)
             {
-                output += c;
+                parameters.Output += c;
                 return true;
             }
 
@@ -61,7 +61,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             c = char.IsUpper(c) ? char.ToLower(c) : char.ToUpper(c);
             if (c >= _start && c <= _end)
             {
-                output += c;
+                parameters.Output += c;
                 return true;
             }
             else

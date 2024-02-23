@@ -20,12 +20,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.RegexEngine
 
         public abstract string ExpectedSnakeUppercaseInput { get; }
 
-        public virtual SConformOptions ConformOptions => new()
-        {
-            GreedyQuantifierDelimiters = new[] { '_' },
-            GreedyQuantifiersSplitOnCaseChange = true,
-            InsertLiterals = true
-        };
+        public abstract SConformOptions ConformOptions { get; }
 
         public void ConformTest(string pattern, string input, SConformOptions conformOptions, string expected)
         {

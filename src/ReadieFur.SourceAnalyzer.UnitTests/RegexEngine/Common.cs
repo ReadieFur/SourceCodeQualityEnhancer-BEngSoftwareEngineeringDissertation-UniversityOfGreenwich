@@ -1,4 +1,6 @@
-﻿namespace ReadieFur.SourceAnalyzer.UnitTests.RegexEngine
+﻿using ReadieFur.SourceAnalyzer.Core.RegexEngine;
+
+namespace ReadieFur.SourceAnalyzer.UnitTests.RegexEngine
 {
     internal static class Common
     {
@@ -12,5 +14,31 @@
         public const string INPUT_LOWERCASE = "lowercase";
         public const string INPUT_UPPERCASE = "UPPERCASE";
         public const string INPUT_DOUBLE_UPPERCASE = "DOUBLE_UPPERCASE";
+
+        public static SConformOptions CONFORM_OPTIONS
+        {
+            get
+            {
+                return new()
+                {
+                    GlobalQuantifierOptions = new()
+                    {
+                        GreedyQuantifierDelimiters = new[] { '_' },
+                        GreedyQuantifiersSplitOnCaseChange = true
+                    },
+                    /*QuanitifierOptions = new()
+                    {
+                        {
+                            0, //Top level quantifier
+                            new(false)
+                            {
+                                GreedyQuantifiersSplitOnCaseChange = false //We dont want to split on case changes for the top level quantifier due to patterns often having a custom first match.
+                            }
+                        }
+                    },*/
+                    InsertLiterals = true
+                };
+            }
+        }
     }
 }

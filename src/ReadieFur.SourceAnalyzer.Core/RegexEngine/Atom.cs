@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
 {
@@ -53,24 +54,24 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             return Read(input, ref index, 1)[0] == Value;
         }
 
-        public override bool Conform(string input, ref int index, ref string output, SConformOptions options)
+        public override bool Conform(ConformParameters parameters)
         {
-            char c = Read(input, ref index, 1)[0];
+            char c = Read(parameters.Input, ref parameters.Index, 1)[0];
             
             //If the char is the same as the atom but the case is different then change the case, otherwise throw an exception.
             if (char.IsLetter(c) && char.IsLetter(Value) && char.ToLower(c) == char.ToLower(Value))
             {
                 if (char.IsUpper(c) && char.IsLower(Value))
-                    output += char.ToUpper(Value);
+                    parameters.Output += char.ToUpper(Value);
                 else if (char.IsLower(c) && char.IsUpper(Value))
-                    output += char.ToLower(Value);
+                    parameters.Output += char.ToLower(Value);
 
                 return true;
             }
-            else if (options.InsertLiterals)
+            else if (parameters.Options.InsertLiterals)
             {
-                output += Value;
-                index--; //Decrement the index because we didn't consume a value, instead we inserted one.
+                parameters.Output += Value;
+                parameters.Index--; //Decrement the index because we didn't consume a value, instead we inserted one.
                 return true;
             }
             else

@@ -42,10 +42,8 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
         /// <summary>
         /// Modifies the input string to conform to the token.
         /// </summary>
-        /// <param name="input"></param>
-        /// <param name="index"></param>
-        /// <param name="output"></param>
-        public abstract bool Conform(string input, ref int index, ref string output, SConformOptions options);
+        /// <param name="ConformParameters"></param>
+        public abstract bool Conform(ConformParameters parameters);
 
         /// <summary>
         /// Obtains a substring from the input string and modifies the index.

@@ -1,4 +1,5 @@
-﻿using ReadieFur.SourceAnalyzer.UnitTests.Compatibility;
+﻿using ReadieFur.SourceAnalyzer.Core.RegexEngine;
+using ReadieFur.SourceAnalyzer.UnitTests.Compatibility;
 using static ReadieFur.SourceAnalyzer.UnitTests.RegexEngine.Common;
 
 namespace ReadieFur.SourceAnalyzer.UnitTests.RegexEngine
@@ -19,5 +20,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.RegexEngine
         public override string ExpectedForUppercaseInput => "Uppercase";
 
         public override string ExpectedSnakeUppercaseInput => "DoubleUppercase";
+
+        public override SConformOptions ConformOptions => CONFORM_OPTIONS;
     }
 }

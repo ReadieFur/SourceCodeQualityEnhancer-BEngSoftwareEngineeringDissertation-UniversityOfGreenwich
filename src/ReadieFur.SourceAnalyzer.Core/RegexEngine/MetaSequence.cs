@@ -99,10 +99,10 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             return result;
         }
 
-        public override bool Conform(string input, ref int index, ref string output, SConformOptions options)
+        public override bool Conform(ConformParameters parameters)
         {
             //As far as I can tell not much can be done here for character transformation.
-            return Test(input, ref index);
+            return Test(parameters.Input, ref parameters.Index);
         }
     }
 }
