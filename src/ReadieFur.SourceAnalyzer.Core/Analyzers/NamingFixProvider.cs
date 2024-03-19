@@ -122,7 +122,12 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             Thread workerThread = new Thread(async () =>
             {
 #endif
-            try { newName = await NamingEngine.ConformToPatternAsync(originalName, namingConvention.Pattern!, cancellationToken); }
+            try
+            {
+                //Rename the symbol.
+                //TODO: Add options to the configuration.
+                newName = new RegexEngine.Regex(namingConvention.Pattern!).Conform(originalName);
+            }
             catch
             {
                 //TODO: Impliment the various error handling.
@@ -133,7 +138,10 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             workerThread.Join();
 #else
 #endif
-            if (newName == originalName || string.IsNullOrEmpty(newName))
+            //Validate the new name...
+            if (newName == originalName //If the name is the same, we don't need to do anything.
+                || string.IsNullOrEmpty(newName) //If the name is empty, consider the result invalid.
+                || !new System.Text.RegularExpressions.Regex(namingConvention.Pattern!).IsMatch(newName)) //If the name does not match the pattern (checked against a known working regex engine), consider the result invalid.
                 return document.Project.Solution;
             #endregion
 
