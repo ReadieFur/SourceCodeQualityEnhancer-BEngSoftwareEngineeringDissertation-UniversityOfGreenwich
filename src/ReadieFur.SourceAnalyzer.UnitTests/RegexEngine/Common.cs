@@ -15,20 +15,6 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.RegexEngine
         public const string INPUT_UPPERCASE = "UPPERCASE";
         public const string INPUT_DOUBLE_UPPERCASE = "DOUBLE_UPPERCASE";
 
-        public static SConformOptions CONFORM_OPTIONS
-        {
-            get
-            {
-                return new()
-                {
-                    GlobalQuantifierOptions = new()
-                    {
-                        GreedyQuantifierDelimiters = new[] { '_' },
-                        GreedyQuantifiersSplitOnCaseChangeToUpper = true
-                    },
-                    InsertLiterals = true
-                };
-            }
-        }
+        public static SConformOptions CONFORM_OPTIONS => SConformOptions.Default;
     }
 }

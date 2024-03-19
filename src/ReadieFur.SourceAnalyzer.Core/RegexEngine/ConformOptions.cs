@@ -20,5 +20,18 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
         /// Weathers or not to insert mismatched literals into the output string.
         /// </summary>
         public bool InsertLiterals { get; set; } = false;
+
+        /// <summary>
+        /// The default, reccomended options for the conform engine (works for most cases).
+        /// </summary>
+        public static SConformOptions Default => new()
+        {
+            GlobalQuantifierOptions = new()
+            {
+                GreedyQuantifierDelimiters = ['_'],
+                GreedyQuantifiersSplitOnCaseChangeToUpper = true
+            },
+            InsertLiterals = true
+        };
     }
 }

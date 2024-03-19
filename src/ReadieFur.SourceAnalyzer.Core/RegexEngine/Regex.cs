@@ -58,7 +58,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             return testResult && isEnd;
         }
 
-        public string Conform(string input) => Conform(input, new());
+        public string Conform(string input) => Conform(input, SConformOptions.Default);
 
         //The built-in C# Regex library can replace text in a string however it does not quite meet the complexity requirements that I have for text transformation.
         public string Conform(string input, SConformOptions options)
