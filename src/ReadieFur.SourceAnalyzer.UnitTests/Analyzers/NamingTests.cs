@@ -26,8 +26,10 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Analyzers
             await CodeFixer.VerifyCodeFixAsync(file.CodeFixInput, file.CodeFixDiagnostics, file.CodeFixExpected);
         }
 
-        [MTest] public async Task TestClassNameAnalyzer() => await TestAnalyzer(typeof(_class_name_));
+        [MTest] public async Task ClassNameAnalyzer() => await TestAnalyzer(typeof(_class_name_));
 
-        [MTest] public async Task TestClassNameFixProvider() => await TestFixProvider(typeof(_class_name_));
+        [MTest] public async Task ClassNameFixProvider() => await TestFixProvider(typeof(_class_name_));
+
+        [MTest] public async Task LocalVariableFixProvider() => await TestFixProvider(typeof(LocalVariable));
     }
 }
