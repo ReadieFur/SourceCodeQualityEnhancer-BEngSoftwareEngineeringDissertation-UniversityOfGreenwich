@@ -3,14 +3,14 @@
 namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
 {
     //Anchors ignored for now.
-    internal class Anchor : Token
+    internal class Anchor : AToken
     {
-        public override Token CanParse(ref string consumablePattern)
+        public override AToken CanParse(ref string consumablePattern)
         {
             throw new NotImplementedException();
         }
 
-        public override Token Parse(ref string consumablePattern)
+        public override AToken Parse(ref string consumablePattern)
         {
             throw new NotImplementedException();
         }

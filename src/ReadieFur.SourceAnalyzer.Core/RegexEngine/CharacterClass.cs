@@ -3,17 +3,17 @@
 namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
 {
     //For the sake of my simple Regex engine, this Token will not be able to traverse any further into group constructs.
-    internal class CharacterClass : Token
+    internal class CharacterClass : AToken
     {
         private bool _negated = false;
         //private List<Token> _tokens = new();
 
-        public override Token? CanParse(ref string consumablePattern)
+        public override AToken? CanParse(ref string consumablePattern)
         {
             return consumablePattern.StartsWith("[") ? this : null;
         }
 
-        public override Token Parse(ref string consumablePattern)
+        public override AToken Parse(ref string consumablePattern)
         {
             string startingPattern = consumablePattern;
 
@@ -30,7 +30,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             if (consumablePattern.Length == 0)
                 throw new InvalidOperationException();
 
-            Token endToken = RecursiveParse(
+            AToken endToken = RecursiveParse(
             [
                 typeof(CharacterRange),
                 typeof(MetaSequence),
@@ -46,7 +46,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
 
         public override bool Test(string input, ref int index)
         {
-            foreach (Token token in Children)
+            foreach (AToken token in Children)
             {
                 bool result = token.Test(input, ref index);
                 if (_negated)
@@ -59,7 +59,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
 
         public override bool Conform(ConformParameters parameters)
         {
-            foreach (Token token in Children)
+            foreach (AToken token in Children)
             {
                 bool result = token.Conform(parameters);
                 if (_negated)

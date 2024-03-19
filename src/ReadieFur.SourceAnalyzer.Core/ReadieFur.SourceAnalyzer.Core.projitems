@@ -22,7 +22,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\Naming.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\NamingConvention.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\YamlLoader.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)NamingEngine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\Anchor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\Atom.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\CharacterClass.cs" />
@@ -34,7 +33,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\Quantifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\Regex.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\ConformQuantifierOptions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\Token.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\AToken.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)example.source-analyzer.yaml" />

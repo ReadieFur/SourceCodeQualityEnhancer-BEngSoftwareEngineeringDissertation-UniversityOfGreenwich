@@ -20,7 +20,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.RegexEngine
 #endif
         }
 
-        private void CompareTree(Token actual, SExpectedTree expected)
+        private void CompareTree(AToken actual, SExpectedTree expected)
         {
             Assert.AreEqual(expected.Node, actual.GetType());
 
@@ -40,7 +40,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.RegexEngine
             if (expectedTree is null)
                 return;
 
-            Token actualTree = (Token)typeof(Regex)
+            AToken actualTree = (AToken)typeof(Regex)
                 .GetField("_root", BindingFlags.Instance | BindingFlags.NonPublic)!
                 .GetValue(regex)!;
 

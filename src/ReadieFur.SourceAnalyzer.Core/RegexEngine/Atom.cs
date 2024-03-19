@@ -3,12 +3,12 @@ using System.Linq;
 
 namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
 {
-    internal class Atom : Token
+    internal class Atom : AToken
     {
         private bool IsEscaped;
         private char Value;
 
-        public override Token? CanParse(ref string consumablePattern)
+        public override AToken? CanParse(ref string consumablePattern)
         {
             if (consumablePattern.Length == 0)
                 return null;
@@ -35,7 +35,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             return this;
         }
 
-        public override Token Parse(ref string consumablePattern)
+        public override AToken Parse(ref string consumablePattern)
         {
             string startingPattern = consumablePattern;
 
@@ -43,7 +43,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
 
             Pattern = startingPattern.Substring(0, startingPattern.Length - consumablePattern.Length);
 
-            Token endToken = this;
+            AToken endToken = this;
             endToken = Quantifier.CheckForQuantifier(ref consumablePattern, this, endToken);
 
             return endToken;

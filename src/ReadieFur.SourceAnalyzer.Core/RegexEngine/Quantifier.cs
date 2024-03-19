@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
 {
-    internal class Quantifier : Token
+    internal class Quantifier : AToken
     {
         private enum QuantifierType
         {
@@ -22,10 +22,10 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
         /// <param name="relatedToken">Token dosen't need the ref keyword as objects are passed by reference by default.</param>
         /// <param name="endToken"></param>
         /// <returns>Returns the new end token or old end token if no quantifier was present.</returns>
-        public static Token CheckForQuantifier(ref string consumablePattern, Token relatedToken, Token endToken)
+        public static AToken CheckForQuantifier(ref string consumablePattern, AToken relatedToken, AToken endToken)
         {
             //Check if there are any quantifiers that could be applied to this group.
-            Token? quantifier = new Quantifier().CanParse(ref consumablePattern);
+            AToken? quantifier = new Quantifier().CanParse(ref consumablePattern);
             if (quantifier is not null)
             {
                 //Take the parent's place as the quantifier needs to come first (for later processing reasons).
@@ -61,7 +61,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
         private int? _min = null;
         private int? _max = null;
 
-        public override Token? CanParse(ref string consumablePattern)
+        public override AToken? CanParse(ref string consumablePattern)
         {
             if (consumablePattern.StartsWith("?"))
             {
@@ -94,7 +94,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             return this;
         }
 
-        public override Token Parse(ref string consumablePattern)
+        public override AToken Parse(ref string consumablePattern)
         {
             string startingPattern = consumablePattern;
 
@@ -269,7 +269,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
 
             //Determine the depth of this quantifier within the tree.
             int depth = -1; //Start at -1 as the regex engine always wraps the pattern in a group.
-            Token? parent = Parent;
+            AToken? parent = Parent;
             while (parent is not null)
             {
                 depth++;

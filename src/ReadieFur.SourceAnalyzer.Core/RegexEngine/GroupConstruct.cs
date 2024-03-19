@@ -2,7 +2,7 @@
 
 namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
 {
-    internal class GroupConstruct : Token
+    internal class GroupConstruct : AToken
     {
         //For now the commented out fields are unsupported.
         private enum GroupType
@@ -23,7 +23,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
         private GroupType _type;
         private int _toConsume = 0;
 
-        public override Token? CanParse(ref string consumablePattern)
+        public override AToken? CanParse(ref string consumablePattern)
         {
             //First try to get the modifiers for this group.
             if (consumablePattern.StartsWith("(?<!"))
@@ -77,7 +77,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             return this;
         }
 
-        public override Token Parse(ref string consumablePattern)
+        public override AToken Parse(ref string consumablePattern)
         {
             //Work on the string iteratively.
             //Try to get the group contents.
@@ -89,7 +89,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             consumablePattern = consumablePattern.Substring(_toConsume);
 
             //Iterate over each item in the group until we find the closing parenthesis.
-            Token endToken = RecursiveParse(
+            AToken endToken = RecursiveParse(
             [
                 typeof(GroupConstruct),
                 typeof(CharacterClass),
@@ -115,7 +115,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             };
 
             //Test each token in the group.
-            foreach (Token token in Children)
+            foreach (AToken token in Children)
             {
                 bool result = token.Test(input, ref index);
                 if (invert)
@@ -138,7 +138,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
             };
 
             //Test each token in the group.
-            foreach (Token token in Children)
+            foreach (AToken token in Children)
             {
                 bool result = token.Conform(parameters);
                 if (invert)

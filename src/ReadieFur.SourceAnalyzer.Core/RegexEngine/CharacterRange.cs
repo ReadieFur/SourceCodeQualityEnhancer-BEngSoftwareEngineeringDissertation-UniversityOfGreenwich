@@ -2,18 +2,18 @@
 
 namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
 {
-    internal class CharacterRange : Token
+    internal class CharacterRange : AToken
     {
         //Store character as its ASCII value for easier comparison.
         private int _start;
         private int _end;
 
-        public override Token? CanParse(ref string consumablePattern)
+        public override AToken? CanParse(ref string consumablePattern)
         {
             return consumablePattern.Length >= 3 && consumablePattern[1] == '-' ? this : null;
         }
 
-        public override Token Parse(ref string consumablePattern)
+        public override AToken Parse(ref string consumablePattern)
         {
             string startingPattern = consumablePattern;
 
@@ -26,7 +26,7 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
 
             Pattern = startingPattern.Substring(0, startingPattern.Length - consumablePattern.Length);
 
-            Token endToken = this;
+            AToken endToken = this;
             endToken = Quantifier.CheckForQuantifier(ref consumablePattern, this, endToken);
 
             return endToken;

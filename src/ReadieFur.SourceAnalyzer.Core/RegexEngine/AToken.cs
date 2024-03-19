@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
 {
-    internal abstract class Token
+    internal abstract class AToken
     {
 #if DEBUG
         private Guid _id = Guid.NewGuid();
@@ -12,24 +12,24 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
 #endif
 
         public string? Pattern { get; set; }
-        public Token? Parent { get; set; }
-        public List<Token> Children { get; set; } = new();
-        public Token? Previous { get; set; }
-        public Token? Next { get; set; }
+        public AToken? Parent { get; set; }
+        public List<AToken> Children { get; set; } = new();
+        public AToken? Previous { get; set; }
+        public AToken? Next { get; set; }
 
         /// <summary>
         /// Begins the first part of the parsing process, if the method believes it can parse the pattern, it will return a token, otherwise it will return null.
         /// </summary>
         /// <param name="consumablePattern"></param>
         /// <returns></returns>
-        public abstract Token? CanParse(ref string consumablePattern);
+        public abstract AToken? CanParse(ref string consumablePattern);
 
         /// <summary>
         /// Recursively builds the token tree.
         /// </summary>
         /// <param name="consumablePattern"></param>
         /// <returns>The token at the end of the tree.</returns>
-        public abstract Token Parse(ref string consumablePattern);
+        public abstract AToken Parse(ref string consumablePattern);
 
         /// <summary>
         /// Rather than using a consumable here we will use a positional index so we can work with lookaheads and lookbehinds.
@@ -69,11 +69,11 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
         /// <param name="returnOnChar"></param>
         /// <returns></returns>
         /// <exception cref="InvalidOperationException"></exception>
-        protected Token RecursiveParse(Type[] types, ref string consumablePattern, char returnOnChar)
+        protected AToken RecursiveParse(Type[] types, ref string consumablePattern, char returnOnChar)
         {
             //Iterate over each item in the group until we find the closing parenthesis.
             bool isValid = false;
-            Token endToken = this;
+            AToken endToken = this;
             while (consumablePattern.Length > 0)
             {
                 if (consumablePattern[0] == returnOnChar)
@@ -83,11 +83,11 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
                     break;
                 }
 
-                Token? token = null;
+                AToken? token = null;
                 foreach (Type type in types)
                 {
-                    token = (Token)Activator.CreateInstance(type);
-                    if (token.CanParse(ref consumablePattern) is not null)
+                    token = (AToken?)Activator.CreateInstance(type);
+                    if (token?.CanParse(ref consumablePattern) is not null)
                         break;
                 }
                 if (token is null)
