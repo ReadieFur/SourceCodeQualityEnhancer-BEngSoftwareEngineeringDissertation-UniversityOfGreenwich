@@ -40,7 +40,14 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
 
         public override bool Conform(ConformParameters parameters)
         {
-            char c = Read(parameters.Input, ref parameters.Index, 1)[0];
+            //Consume characters until a letter is found.
+            char c;
+            do c = Read(parameters.Input, ref parameters.Index, 1)[0];
+            while (!char.IsLetter(c) && parameters.Index < parameters.Input.Length);
+            if (parameters.Index > parameters.Input.Length)
+                return false;
+
+            //The following operation is only applicable to letters.
 
             //If the character is already in the range then just add it to the output.
             if (c >= _start && c <= _end)
@@ -49,14 +56,6 @@ namespace ReadieFur.SourceAnalyzer.Core.RegexEngine
                 return true;
             }
 
-            //Otherwise we need to check if the provided character can be transformed.
-            //The following operation is only applicable to letters.
-            if (!char.IsLetter(c))
-            {
-                //index--;
-                return false;
-            }
-            
             //Check if the character is valid by changing the case.
             c = char.IsUpper(c) ? char.ToLower(c) : char.ToUpper(c);
             if (c >= _start && c <= _end)
