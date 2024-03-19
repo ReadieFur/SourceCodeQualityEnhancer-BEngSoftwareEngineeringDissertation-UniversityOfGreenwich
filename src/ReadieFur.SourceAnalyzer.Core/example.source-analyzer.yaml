@@ -9,78 +9,78 @@ naming:
     #   severity: "warning"
     enabled: true
     severity: "warning"
-    pattern: "^_[a-z]+(?:[A-Z][a-z]+)*$" #_camelCase
+    pattern: "_[a-z]+([A-Z][a-z]+)*" #_camelCase
   internal_field:
     # <<: &pascal
     #   <<: *base
-    #   pattern: "^[A-Z][a-z]+(?:[A-Z][a-z]+)*$"
+    #   pattern: "([A-Z][a-z]+)+"
     enabled: true
     severity: "warning"
-    pattern: "^[A-Z][a-z]+(?:[A-Z][a-z]+)*$"
+    pattern: "([A-Z][a-z]+)+"
   protected_field:
     # <<: *pascal
     enabled: true
     severity: "warning"
-    pattern: "^[A-Z][a-z]+(?:[A-Z][a-z]+)*$"
+    pattern: "([A-Z][a-z]+)+"
   public_field:
     # <<: *pascal
     enabled: true
     severity: "warning"
-    pattern: "^[A-Z][a-z]+(?:[A-Z][a-z]+)*$"
+    pattern: "([A-Z][a-z]+)+"
   property:
     # <<: *pascal
     enabled: true
     severity: "warning"
-    pattern: "^[A-Z][a-z]+(?:[A-Z][a-z]+)*$"
+    pattern: "([A-Z][a-z]+)+"
   method:
     # <<: *pascal
     enabled: true
     severity: "warning"
-    pattern: "^[A-Z][a-z]+(?:[A-Z][a-z]+)*$"
+    pattern: "([A-Z][a-z]+)+"
   class:
     # <<: *pascal
     enabled: true
     severity: "warning"
-    pattern: "^[A-Z][a-z]+(?:[A-Z][a-z]+)*$"
+    pattern: "([A-Z][a-z]+)+"
   interface:
     # <<: *base
     enabled: true
     severity: "warning"
-    pattern: "^I[A-Z][a-z]+(?:[A-Z][a-z]+)*$" #IPascalCase
+    pattern: "I([A-Z][a-z]+)+" #IPascalCase
   enum:
     # <<: *base
     enabled: true
     severity: "warning"
-    pattern: "^E[A-Z][a-z]+(?:[A-Z][a-z]+)*$" #EPascalCase
+    pattern: "E([A-Z][a-z]+)+" #EPascalCase
   struct:
     # <<: *base
     enabled: true
     severity: "warning"
-    pattern: "^S[A-Z][a-z]+(?:[A-Z][a-z]+)*$" #EPascalCase
+    pattern: "S([A-Z][a-z]+)+" #EPascalCase
   local_variable:
     # <<: &camel
     #   <<: *base
-    #   pattern: "^[a-z]+(?:[A-Z][a-z]+)*$"
+    #   pattern: "[a-z]+([A-Z][a-z]+)*"
     enabled: true
     severity: "warning"
-    pattern: "^[a-z]+(?:[A-Z][a-z]+)*$"
+    pattern: "[a-z]+([A-Z][a-z]+)*"
   parameter:
     # <<: *camel
     enabled: true
     severity: "warning"
-    pattern: "^[a-z]+(?:[A-Z][a-z]+)*$"
+    pattern: "[a-z]+([A-Z][a-z]+)*"
   constant:
     # <<: *base
     enabled: true
     severity: "warning"
-    pattern: "^[A-Z]+(?:_[A-Z]+)*$" #https://stackoverflow.com/questions/43224835/regex-to-match-all-capital-and-underscore
+    pattern: "[A-Z]+(?:_[A-Z]+)*$" #https://stackoverflow.com/questions/43224835/regex-to-match-all-capital-and-underscore
   namespace:
     # <<: *base
     enabled: true
     severity: "warning"
-    pattern: "^[A-Z][a-z]+(?:\\.?[A-Z][a-z]+)*$" #Pascal.Case
+    pattern: "[A-Z][a-z]+(?:\\.?[A-Z][a-z]+)*$" #Pascal.Case
   generic_parameter:
     # <<: *base
     enabled: true
     severity: "warning"
-    pattern: "^T[A-Z][a-z]+(?:[A-Z][a-z]+)*$" #TPascalCase
+    pattern: "T([A-Z][a-z]+)+" #TPascalCase
