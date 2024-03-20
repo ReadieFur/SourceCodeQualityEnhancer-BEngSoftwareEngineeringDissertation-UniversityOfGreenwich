@@ -1,0 +1,11 @@
+{
+    "yaml.schemas": {
+        "src/ReadieFur.SourceAnalyzer.Shared/source-anlyzer.schema.jsonc": [
+            "src/ReadieFur.SourceAnalyzer.Shared/*.source-analyzer.yaml"
+        ],
+        "file:///d%3A/Users/ReadieFur/Documents/GitHub/ReadieFur/University_Of_Greenwich-COMP1682-Final-Year-Project/src/ReadieFur.SourceAnalyzer.Shared/source-anlyzer.schema.jsonc": "file:///d%3A/Users/ReadieFur/Documents/GitHub/ReadieFur/University_Of_Greenwich-COMP1682-Final-Year-Project/src/ReadieFur.SourceAnalyzer.Core/example.source-analyzer.yaml"
+    },
+    "cSpell.words": [
+        "positionings"
+    ]
+}

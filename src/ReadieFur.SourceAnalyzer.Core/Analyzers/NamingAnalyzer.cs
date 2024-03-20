@@ -3,20 +3,29 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using ReadieFur.SourceAnalyzer.Core.Configuration;
-using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace ReadieFur.SourceAnalyzer.Core.Analyzers
 {
-    [DiagnosticAnalyzer(LanguageNames.CSharp, LanguageNames.FSharp)]
+    [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class NamingAnalyzer : DiagnosticAnalyzer
     {
         //https://michaelscodingspot.com/debug-3rd-party-code-dotnet/
         private readonly IReadOnlyDictionary<NamingConvention, DiagnosticDescriptor> _descriptors = Helpers.GetNamingDescriptors().ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => _descriptors.Values.ToImmutableArray();
+
+        public override void Initialize(AnalysisContext context)
+        {
+            //Don't analyze auto-generated code.
+            context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
+            //Allow multiple threads to analyze the code.
+            context.EnableConcurrentExecution();
+
+            context.RegisterSymbolAction(AnalyzeSymbol, SymbolKind.Field, SymbolKind.Property, SymbolKind.Method, SymbolKind.NamedType, /*SymbolKind.Local,*/ SymbolKind.Parameter, SymbolKind.Namespace);
+            //SymbolKind.Local is not supported by RegisterSymbolAction, it must be preprocessed through RegisterSyntaxNodeAction first.
+            context.RegisterSyntaxNodeAction(AnalyzeNode, SyntaxKind.LocalDeclarationStatement);
+        }
 
         private void AnalyzeSymbol(SymbolAnalysisContext context)
         {
@@ -120,16 +129,6 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             );
 
             reportDiagnosticMethod(diagnostic);
-        }
-
-        public override void Initialize(AnalysisContext context)
-        {
-            context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
-            context.EnableConcurrentExecution();
-
-            context.RegisterSymbolAction(AnalyzeSymbol, SymbolKind.Field, SymbolKind.Property, SymbolKind.Method, SymbolKind.NamedType, /*SymbolKind.Local,*/ SymbolKind.Parameter, SymbolKind.Namespace);
-            //SymbolKind.Local is not supported by RegisterSymbolAction, it must be preprocessed through RegisterSyntaxNodeAction first.
-            context.RegisterSyntaxNodeAction(AnalyzeNode, SyntaxKind.LocalDeclarationStatement);
         }
     }
 }

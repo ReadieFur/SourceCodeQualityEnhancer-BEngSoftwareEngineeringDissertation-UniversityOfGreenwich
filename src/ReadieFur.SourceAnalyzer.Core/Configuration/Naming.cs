@@ -1,6 +1,6 @@
 ﻿namespace ReadieFur.SourceAnalyzer.Core.Configuration
 {
-    public class Naming
+    public sealed class Naming
     {
         public NamingConvention? PrivateField { get; set; }
         public NamingConvention? InternalField { get; set; }
