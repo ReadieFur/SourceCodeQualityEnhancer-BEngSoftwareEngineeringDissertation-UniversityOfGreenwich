@@ -3,3 +3,5 @@ Code:
     ☐ Indentation checker
     ☐ Single statment block checker
     ☐ Nested node file splitter
+    ✔ Naming convention checker @done
+    ☐ Auto-documenation generator (based on node tree)
