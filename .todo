@@ -5,3 +5,4 @@ Code:
     ☐ Nested node file splitter
     ✔ Naming convention checker @done
     ☐ Auto-documenation generator (based on node tree)
+    ☐ Large parameter multi-line checker

@@ -9,6 +9,7 @@
     <Import_RootNamespace>ReadieFur.SourceAnalyzer.Core</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\BraceLocationAnalyzer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\ENamingAnalyzer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\Helpers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\NamingAnalyzer.cs" />
@@ -17,8 +18,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\ConfigBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\ConfigManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\ConfigRoot.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\CurlyBraces.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\ESeverity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\IConfigManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\Formatting.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\Naming.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\NamingConvention.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\YamlLoader.cs" />

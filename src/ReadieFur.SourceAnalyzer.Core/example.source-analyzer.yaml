@@ -84,3 +84,6 @@ naming:
     enabled: true
     severity: "warning"
     pattern: "T([A-Z][a-z]+)+" #TPascalCase
+formatting:
+  curly_braces:
+    new_line: true

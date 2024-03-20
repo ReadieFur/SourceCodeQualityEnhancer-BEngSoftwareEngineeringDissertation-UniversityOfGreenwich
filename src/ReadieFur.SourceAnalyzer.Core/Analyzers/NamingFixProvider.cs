@@ -28,8 +28,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
         public override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
             //Attempt to provide a code fix in this method.
-            SyntaxNode? documentRoot = await context.Document.GetSyntaxRootAsync(context.CancellationToken);
-            if (documentRoot is null)
+            if (await context.Document.GetSyntaxRootAsync(context.CancellationToken) is not SyntaxNode documentRoot)
                 return;
 
             foreach (Diagnostic diagnostic in context.Diagnostics)

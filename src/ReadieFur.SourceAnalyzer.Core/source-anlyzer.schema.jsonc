@@ -54,6 +54,28 @@
 				"namespace": { "$ref": "#/definitions/naming_convention" },
 				"generic_parameter": { "$ref": "#/definitions/naming_convention" }
 			}
+		},
+		"formatting":
+		{
+			"type": "object",
+			"description": "Symbol positionings in the source code.",
+			"properties":
+			{
+				"curly_braces":
+				{
+					"type": "object",
+					"properties":
+					{
+						"enabled": { "$ref": "#/definitions/enabled" },
+						"severity": { "$ref": "#/definitions/severity" },
+						"new_line":
+						{
+							"type": "boolean",
+							"description": "Whether to place the opening curly brace on a new line."
+						}
+					}
+				}
+			}
 		}
 	}
 }
