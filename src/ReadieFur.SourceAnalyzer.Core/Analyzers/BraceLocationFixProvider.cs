@@ -5,6 +5,8 @@ using Microsoft.CodeAnalysis.CSharp;
 using ReadieFur.SourceAnalyzer.Core.Configuration;
 using System.Collections.Immutable;
 using System.Composition;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ReadieFur.SourceAnalyzer.Core.Analyzers
 {

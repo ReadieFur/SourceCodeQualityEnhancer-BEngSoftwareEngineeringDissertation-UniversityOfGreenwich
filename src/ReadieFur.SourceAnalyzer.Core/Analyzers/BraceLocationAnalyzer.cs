@@ -21,7 +21,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                 + " the declaring statement.",
             category: "Formatting",
             defaultSeverity: ConfigManager.Configuration.Formatting.CurlyBraces.Severity.ToDiagnosticSeverity(),
-            isEnabledByDefault: ConfigManager.Configuration.Formatting.CurlyBraces.Enabled);
+            isEnabledByDefault: ConfigManager.Configuration.Formatting.CurlyBraces.IsEnabled);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(DiagnosticDescriptor);
 
