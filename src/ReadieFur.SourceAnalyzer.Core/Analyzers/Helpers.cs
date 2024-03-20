@@ -66,7 +66,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                     messageFormat: "'{0}' does not match the regular expression '{1}'",
                     category: "Naming",
                     defaultSeverity: value.Severity.ToDiagnosticSeverity(),
-                    isEnabledByDefault: value.Enabled
+                    isEnabledByDefault: value.IsEnabled
                 ));
             }
         }

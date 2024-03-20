@@ -117,7 +117,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                     return;
             }
             if (namingConvention is null
-                || !namingConvention.Enabled
+                || !namingConvention.IsEnabled
                 || new Regex(namingConvention.Pattern).IsMatch(symbol.Name))
                 return;
 

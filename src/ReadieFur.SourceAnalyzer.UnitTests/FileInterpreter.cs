@@ -9,7 +9,7 @@ using NamingFixer = ReadieFur.SourceAnalyzer.UnitTests.Verifiers.CSharpCodeFixVe
 
 namespace ReadieFur.SourceAnalyzer.UnitTests
 {
-    internal class FileInterpreter/*<TAnalyzer, TCodeFix>
+    public class FileInterpreter/*<TAnalyzer, TCodeFix>
         where TAnalyzer : DiagnosticAnalyzer, new()
         where TCodeFix : CodeFixProvider, new()*/
     {
