@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\BraceLocationAnalyzer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\BraceLocationFixProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\ENamingAnalyzer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\Helpers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\NamingAnalyzer.cs" />
