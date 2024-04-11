@@ -2,7 +2,9 @@
 
 namespace ReadieFur.SourceAnalyzer.UnitTests.TestFiles
 {
-    public class /*0007*/_class_name_/*ClassName*/
+//#0007
+//- public class _class_name_
+//+ public class ClassName
     {
     }
 }

@@ -11,7 +11,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
             Assert.IsTrue(await ConfigManager.Instance.LoadAsync(path!), "Failed to load source-analyzer.yaml");
         }
 
-        public static async Task<string> GetSourceFile(Type sourceType)
+        public static async Task<string> GetSourceFile(string fileName)
         {
             if (GetSolutionPath() is not string solutionPath)
             {
@@ -19,9 +19,9 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
                 return string.Empty;
             }
 
-            if (FindFile(solutionPath, sourceType.Name + ".cs") is not string sourceFile)
+            if (FindFile(solutionPath, fileName) is not string sourceFile)
             {
-                Assert.Fail($"Could not find source file: {sourceType.Name}.cs");
+                Assert.Fail($"Could not find source file: {fileName}");
                 return string.Empty;
             }
 

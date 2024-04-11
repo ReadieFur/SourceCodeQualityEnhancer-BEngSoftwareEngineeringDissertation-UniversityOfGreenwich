@@ -4,16 +4,15 @@ using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Text;
 using ReadieFur.SourceAnalyzer.Core.Configuration;
+using System.Diagnostics;
+using System.Drawing;
 using System.Text.RegularExpressions;
 using NamingFixer = ReadieFur.SourceAnalyzer.UnitTests.Verifiers.CSharpCodeFixVerifier<ReadieFur.SourceAnalyzer.Core.Analyzers.NamingAnalyzer, ReadieFur.SourceAnalyzer.Core.Analyzers.NamingFixProvider>;
 
 namespace ReadieFur.SourceAnalyzer.UnitTests
 {
-    public class FileInterpreter/*<TAnalyzer, TCodeFix>
-        where TAnalyzer : DiagnosticAnalyzer, new()
-        where TCodeFix : CodeFixProvider, new()*/
+    public class FileInterpreter
     {
-        public readonly Type SourceType;
         public readonly string SourceText;
         private List<DiagnosticResult> _analyzerDiagnostics = new();
         private List<DiagnosticResult> _codeFixDiagnostics = new();
@@ -23,35 +22,32 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
         public DiagnosticResult[] AnalyzerDiagnostics => _analyzerDiagnostics.ToArray();
         public DiagnosticResult[] CodeFixDiagnostics => _codeFixDiagnostics.ToArray();
 
-        private FileInterpreter(Type sourceType, string sourceText)
+        private FileInterpreter(string sourceText)
         {
-            SourceType = sourceType;
             SourceText = sourceText;
         }
 
-        public static async Task<FileInterpreter> Interpret(Type sourceType)
+        public static async Task<FileInterpreter> Interpret(string fileName)
         {
-            FileInterpreter fileInterpreter = new(sourceType, await GetSourceFile(sourceType));
+            FileInterpreter fileInterpreter = new(await GetSourceFile(fileName));
             fileInterpreter.Process();
             return fileInterpreter;
         }
 
         private void Process()
         {
-            //Yes I am doing all of this just so I can have valid C# code with IDE hints in the test files.
-
             #region Usings
-            string noCustomUsings = SourceText;
+            string noCustomUsingsText = SourceText;
             int usingsStart = SourceText.IndexOf("using", StringComparison.Ordinal);
             int usingsEnd = SourceText.LastIndexOf("using", StringComparison.Ordinal);
             string usings = SourceText.Substring(usingsStart, usingsEnd - usingsStart);
             foreach (string originalUsing in usings.Split('\n').Reverse())
                 if (originalUsing.StartsWith("using ReadieFur"))
-                    noCustomUsings = noCustomUsings.Replace(originalUsing, string.Empty);
-            CodeFixExpected =
+                    noCustomUsingsText = noCustomUsingsText.Replace(originalUsing, string.Empty);
+            /*CodeFixExpected =
                 CodeFixInput =
                 AnalyzerInput =
-                noCustomUsings;
+                noCustomUsingsText;*/
             #endregion
 
             #region Descriptors
@@ -59,67 +55,110 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
             #endregion
 
             #region Interpretation
-            //Search over the source text.
-            Regex regex = new(@"\/\*([^*]+)\*\/([^*]+)\/\*([^*]+)\*\/", RegexOptions.Multiline);
-            Match match;
-            int offset = 0;
-            string regexSource = SourceText;
-            int count = 0;
-            while ((match = regex.Match(regexSource)).Success) //The overload "startat" didn't seem to be working for me so I am manually tracking the offset.
+            string[] lines = noCustomUsingsText.Split(Environment.NewLine); //Use Environment.NewLine as this is to be a multi-platform solution so it needs support CLRF (\r\n windows) and LF (\n unix).
+
+            KeyValuePair<NamingConvention, DiagnosticDescriptor>? currentDiagnostic = null;
+            Dictionary<int, string> removeBuffer = new();
+            Dictionary<int, string> addBuffer = new();
+
+            void ProcessBuffer()
             {
-                string diagnosticId = match.Groups[1].Value;
-                string input = match.Groups[2].Value;
-                string expected = match.Groups[3].Value;
-                int start = match.Index + offset;
-                int length = match.Length;
-                regexSource = regexSource.Substring(match.Index + match.Length);
-                offset += match.Index + match.Length;
+                if (currentDiagnostic is null)
+                    return;
 
-                #region Modifications
-                //For each of the various interpretations, replace the input with the expected value.
-                AnalyzerInput = AnalyzerInput.Remove(start, length).Insert(start, input);
-                //https://learn.microsoft.com/en-us/dotnet/csharp/roslyn-sdk/tutorials/how-to-write-csharp-analyzer-code-fix
-                string codeFixToken = $"{{|#{count}:{input}|}}";
-                CodeFixInput = CodeFixInput.Remove(start, length).Insert(start, codeFixToken);
-                CodeFixExpected = CodeFixExpected.Remove(start, length).Insert(start, expected);
-                #endregion
+                string removeString = string.Join(Environment.NewLine, removeBuffer.Values);
+                string addString = string.Join(Environment.NewLine, addBuffer.Values);
 
-                #region Diagnostics
-                //Find the diagnostic descriptor that matches the diagnostic ID.
-                KeyValuePair<NamingConvention, DiagnosticDescriptor>? namingDescriptor = namingDescriptors.FirstOrDefault(kvp => kvp.Value.Id == Core.Analyzers.Helpers.ANALYZER_ID_PREFIX + diagnosticId);
-                if (namingDescriptor is null)
-                    throw new InvalidOperationException($"Could not find diagnostic descriptor for '{Core.Analyzers.Helpers.ANALYZER_ID_PREFIX + diagnosticId}'.");
+                AnalyzerInput += removeString;
+                CodeFixInput += $"{{|#{_codeFixDiagnostics.Count}:{addString}|}}";
+                CodeFixExpected += addString;
+
+                //Create diagnostic.
                 DiagnosticDescriptor descriptor = new(
-                    namingDescriptor.Value.Value.Id,
-                    namingDescriptor.Value.Value.Title,
-                    string.Format(namingDescriptor.Value.Value.MessageFormat.ToString(), input, namingDescriptor.Value.Key.Pattern),
-                    namingDescriptor.Value.Value.Category,
-                    namingDescriptor.Value.Value.DefaultSeverity,
-                    namingDescriptor.Value.Value.IsEnabledByDefault
+                    currentDiagnostic.Value.Value.Id,
+                    currentDiagnostic.Value.Value.Title,
+                    string.Format(currentDiagnostic.Value.Value.MessageFormat.ToString(), removeString, currentDiagnostic.Value.Key.Pattern),
+                    currentDiagnostic.Value.Value.Category,
+                    currentDiagnostic.Value.Value.DefaultSeverity,
+                    currentDiagnostic.Value.Value.IsEnabledByDefault
                 );
                 DiagnosticResult analyzerDiagnosticResult = new(descriptor);
 
-                //Get the bounds of the diagnostic.
-                string startPart = AnalyzerInput.Substring(0, start);
-                string endPart = AnalyzerInput.Substring(0, start + input.Length);
-                int startLine = startPart.Count(c => c == '\n') + 1; //The analyzer uses 1-based indexing.
-                int startColumn = startPart.Split('\n').Last().Length + 1;
-                /*int analyzerEndLine = endPart.Count(c => c == '\n');
-                int analyzerEndColumn = endPart.Split('\n').Last().Length;*/
-                /*int codeFixEndLine = SourceText.Substring(start, codeFixToken.Length).Count(c => c == '\n');
-                int codeFixEndColumn = SourceText.Substring(start, codeFixToken.Length).LastIndexOf('\n');*/
-
-                //Update the diagnostic result with the bounds.
-                //TODO: Probably use the "WithLocation" method instead of the "WithSpan" method sharing the analyzer and code fix inputs.
-                analyzerDiagnosticResult = analyzerDiagnosticResult.WithLocation(startLine, startColumn);
+                //TODO: Get diagnostic bounds.
+                void GetBounds(Dictionary<int, string> lines, out int startLine, out int startColumn, out int endLine, out int endColumn)
+                {
+                    startLine = lines.First().Key;
+                    startColumn = lines.First().Value.IndexOf(lines.First().Value.First(c => !char.IsWhiteSpace(c)));
+                    endLine = lines.Last().Key;
+                    endColumn = lines.Last().Value.Length - 1;
+                }
+                GetBounds(removeBuffer, out int removeStartLine, out int removeStartColumn, out int removeEndLine, out int removeEndColumn);
+                //GetBounds(addBuffer, out int addStartLine, out int addStartColumn, out int addEndLine, out int addEndColumn);
+                
+                analyzerDiagnosticResult = analyzerDiagnosticResult.WithLocation(removeStartLine, removeStartColumn);
                 _analyzerDiagnostics.Add(analyzerDiagnosticResult);
 
-                //Generate the code fix diagnostic.
-                DiagnosticResult codeFixDiagnosticResult = NamingFixer.Diagnostic(descriptor).WithLocation(count).WithArguments(input, namingDescriptor.Value.Key.Pattern!);
+                DiagnosticResult codeFixDiagnosticResult = NamingFixer.Diagnostic(descriptor).WithLocation(_codeFixDiagnostics.Count).WithArguments(addString, currentDiagnostic.Value.Key.Pattern!);
                 _codeFixDiagnostics.Add(codeFixDiagnosticResult);
-                #endregion
 
-                count++;
+                //Clear the buffers.
+                currentDiagnostic = null;
+                removeBuffer.Clear();
+                addBuffer.Clear();
+            }
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string line = lines[i];
+
+                if (line.Length < 3 || !line.StartsWith("//"))
+                {
+                    if (i != 0)
+                    {
+                        AnalyzerInput += Environment.NewLine;
+                        CodeFixInput += Environment.NewLine;
+                        CodeFixExpected += Environment.NewLine;
+                    }
+
+                    ProcessBuffer();
+
+                    AnalyzerInput += line;
+                    CodeFixInput += line;
+                    CodeFixExpected += line;
+
+                    continue;
+                }
+
+                switch (line[2])
+                {
+                    case '#':
+                        {
+                            KeyValuePair<NamingConvention, DiagnosticDescriptor>? targetDiagnostic = namingDescriptors.FirstOrDefault(kvp => kvp.Value.Id == Core.Analyzers.Helpers.ANALYZER_ID_PREFIX + line.Substring(3));
+                            if (targetDiagnostic is null)
+                                Assert.Fail("No diagnostic found for ID: " + Core.Analyzers.Helpers.ANALYZER_ID_PREFIX + line.Substring(3));
+
+                            ProcessBuffer();
+
+                            currentDiagnostic = targetDiagnostic;
+                        }
+                        break;
+                    case '-':
+                    case '+':
+                        {
+                            if (currentDiagnostic is null)
+                                Assert.Fail("No diagnostic ID provided");
+
+                            string text = line.Substring(3);
+                            if (string.IsNullOrEmpty(text))
+                                continue;
+
+                            if (line[2] == '-')
+                                removeBuffer.Add(i, text);
+                            else
+                                addBuffer.Add(i, text);
+                        }
+                        break;
+                }
             }
             #endregion
         }

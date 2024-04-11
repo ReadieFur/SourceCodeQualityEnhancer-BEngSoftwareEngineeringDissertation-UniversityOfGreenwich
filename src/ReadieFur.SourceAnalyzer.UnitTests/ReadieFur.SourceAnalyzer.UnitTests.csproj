@@ -42,6 +42,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="TestFiles\ClassName.cs" />
+    <Compile Remove="TestFiles\LocalVariable.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="TestFiles\LocalVariable.cs" />
+    <None Include="TestFiles\ClassName.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="YamlDotNet" Version="15.1.1" />
   </ItemGroup>
   
