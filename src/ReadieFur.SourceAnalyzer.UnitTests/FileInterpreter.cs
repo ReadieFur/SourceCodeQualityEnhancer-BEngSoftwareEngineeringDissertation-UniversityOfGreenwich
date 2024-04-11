@@ -44,10 +44,10 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
             foreach (string originalUsing in usings.Split('\n').Reverse())
                 if (originalUsing.StartsWith("using ReadieFur"))
                     noCustomUsingsText = noCustomUsingsText.Replace(originalUsing, string.Empty);
-            /*CodeFixExpected =
+            CodeFixExpected =
                 CodeFixInput =
                 AnalyzerInput =
-                noCustomUsingsText;*/
+                noCustomUsingsText;
             #endregion
 
             #region Descriptors
@@ -56,108 +56,48 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
 
             #region Interpretation
             string[] lines = noCustomUsingsText.Split(Environment.NewLine); //Use Environment.NewLine as this is to be a multi-platform solution so it needs support CLRF (\r\n windows) and LF (\n unix).
-
-            KeyValuePair<NamingConvention, DiagnosticDescriptor>? currentDiagnostic = null;
-            Dictionary<int, string> removeBuffer = new();
-            Dictionary<int, string> addBuffer = new();
-
-            void ProcessBuffer()
-            {
-                if (currentDiagnostic is null)
-                    return;
-
-                string removeString = string.Join(Environment.NewLine, removeBuffer.Values);
-                string addString = string.Join(Environment.NewLine, addBuffer.Values);
-
-                AnalyzerInput += removeString;
-                CodeFixInput += $"{{|#{_codeFixDiagnostics.Count}:{addString}|}}";
-                CodeFixExpected += addString;
-
-                //Create diagnostic.
-                DiagnosticDescriptor descriptor = new(
-                    currentDiagnostic.Value.Value.Id,
-                    currentDiagnostic.Value.Value.Title,
-                    string.Format(currentDiagnostic.Value.Value.MessageFormat.ToString(), removeString, currentDiagnostic.Value.Key.Pattern),
-                    currentDiagnostic.Value.Value.Category,
-                    currentDiagnostic.Value.Value.DefaultSeverity,
-                    currentDiagnostic.Value.Value.IsEnabledByDefault
-                );
-                DiagnosticResult analyzerDiagnosticResult = new(descriptor);
-
-                //TODO: Get diagnostic bounds.
-                void GetBounds(Dictionary<int, string> lines, out int startLine, out int startColumn, out int endLine, out int endColumn)
-                {
-                    startLine = lines.First().Key;
-                    startColumn = lines.First().Value.IndexOf(lines.First().Value.First(c => !char.IsWhiteSpace(c)));
-                    endLine = lines.Last().Key;
-                    endColumn = lines.Last().Value.Length - 1;
-                }
-                GetBounds(removeBuffer, out int removeStartLine, out int removeStartColumn, out int removeEndLine, out int removeEndColumn);
-                //GetBounds(addBuffer, out int addStartLine, out int addStartColumn, out int addEndLine, out int addEndColumn);
-                
-                analyzerDiagnosticResult = analyzerDiagnosticResult.WithLocation(removeStartLine, removeStartColumn);
-                _analyzerDiagnostics.Add(analyzerDiagnosticResult);
-
-                DiagnosticResult codeFixDiagnosticResult = NamingFixer.Diagnostic(descriptor).WithLocation(_codeFixDiagnostics.Count).WithArguments(addString, currentDiagnostic.Value.Key.Pattern!);
-                _codeFixDiagnostics.Add(codeFixDiagnosticResult);
-
-                //Clear the buffers.
-                currentDiagnostic = null;
-                removeBuffer.Clear();
-                addBuffer.Clear();
-            }
-
             for (int i = 0; i < lines.Length; i++)
             {
                 string line = lines[i];
 
-                if (line.Length < 3 || !line.StartsWith("//"))
+                //Check if the line indicates the start of a diagnostic section.
+                if (line.Length < 3 || !line.StartsWith("//#"))
+                    continue;
+
+                //Get the diagnostic.
+                KeyValuePair<NamingConvention, DiagnosticDescriptor>? targetDiagnostic = namingDescriptors.FirstOrDefault(kvp => kvp.Value.Id == Core.Analyzers.Helpers.ANALYZER_ID_PREFIX + line.Substring(3));
+                if (targetDiagnostic is null)
+                    throw new Exception("No diagnostic found for ID: " + Core.Analyzers.Helpers.ANALYZER_ID_PREFIX + line.Substring(3));
+
+                int startLine = i;
+                int startColumn = line.IndexOf(line.First(c => !char.IsWhiteSpace(c)));
+                List<string> removeLines = new();
+                List<string> addLines = new();
+                int endOffset = 0;
+
+                //Get input data.
+                bool onRemoveToken = true;
+                for (; i < lines.Length; i++)
                 {
-                    if (i != 0)
+                    line = lines[i];
+                    if (line.Length < 3)
                     {
-                        AnalyzerInput += Environment.NewLine;
-                        CodeFixInput += Environment.NewLine;
-                        CodeFixExpected += Environment.NewLine;
+                        i--; //Decrement for the external i++.
+                        break;
                     }
 
-                    ProcessBuffer();
+                    bool isRemoveToken = line[2] == '-';
+                    if (!onRemoveToken && isRemoveToken)
+                        throw new InvalidOperationException("All addition tokens must succeed subtract tokens");
 
-                    AnalyzerInput += line;
-                    CodeFixInput += line;
-                    CodeFixExpected += line;
+                    string subLine = line.Substring(3);
 
-                    continue;
-                }
+                    if (isRemoveToken)
+                        removeLines.Add(subLine);
+                    else
+                        addLines.Add(subLine);
 
-                switch (line[2])
-                {
-                    case '#':
-                        {
-                            KeyValuePair<NamingConvention, DiagnosticDescriptor>? targetDiagnostic = namingDescriptors.FirstOrDefault(kvp => kvp.Value.Id == Core.Analyzers.Helpers.ANALYZER_ID_PREFIX + line.Substring(3));
-                            if (targetDiagnostic is null)
-                                Assert.Fail("No diagnostic found for ID: " + Core.Analyzers.Helpers.ANALYZER_ID_PREFIX + line.Substring(3));
-
-                            ProcessBuffer();
-
-                            currentDiagnostic = targetDiagnostic;
-                        }
-                        break;
-                    case '-':
-                    case '+':
-                        {
-                            if (currentDiagnostic is null)
-                                Assert.Fail("No diagnostic ID provided");
-
-                            string text = line.Substring(3);
-                            if (string.IsNullOrEmpty(text))
-                                continue;
-
-                            if (line[2] == '-')
-                                removeBuffer.Add(i, text);
-                            else
-                                addBuffer.Add(i, text);
-                        }
-                        break;
+                    endOffset += subLine.Length;
                 }
             }
             #endregion
