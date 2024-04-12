@@ -78,6 +78,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
             int count = 0;
             while ((outerMatch = outerRegex.Match(regexSource)).Success) //The overload "startat" didn't seem to be working for me so I am manually tracking the offset.
             {
+                //TODO: I've realised this dosent check that the block is preceeding the diagnostic line.
                 //Each block must have -+.
                 Match innerMatch = innerRegex.Match(regexSource);
                 if (!innerMatch.Success)
