@@ -10,6 +10,6 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Analyzers
 
         [MTest] public async Task ClassNameFixProvider() => await TestFixProvider<NamingAnalyzer, NamingFixProvider>("ClassName.cs");
 
-        //[MTest] public async Task LocalVariableFixProvider() => await TestFixProvider<NamingAnalyzer, NamingFixProvider>(typeof(LocalVariable));
+        [MTest] public async Task LocalVariableFixProvider() => await TestFixProvider<NamingAnalyzer, NamingFixProvider>("LocalVariable.cs");
     }
 }
