@@ -108,18 +108,27 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
                 IEnumerable<string> removeLines = blockLines.Where(s => s[2] == '-').Select(s => s.Substring(3).TrimEnd(Environment.NewLine.ToCharArray()));
                 IEnumerable<string> addLines = blockLines.Where(s => s[2] == '+').Select(s => s.Substring(3).TrimEnd(Environment.NewLine.ToCharArray()));
                 string analyzerInput = string.Join(Environment.NewLine, removeLines);
-                string codeFixInput = $"{{|#{count}:{analyzerInput}|}}";
                 string codeFixExpected = string.Join(Environment.NewLine, addLines);
+                string codeFixInput; //Assigned below.
 
                 //Check if there is a sub-input for the analyzer text (denoted by a string sourrounded by double-single quotation marks ''TEXT'').
                 Match analyzerSubInputMatch = Regex.Match(analyzerInput, @"'{2}(.*)'{2}", RegexOptions.Multiline);
-                string analyzerSubInput = analyzerInput;
+                string analyzerSubInput;
                 if (analyzerSubInputMatch.Success)
                 {
                     analyzerSubInput = analyzerSubInputMatch.Groups[1].Value;
+                    codeFixInput = analyzerInput.Substring(0, analyzerSubInputMatch.Index) +
+                        $"{{|#{count}:{analyzerSubInputMatch.Groups[1].Value}|}}" +
+                        analyzerInput.Substring(analyzerSubInputMatch.Index + analyzerSubInputMatch.Length);
                     analyzerInput = analyzerInput.Remove(analyzerSubInputMatch.Index, analyzerSubInputMatch.Length)
                         .Insert(analyzerSubInputMatch.Index, analyzerSubInputMatch.Groups[1].Value);
                 }
+                else
+                {
+                    analyzerSubInput = analyzerInput;
+                    codeFixInput = $"{{|#{count}:{analyzerInput}|}}";
+                }
+
 
                 //Update the source texts.
                 AnalyzerInput = AnalyzerInput.Insert(analyzerInputOffset, analyzerInput);
