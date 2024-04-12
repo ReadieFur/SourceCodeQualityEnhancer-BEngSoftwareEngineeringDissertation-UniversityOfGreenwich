@@ -43,10 +43,12 @@
 
   <ItemGroup>
     <Compile Remove="TestFiles\ClassName.cs" />
+    <Compile Remove="TestFiles\CurlyBrace.cs" />
     <Compile Remove="TestFiles\LocalVariable.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="TestFiles\CurlyBrace.cs" />
     <None Include="TestFiles\LocalVariable.cs" />
     <None Include="TestFiles\ClassName.cs" />
   </ItemGroup>

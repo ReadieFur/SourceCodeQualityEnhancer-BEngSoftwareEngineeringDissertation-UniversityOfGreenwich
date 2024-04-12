@@ -1,14 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CodeFixes;
-using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Testing;
-using Microsoft.CodeAnalysis.Text;
-using ReadieFur.SourceAnalyzer.Core.Configuration;
-using System.Diagnostics;
-using System.Drawing;
-using System.Text;
 using System.Text.RegularExpressions;
-using NamingFixer = ReadieFur.SourceAnalyzer.UnitTests.Verifiers.CSharpCodeFixVerifier<ReadieFur.SourceAnalyzer.Core.Analyzers.NamingAnalyzer, ReadieFur.SourceAnalyzer.Core.Analyzers.NamingFixProvider>;
 
 namespace ReadieFur.SourceAnalyzer.UnitTests
 {
@@ -23,19 +15,22 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
         public DiagnosticResult[] AnalyzerDiagnostics => _analyzerDiagnostics.ToArray();
         public DiagnosticResult[] CodeFixDiagnostics => _codeFixDiagnostics.ToArray();
 
+        public delegate DiagnosticDescriptor AnalyzerDiagnosticCallback(string diagnosticID, string input);
+        public delegate DiagnosticResult CodeFixDiagnosticCallback(DiagnosticDescriptor diagnosticDescriptor, string input);
+
         private FileInterpreter(string sourceText)
         {
             SourceText = sourceText;
         }
 
-        public static async Task<FileInterpreter> Interpret(string fileName)
+        public static async Task<FileInterpreter> Interpret(string fileName, AnalyzerDiagnosticCallback getDiagnostic, CodeFixDiagnosticCallback getCodeFixDiagnostic)
         {
             FileInterpreter fileInterpreter = new(await GetSourceFile(fileName));
-            fileInterpreter.Process();
+            fileInterpreter.Process(getDiagnostic, getCodeFixDiagnostic);
             return fileInterpreter;
         }
 
-        private void Process()
+        private void Process(AnalyzerDiagnosticCallback getAnalyzerDiagnostic, CodeFixDiagnosticCallback getCodeFixDiagnostic)
         {
             #region Usings
             string noCustomUsings = SourceText;
@@ -49,10 +44,6 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
                 CodeFixInput =
                 AnalyzerInput =
                 noCustomUsings;
-            #endregion
-
-            #region Descriptors
-            IEnumerable<KeyValuePair<NamingConvention, DiagnosticDescriptor>> namingDescriptors = Core.Analyzers.Helpers.GetNamingDescriptors();
             #endregion
 
             List<Diagnostic> diagnostics = new();
@@ -88,12 +79,6 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
                 int blockStart = outerMatch.Index + 1;
                 int blockEnd = innerMatch.Index + innerMatch.Length;
                 int blockLength = blockEnd - blockStart;
-
-                //Attempt to find a diagnostic for the given block.
-                string targetDiagnostic = Core.Analyzers.Helpers.ANALYZER_ID_PREFIX + outerMatch.Groups[2].Value.TrimEnd(Environment.NewLine.ToCharArray());
-                KeyValuePair<NamingConvention, DiagnosticDescriptor>? namingDescriptor = namingDescriptors.FirstOrDefault(kvp => kvp.Value.Id == targetDiagnostic);
-                if (namingDescriptor is null)
-                    throw new InvalidOperationException($"Could not find diagnostic descriptor for '{targetDiagnostic}'.");
 
                 //Remove the block from the input sources.
                 analyzerInputOffset += blockStart;
@@ -136,15 +121,9 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
                 CodeFixExpected = CodeFixExpected.Insert(codeFixExpectedOffset, codeFixExpected);
 
                 //Generate the diagnostics.
-                //This will fail in it's current state as the format will not match exactly to the analyzer because we are taking the whole line and not just the specific text for the diagnostic.
-                DiagnosticDescriptor descriptor = new(
-                    namingDescriptor.Value.Value.Id,
-                    namingDescriptor.Value.Value.Title,
-                    string.Format(namingDescriptor.Value.Value.MessageFormat.ToString(), analyzerSubInput, namingDescriptor.Value.Key.Pattern),
-                    namingDescriptor.Value.Value.Category,
-                    namingDescriptor.Value.Value.DefaultSeverity,
-                    namingDescriptor.Value.Value.IsEnabledByDefault
-                );
+                string targetDiagnostic = Core.Analyzers.Helpers.ANALYZER_ID_PREFIX + outerMatch.Groups[2].Value.TrimEnd(Environment.NewLine.ToCharArray());
+                if (getAnalyzerDiagnostic(targetDiagnostic, analyzerSubInput) is not DiagnosticDescriptor descriptor)
+                    throw new InvalidOperationException($"Could not find diagnostic descriptor for '{targetDiagnostic}'.");
 
                 //Analyzer diagnostic.
                 int analyzerSubInputOffset = analyzerInput.IndexOf(analyzerSubInput);
@@ -160,12 +139,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
                 _analyzerDiagnostics.Add(analyzerDiagnosticResult);
 
                 //Code fix diagnostic.
-                //TODO: Make this not bound to the naming fixer.
-                DiagnosticResult codeFixDiagnosticResult = NamingFixer
-                    .Diagnostic(descriptor)
-                    .WithLocation(count)
-                    //.WithSpan(analyzerStartLine, analyzerStartColumn, analyzerEndLine, analyzerEndColumn)
-                    .WithArguments(AnalyzerInput, namingDescriptor.Value.Key.Pattern!);
+                DiagnosticResult codeFixDiagnosticResult = getCodeFixDiagnostic(descriptor, AnalyzerInput).WithLocation(count);
                 _codeFixDiagnostics.Add(codeFixDiagnosticResult);
 
                 //Update the source offsets.

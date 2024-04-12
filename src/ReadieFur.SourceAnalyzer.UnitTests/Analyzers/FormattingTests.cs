@@ -6,8 +6,12 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Analyzers
     [CTest]
     public class FormattingTests : AAnalyzerTester
     {
-        //[MTest] public async Task BraceLocationAnalyzer() => await TestAnalyzer<BraceLocationAnalyzer>(typeof(CurlyBrace));
+        protected override FileInterpreter.AnalyzerDiagnosticCallback AnalyzerDiagnosticCallback => throw new NotImplementedException();
 
-        //[MTest] public async Task BraceLocationFixProvider() => await TestFixProvider<BraceLocationAnalyzer, BraceLocationFixProvider>(typeof(CurlyBrace));
+        protected override FileInterpreter.CodeFixDiagnosticCallback CodeFixDiagnosticCallback => throw new NotImplementedException();
+
+        [MTest] public async Task BraceLocationAnalyzer() => await TestAnalyzer<BraceLocationAnalyzer>("CurlyBrace.cs");
+
+        [MTest] public async Task BraceLocationFixProvider() => await TestFixProvider<BraceLocationAnalyzer, BraceLocationFixProvider>("CurlyBrace.cs");
     }
 }
