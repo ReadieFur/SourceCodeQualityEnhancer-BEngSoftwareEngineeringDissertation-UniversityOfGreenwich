@@ -3,8 +3,10 @@ using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using ReadieFur.SourceAnalyzer.Core.Configuration;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Composition;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -42,13 +44,62 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             //The trivia list contains a list of trivia objects that are associated with a given token.
             //The use of trivia objects is benificial over editing the document directly as it allows us to maintain the formatting of the document and to take a programmatic approach to editing the document via the syntax tree.
 
-            SyntaxToken newOpenBraceToken = ConfigManager.Configuration.Formatting.CurlyBraces.NewLine
-                //Move the open brace to the next line by adding a new line to the leading trivia of the open brace token.
-                ? openBraceToken.WithLeadingTrivia(openBraceToken.LeadingTrivia.Add(SyntaxFactory.CarriageReturnLineFeed))
-                //Move the open brace to the previous line by adding the leading trivia of the previous token to the open brace token.
-                : openBraceToken.WithLeadingTrivia(openBraceToken.LeadingTrivia.AddRange(openBraceToken.GetPreviousToken().TrailingTrivia));
+            Dictionary<SyntaxToken, SyntaxToken> updatedTokens = new(); //First token is the old token, second is the new token to be replaced with.
+            if (ConfigManager.Configuration.Formatting.CurlyBraces.NewLine)
+            {
+                //Determine if the document is using CLRF, LF or CR.
+                //For now I am going to use a simple check by only looking at the first new line.
+                SyntaxTrivia lineEndingStyle = root.GetFirstToken().LeadingTrivia.FirstOrDefault(t => t.IsKind(SyntaxKind.EndOfLineTrivia));
+                if (lineEndingStyle == default)
+                {
+                    //Default to CLRF if the style is unknown.
+                    lineEndingStyle = SyntaxFactory.CarriageReturnLineFeed;
+                }
 
-            SyntaxNode newRoot = root.ReplaceToken(openBraceToken, newOpenBraceToken);
+                //Calculate indentation.
+                //We can calculate the indentation required by traversing the tree to the current tokens line and determining the indentation of that line.
+                //We can use this indentation as the new indentation for the new line as they should be the same.
+                FileLinePositionSpan lineSpan = root.SyntaxTree.GetLineSpan(openBraceToken.Span);
+                int indentation = 0;
+                foreach (SyntaxToken token in root.DescendantTokens())
+                {
+                    //Limit search to everything prior to the target token.
+                    if (token.Equals(openBraceToken))
+                        break;
+
+                    if (token.IsKind(SyntaxKind.OpenBraceToken))
+                        indentation++;
+                    else if (token.IsKind(SyntaxKind.CloseBraceToken))
+                        indentation--;
+                }
+
+                //Calculate the indentation to be used.
+                //I prefer to use tabs for spacing, however I have not implimented a tab/space check yet, so for testing I will continue to use spaces.
+                //Whitespace indentation will currently be hardcoded to 4 for testing.
+                SyntaxTrivia indentationTrivia = SyntaxFactory.Whitespace(new string(' ', indentation * 4));
+
+                //Move the open brace to the next line by adding a new line to the leading trivia of the open brace token.
+                SyntaxTrivia newLineTrivia = lineEndingStyle;
+
+                //Update the leading trivia on the node, the newLineTrivia must come before the indentationTrivia otherwise the indention "won't" be applied.
+                updatedTokens.Add(openBraceToken, openBraceToken.WithLeadingTrivia(openBraceToken.LeadingTrivia.AddRange([newLineTrivia, indentationTrivia])));
+
+                //Strip any whitespace off of the end of the old line (not doing this causes the unit test to fail as the expected and outputs don't match due to the additinal left-over whitespace).
+                SyntaxToken previousToken = openBraceToken.GetPreviousToken();
+                if (previousToken.HasTrailingTrivia && previousToken.TrailingTrivia.Last().IsKind(SyntaxKind.WhitespaceTrivia))
+                    updatedTokens.Add(previousToken, previousToken.WithTrailingTrivia(previousToken.TrailingTrivia.Take(previousToken.TrailingTrivia.Count - 1)));
+            }
+            else
+            {
+                //TODO: Remove all indentation and replace with a single space.
+
+                //Move the open brace to the previous line by adding the leading trivia of the previous token to the open brace token.
+                SyntaxToken newOpenBraceToken = openBraceToken.WithLeadingTrivia(openBraceToken.LeadingTrivia.AddRange(openBraceToken.GetPreviousToken().TrailingTrivia));
+            }
+
+            //Batch update the tokens for efficency and consistency with the document changes.
+            //The batch updater expects a callback to indicate what original tokens should be replaced with corrosponding trivia, I just use a simple dictionary lookup that contains the old and new tokens.
+            SyntaxNode newRoot = root.ReplaceTokens(updatedTokens.Keys, (original, potentiallyModified) => updatedTokens[original]);
             return document.WithSyntaxRoot(newRoot);
         }
     }

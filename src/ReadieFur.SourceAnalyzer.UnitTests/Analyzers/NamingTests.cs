@@ -3,7 +3,7 @@ using ReadieFur.SourceAnalyzer.Core.Analyzers;
 using ReadieFur.SourceAnalyzer.Core.Configuration;
 using ReadieFur.SourceAnalyzer.UnitTests.Compatibility;
 using System.Collections.Concurrent;
-using NamingFixer = ReadieFur.SourceAnalyzer.UnitTests.Verifiers.CSharpCodeFixVerifier<ReadieFur.SourceAnalyzer.Core.Analyzers.NamingAnalyzer, ReadieFur.SourceAnalyzer.Core.Analyzers.NamingFixProvider>;
+using Fixer = ReadieFur.SourceAnalyzer.UnitTests.Verifiers.CSharpCodeFixVerifier<ReadieFur.SourceAnalyzer.Core.Analyzers.NamingAnalyzer, ReadieFur.SourceAnalyzer.Core.Analyzers.NamingFixProvider>;
 
 namespace ReadieFur.SourceAnalyzer.UnitTests.Analyzers
 {
@@ -37,7 +37,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Analyzers
             if (!patterns.TryGetValue(diagnosticDescriptor, out string? pattern) || pattern is null)
                 throw new NullReferenceException();
 
-            return NamingFixer
+            return Fixer
                 .Diagnostic(diagnosticDescriptor)
                 .WithArguments(input, pattern);
         };

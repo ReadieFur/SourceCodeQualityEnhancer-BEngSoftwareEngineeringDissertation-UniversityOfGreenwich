@@ -25,25 +25,60 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(DiagnosticDescriptor);
 
+        //Below are the syntax nodes we need to watch, the block kind is the default for {} capturing groups.
+        //However some nodes such as class declarations, switch statments and namespaces need to be captured manually.
+        private static readonly SyntaxKind[] SUPPORTED_SYNTAX_KINDS = [
+            SyntaxKind.ClassDeclaration,
+            //SyntaxKind.MethodDeclaration,
+            //SyntaxKind.IfStatement,
+            //SyntaxKind.ElseClause,
+            //SyntaxKind.WhileStatement,
+            //SyntaxKind.DoStatement,
+            //SyntaxKind.LocalFunctionStatement,
+            //SyntaxKind.LocalDeclarationStatement,
+            SyntaxKind.SwitchStatement,
+            //SyntaxKind.TryStatement,
+            //SyntaxKind.CatchClause,
+            //SyntaxKind.FinallyClause,
+            SyntaxKind.NamespaceDeclaration,
+            SyntaxKind.Block
+        ];
+
         public override void Initialize(AnalysisContext context)
         {
             context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
             context.EnableConcurrentExecution();
 
-            context.RegisterSyntaxNodeAction(Analyze, SyntaxKind.Block);
+            //Unfortunatly it seems like it is not possible to register watchers for OpenBraceToken and CloseBraceToken as they dont seem to get called.
+            //However I have instead found that registering for declerations and keywords that use brackets will work and I can then get the corrosponding BraceTokens from those nodes.
+            context.RegisterSyntaxNodeAction(Analyze, SUPPORTED_SYNTAX_KINDS);
         }
 
         private void Analyze(SyntaxNodeAnalysisContext context)
         {
-            if (context.Node is not BlockSyntax block)
-                return;
+            //From my inspection, all of the nodes we want to look at contain the same BraceToken properties.
+            //So to save typing out slightly different blocks for each type, I will cast to a dynamic type which will let me get the property without type checking.
+            //The alternative is to use reflection and search for the property but this would break if I compiled to native as reflection only works within a managed runtime.
+            //To add some saftey around this, I will wrap it in a try/catch block, though it should never fail unless the API changes as we should only reach this block using the supported syntax nodes defined above.
+            try { AnalyzeToken(context, (SyntaxToken)((dynamic)context.Node).OpenBraceToken); } catch { return; }
 
-            Location openBraceLocation = block.OpenBraceToken.GetLocation();
-            bool isOnDeclarationLine = openBraceLocation.GetLineSpan().StartLinePosition.Line == block.Parent.GetLocation().GetLineSpan().StartLinePosition.Line;
+            //Additional research needs to be done to obtain the previous node as it is not yeilding desirable results.
+            //try { AnalyzeToken(context, (SyntaxToken)((dynamic)context.Node).CloseBraceToken); } catch { return; }
+        }
 
-            if ((ConfigManager.Configuration.Formatting.CurlyBraces.NewLine && isOnDeclarationLine)
-                || (!ConfigManager.Configuration.Formatting.CurlyBraces.NewLine && !isOnDeclarationLine))
-                context.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptor, openBraceLocation));
+        private void AnalyzeToken(SyntaxNodeAnalysisContext context, SyntaxToken token)
+        {
+            //SyntaxToken braceTokenPreviousNode = token.GetPreviousToken();
+            //SyntaxNode? braceTokenPreviousNode = token.Parent;
+            
+            //If the context.Node is a block, then the open brace token will always be on the same line as the declaring block as they are the same thing, in this case we need to get the parent of the block node.
+            SyntaxNode? braceTokenPreviousNode = context.Node is BlockSyntax ? context.Node.Parent : token.Parent;
+            
+            Location braceLocation = token.GetLocation();
+
+            bool isBraceOnParentLine = braceLocation.GetLineSpan().StartLinePosition.Line == braceTokenPreviousNode?.GetLocation().GetLineSpan().StartLinePosition.Line;
+            if ((ConfigManager.Configuration.Formatting.CurlyBraces.NewLine && isBraceOnParentLine) || (!ConfigManager.Configuration.Formatting.CurlyBraces.NewLine && !isBraceOnParentLine))
+                context.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptor, braceLocation));
         }
     }
 }
