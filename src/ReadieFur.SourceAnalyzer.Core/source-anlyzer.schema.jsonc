@@ -75,6 +75,21 @@
 						}
 					},
 					"required": ["new_line"]
+				},
+				"indentation":
+				{
+					"type": "object",
+					"properties":
+					{
+						"enabled": { "$ref": "#/definitions/enabled" },
+						"severity": { "$ref": "#/definitions/severity" },
+						"size":
+						{
+							"type": "integer",
+							"description": "The number of spaces to use for indentation."
+						}
+					},
+					"required": ["size"]
 				}
 			}
 		}

@@ -61,6 +61,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                 //We can use this indentation as the new indentation for the new line as they should be the same.
                 FileLinePositionSpan lineSpan = root.SyntaxTree.GetLineSpan(openBraceToken.Span);
                 int indentation = 0;
+                int indentationSize = 0;
                 foreach (SyntaxToken token in root.DescendantTokens())
                 {
                     //Limit search to everything prior to the target token.
@@ -68,15 +69,40 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                         break;
 
                     if (token.IsKind(SyntaxKind.OpenBraceToken))
+                    {
                         indentation++;
+
+                        //Calculate the indentation for later if nessecary.
+                        if (indentationSize != 0)
+                            continue;
+
+                        //Get the first non-whitespace trivia for this line.
+                        int tokenLine = root.SyntaxTree.GetLineSpan(token.Span).StartLinePosition.Line;
+                        SyntaxToken tokenLineFirst = token;
+                        while (root.SyntaxTree.GetLineSpan(tokenLineFirst.Span).StartLinePosition.Line == tokenLine)
+                            tokenLineFirst = tokenLineFirst.GetPreviousToken();
+
+                        //Find the whitespace trivia.
+                        SyntaxTrivia leadingWhitespaceTrivia = tokenLineFirst.LeadingTrivia.FirstOrDefault(t => t.IsKind(SyntaxKind.WhitespaceTrivia));
+                        if (leadingWhitespaceTrivia == default)
+                            continue;
+
+                        indentationSize = leadingWhitespaceTrivia.Span.Length;
+                    }
                     else if (token.IsKind(SyntaxKind.CloseBraceToken))
+                    {
                         indentation--;
+                    }
                 }
 
                 //Calculate the indentation to be used.
+                //Use the indentation from the user config if indentation settings are enabled, otherwise use the documents indentation (or fallback to the hardcoded default size).
+                if (ConfigManager.Configuration.Formatting.Indentation.IsEnabled)
+                    indentationSize = ConfigManager.Configuration.Formatting.Indentation.Size;
+                else if (indentationSize == 0)
+                    indentationSize = Indentation.DEFAULT_SIZE;
                 //I prefer to use tabs for spacing, however I have not implimented a tab/space check yet, so for testing I will continue to use spaces.
-                //Whitespace indentation will currently be hardcoded to 4 for testing.
-                SyntaxTrivia indentationTrivia = SyntaxFactory.Whitespace(new string(' ', indentation * 4));
+                SyntaxTrivia indentationTrivia = SyntaxFactory.Whitespace(new string(' ', indentation * indentationSize));
 
                 //Move the open brace to the next line by adding a new line to the leading trivia of the open brace token.
                 SyntaxTrivia newLineTrivia = lineEndingStyle;
@@ -91,10 +117,16 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             }
             else
             {
-                //TODO: Remove all indentation and replace with a single space.
+                List<SyntaxTrivia> leadingTrivia =
+                [
+                    //Move the open brace to the previous line by adding the leading trivia of the previous token to the open brace token.
+                    .. openBraceToken.GetPreviousToken().TrailingTrivia,
 
-                //Move the open brace to the previous line by adding the leading trivia of the previous token to the open brace token.
-                SyntaxToken newOpenBraceToken = openBraceToken.WithLeadingTrivia(openBraceToken.LeadingTrivia.AddRange(openBraceToken.GetPreviousToken().TrailingTrivia));
+                    //Remove all indentation and replace with a single space.
+                    .. openBraceToken.LeadingTrivia.Where(t => !t.IsKind(SyntaxKind.WhitespaceTrivia)),
+                ];
+                
+                updatedTokens.Add(openBraceToken, openBraceToken.WithLeadingTrivia(leadingTrivia));
             }
 
             //Batch update the tokens for efficency and consistency with the document changes.

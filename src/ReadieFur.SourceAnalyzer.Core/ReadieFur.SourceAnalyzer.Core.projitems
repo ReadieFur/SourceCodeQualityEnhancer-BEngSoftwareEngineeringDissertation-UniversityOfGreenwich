@@ -16,6 +16,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\NamingAnalyzer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\NamingFixProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\Indentation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\PropertyBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\ConfigManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\ConfigRoot.cs" />

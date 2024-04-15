@@ -52,3 +52,6 @@ formatting:
   curly_braces:
     severity: "warning"
     new_line: true
+  indentation:
+    severity: "warning"
+    size: 4

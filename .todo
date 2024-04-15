@@ -1,5 +1,9 @@
 Code:
     ☐ Brace line checker @started(24-03-20 11:56)
+        ✔ New line after brace @done(24-04-14 02:05)
+        ☐ Ignore single line blocks
+        ☐ Last line brace after
+        ☐ Move to source line @started(24-04-15 02:31)
     ☐ Indentation checker
     ☐ Single statment block checker
     ☐ Nested node file splitter
