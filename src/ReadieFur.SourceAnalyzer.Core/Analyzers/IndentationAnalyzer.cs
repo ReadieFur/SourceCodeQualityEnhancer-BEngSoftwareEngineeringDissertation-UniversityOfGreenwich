@@ -3,10 +3,8 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Text;
 using ReadieFur.SourceAnalyzer.Core.Configuration;
-using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Threading.Tasks;
 
 namespace ReadieFur.SourceAnalyzer.Core.Analyzers
 {
