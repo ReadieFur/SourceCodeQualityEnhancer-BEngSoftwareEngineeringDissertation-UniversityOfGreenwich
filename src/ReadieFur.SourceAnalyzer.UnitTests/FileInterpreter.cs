@@ -129,10 +129,10 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
                 int analyzerSubInputOffset = analyzerInput.IndexOf(analyzerSubInput);
                 string analyzerStartPart = AnalyzerInput.Substring(0, analyzerInputOffset + analyzerSubInputOffset);
                 string analyzerEndPart = AnalyzerInput.Substring(0, analyzerInputOffset + analyzerSubInputOffset + analyzerSubInput.Length);
-                int analyzerStartLine = analyzerStartPart.Count(c => c == '\n') + 1; //The analyzer uses 1-based indexing.
-                int analyzerStartColumn = analyzerStartPart.Split(Environment.NewLine).Last().Length + 1;
+                int analyzerStartLine = analyzerEndPart.Count(c => c == '\n') + 1;//The analyzer uses 1-based indexing.
+                int analyzerStartColumn = analyzerSubInputOffset + 1;
                 int analyzerEndLine = analyzerEndPart.Count(c => c == '\n') + 1;
-                int analyzerEndColumn = analyzerEndPart.Split('\n').Last().Length;
+                int analyzerEndColumn = analyzerEndPart.Split('\n').Last().Length; //TODO: Needs updating to match the sub-input.
                 DiagnosticResult analyzerDiagnosticResult = new DiagnosticResult(descriptor)
                     .WithLocation(analyzerStartLine, analyzerStartColumn);
                     //.WithSpan(analyzerStartLine, analyzerStartColumn, analyzerEndLine, analyzerEndColumn);
