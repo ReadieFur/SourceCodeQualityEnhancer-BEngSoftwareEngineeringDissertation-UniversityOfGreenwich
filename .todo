@@ -4,7 +4,7 @@ Code:
         ☐ Ignore single line blocks
         ☐ Last line brace after
         ☐ Move to source line @started(24-04-15 02:31)
-    ☐ Indentation checker
+    ✔ Indentation checker @done(24-04-16 08:13)
     ☐ Single statment block checker
     ☐ Nested node file splitter
     ✔ Naming convention checker @done
