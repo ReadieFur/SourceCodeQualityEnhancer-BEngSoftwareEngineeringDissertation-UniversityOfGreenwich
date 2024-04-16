@@ -1,4 +1,6 @@
-﻿using Microsoft.CodeAnalysis;
+﻿#define REMOVE_COMMENTS
+
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Testing;
 using System.Text.RegularExpressions;
 
@@ -33,18 +35,27 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
         private void Process(AnalyzerDiagnosticCallback getAnalyzerDiagnostic, CodeFixDiagnosticCallback getCodeFixDiagnostic)
         {
             #region Usings
-            string noCustomUsings = SourceText;
+            string formattedInput = SourceText;
             int usingsStart = SourceText.IndexOf("using", StringComparison.Ordinal);
             int usingsEnd = SourceText.LastIndexOf("using", StringComparison.Ordinal);
             string usings = SourceText.Substring(usingsStart, usingsEnd - usingsStart);
             foreach (string originalUsing in usings.Split(Environment.NewLine).Reverse())
                 if (!string.IsNullOrEmpty(originalUsing) && !originalUsing.StartsWith("using System"))
-                    noCustomUsings = noCustomUsings.Replace(originalUsing, string.Empty);
+                    formattedInput = formattedInput.Replace(originalUsing, string.Empty);
+            #endregion
+
+            #region Remove comments
+#if REMOVE_COMMENTS
+            //Remove all comments exccept the ones that contain the tokens used by this analyzer.
+            formattedInput = Regex.Replace(formattedInput, @"(?:^|\n)\/\/(?!#|-|\+)(.*)", string.Empty, RegexOptions.Multiline);
+#endif
+            #endregion
+
+            //Supply a base to work on for each generated document.
             CodeFixExpected =
                 CodeFixInput =
                 AnalyzerInput =
-                noCustomUsings;
-            #endregion
+                formattedInput;
 
             List<Diagnostic> diagnostics = new();
 
@@ -65,7 +76,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
             int analyzerInputOffset = 0;
             int codeFixInputOffset = 0;
             int codeFixExpectedOffset = 0;
-            string regexSource = noCustomUsings.ToString(); //Create a destructible copy of the source text to work on.
+            string regexSource = formattedInput.ToString(); //Create a destructible copy of the source text to work on.
             int count = 0;
             while ((outerMatch = outerRegex.Match(regexSource)).Success) //The overload "startat" didn't seem to be working for me so I am manually tracking the offset.
             {

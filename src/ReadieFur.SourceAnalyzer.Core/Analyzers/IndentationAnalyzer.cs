@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Text;
 using ReadieFur.SourceAnalyzer.Core.Configuration;
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Threading.Tasks;
 
@@ -94,6 +95,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
 
                 //Decrement the indentation level before checking the actual indentation IF the token is a closing token (as closing tokens should be on the previous indentation level).
                 //TODO: Check indentation level for braceless statments (i.e. single operation if block bodies).
+                //TODO: Update this to work on a line and not an individual token as things such as comments cause errors if not indented here and cannot be fixed by this current code.
                 if (token.IsKind(SyntaxKind.CloseBraceToken))
                     level--;
                 if (innerBlockCount < 0)
@@ -101,7 +103,11 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
 
                 //Check if the level is correct.
                 if (level * ConfigManager.Configuration.Formatting.Indentation.Size != firstNonWhitespace)
-                    context.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptor, token.GetLocation(), level));
+                    context.ReportDiagnostic(Diagnostic.Create(
+                        DiagnosticDescriptor,
+                        token.GetLocation(),
+                        new Dictionary<string, string> { { "level", level.ToString() } }.ToImmutableDictionary(),
+                        level));
 
                 //Increment the indentation level after checking the actual indentation IF the token is an opening token.
                 //TODO: Possibly update indentation for curly and square brackets.

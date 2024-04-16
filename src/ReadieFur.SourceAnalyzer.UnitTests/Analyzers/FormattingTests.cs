@@ -1,5 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
-using ReadieFur.SourceAnalyzer.Core.Analyzers;
+﻿using ReadieFur.SourceAnalyzer.Core.Analyzers;
 using ReadieFur.SourceAnalyzer.UnitTests.Compatibility;
 using ReadieFur.SourceAnalyzer.UnitTests.Verifiers;
 
