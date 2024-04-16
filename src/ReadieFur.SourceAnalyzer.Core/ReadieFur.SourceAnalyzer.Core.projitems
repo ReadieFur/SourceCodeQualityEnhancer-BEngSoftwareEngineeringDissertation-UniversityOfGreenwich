@@ -13,6 +13,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\BraceLocationFixProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\ENamingAnalyzer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\Helpers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\IndentationFixProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\IndentationAnalyzer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\NamingAnalyzer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\NamingFixProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cs" />

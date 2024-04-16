@@ -44,12 +44,14 @@
   <ItemGroup>
     <Compile Remove="TestFiles\ClassName.cs" />
     <Compile Remove="TestFiles\CurlyBrace.cs" />
+    <Compile Remove="TestFiles\Indentation.cs" />
     <Compile Remove="TestFiles\LocalVariable.cs" />
     <Compile Remove="TestFiles\Test.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="TestFiles\CurlyBrace.cs" />
+    <None Include="TestFiles\Indentation.cs" />
     <None Include="TestFiles\LocalVariable.cs" />
     <None Include="TestFiles\ClassName.cs" />
     <None Include="TestFiles\Test.cs" />
