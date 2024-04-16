@@ -60,10 +60,40 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             //So to save typing out slightly different blocks for each type, I will cast to a dynamic type which will let me get the property without type checking.
             //The alternative is to use reflection and search for the property but this would break if I compiled to native as reflection only works within a managed runtime.
             //To add some saftey around this, I will wrap it in a try/catch block, though it should never fail unless the API changes as we should only reach this block using the supported syntax nodes defined above.
-            try { AnalyzeToken(context, (SyntaxToken)((dynamic)context.Node).OpenBraceToken); } catch { return; }
+            //try { AnalyzeToken(context, (SyntaxToken)((dynamic)context.Node).OpenBraceToken); } catch { return; }
 
             //Additional research needs to be done to obtain the previous node as it is not yeilding desirable results.
             //try { AnalyzeToken(context, (SyntaxToken)((dynamic)context.Node).CloseBraceToken); } catch { return; }
+
+            //Falling back to switch block as the cast to dynamic failed to compile on the VSIX build.
+            //I wanted to avoid this as the types don't share a common base with the properties I want to access so it just means I have to write more to achieve the same result.
+            SyntaxToken openBraceToken;
+            SyntaxToken closeBraceToken;
+            switch (context.Node)
+            {
+                case ClassDeclarationSyntax classDeclarationSyntax:
+                    openBraceToken = classDeclarationSyntax.OpenBraceToken;
+                    closeBraceToken = classDeclarationSyntax.CloseBraceToken;
+                    break;
+                case SwitchStatementSyntax switchStatementSyntax:
+                    openBraceToken = switchStatementSyntax.OpenBraceToken;
+                    closeBraceToken = switchStatementSyntax.CloseBraceToken;
+                    break;
+                case NamespaceDeclarationSyntax namespaceDeclarationSyntax:
+                    openBraceToken = namespaceDeclarationSyntax.OpenBraceToken;
+                    closeBraceToken = namespaceDeclarationSyntax.CloseBraceToken;
+                    break;
+                case BlockSyntax blockSyntax:
+                    openBraceToken = blockSyntax.OpenBraceToken;
+                    closeBraceToken = blockSyntax.CloseBraceToken;
+                    break;
+                default:
+                    //Shouldn't be reached.
+                    return;
+            }
+
+            AnalyzeToken(context, openBraceToken);
+            AnalyzeToken(context, closeBraceToken);
         }
 
         private void AnalyzeToken(SyntaxNodeAnalysisContext context, SyntaxToken token)
