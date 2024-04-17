@@ -8,7 +8,7 @@ using System.Collections.Immutable;
 namespace ReadieFur.SourceAnalyzer.Core.Analyzers
 {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    internal class BraceLocationAnalyzer : DiagnosticAnalyzer
+    internal class BraceAnalyzer : DiagnosticAnalyzer
     {
         public static DiagnosticDescriptor DiagnosticDescriptor => new(
             id: Helpers.ANALYZER_ID_PREFIX + "0016",
@@ -16,7 +16,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             messageFormat:
                 "Braces should be on "
                     + (ConfigManager.Configuration.Formatting.CurlyBraces.NewLine
-                    ? "the line after."
+                    ? "the line after"
                     : "the same line as")
                 + " the declaring statement.",
             category: "Formatting",

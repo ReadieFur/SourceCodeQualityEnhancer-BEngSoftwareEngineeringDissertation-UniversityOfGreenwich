@@ -47,7 +47,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
             #region Remove comments
 #if REMOVE_COMMENTS
             //Remove all comments exccept the ones that contain the tokens used by this analyzer.
-            formattedInput = Regex.Replace(formattedInput, @"(?:^|\n)\/\/(?!#|-|\+)(.*)", string.Empty, RegexOptions.Multiline);
+            formattedInput = Regex.Replace(formattedInput, @"(?:^|\n)\/\/(?![#\-+ ])(.*)", string.Empty, RegexOptions.Multiline);
 #endif
             #endregion
 

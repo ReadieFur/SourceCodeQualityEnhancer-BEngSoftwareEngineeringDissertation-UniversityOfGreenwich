@@ -13,9 +13,9 @@ using System.Threading.Tasks;
 namespace ReadieFur.SourceAnalyzer.Core.Analyzers
 {
     [ExportCodeFixProvider(LanguageNames.CSharp), Shared]
-    internal class BraceLocationFixProvider : CodeFixProvider
+    internal class BraceFixProvider : CodeFixProvider
     {
-        public override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(BraceLocationAnalyzer.DiagnosticDescriptor.Id);
+        public override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(BraceAnalyzer.DiagnosticDescriptor.Id);
 
         public override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
