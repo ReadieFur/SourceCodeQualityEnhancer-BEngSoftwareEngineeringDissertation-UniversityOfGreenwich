@@ -4,5 +4,6 @@
     {
         public CurlyBraces CurlyBraces { get; set; } = new();
         public Indentation Indentation { get; set; } = new();
+        public Comments Comments { get; set; } = new();
     }
 }

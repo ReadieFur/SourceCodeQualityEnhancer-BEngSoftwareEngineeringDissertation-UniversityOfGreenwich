@@ -9,8 +9,10 @@
     <Import_RootNamespace>ReadieFur.SourceAnalyzer.Core</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\BraceLocationAnalyzer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\BraceLocationFixProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\BraceAnalyzer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\BraceFixProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\CommentAnalyzer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\CommentFixProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\ENamingAnalyzer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\Helpers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\IndentationFixProvider.cs" />
@@ -18,6 +20,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\NamingAnalyzer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\NamingFixProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\Comments.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\Indentation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\PropertyBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\ConfigManager.cs" />

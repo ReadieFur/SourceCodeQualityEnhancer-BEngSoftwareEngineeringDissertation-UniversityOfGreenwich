@@ -11,3 +11,8 @@ Code:
     ☐ Auto-documenation generator (based on node tree)
     ☐ Large parameter multi-line checker
     ☐ Comment style checker
+        ✔ Space after declaration @done(24-04-17 04:37)
+        ☐ Single to multi-line
+        ☐ Full stop at end
+        ☐ Capital letter at start
+        ☐ Multi to single-line
