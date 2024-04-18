@@ -2,6 +2,8 @@
 {
     public sealed class Comments : ConfigBase
     {
-        public bool AddSpaceBeforeComment = false;
+        public bool NewLine = false;
+        public bool LeadingSpace = false;
+        public bool TrailingFullStop = true;
     }
 }

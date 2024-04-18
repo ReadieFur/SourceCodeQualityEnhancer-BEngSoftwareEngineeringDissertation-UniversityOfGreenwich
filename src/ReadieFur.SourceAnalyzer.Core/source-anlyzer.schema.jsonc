@@ -90,6 +90,30 @@
 						}
 					},
 					"required": ["size"]
+				},
+				"comments":
+				{
+					"type": "object",
+					"properties":
+					{
+						"enabled": { "$ref": "#/definitions/enabled" },
+						"severity": { "$ref": "#/definitions/severity" },
+						"new_line":
+						{
+							"type": "boolean",
+							"description": "Whether to place comments on a new line."
+						},
+						"leading_space":
+						{
+							"type": "boolean",
+							"description": "Whether to place a space after the comment delimiter."
+						},
+						"trailing_full_stop":
+						{
+							"type": "boolean",
+							"description": "Whether to place a full stop at the end of the comment."
+						}
+					}
 				}
 			}
 		}

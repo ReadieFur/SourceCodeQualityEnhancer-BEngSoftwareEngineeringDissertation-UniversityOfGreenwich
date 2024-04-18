@@ -24,9 +24,17 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Analyzers
         [MTest] public async Task IndentationAnalyzer() => await TestAnalyzer<IndentationAnalyzer>("Indentation.cs", IndentationAnalyzerDiagnosticCallback);
         [MTest] public async Task IndentationFixProvider() => await TestFixProvider<IndentationAnalyzer, IndentationFixProvider>("Indentation.cs", IndentationAnalyzerDiagnosticCallback, IndentationCodeFixDiagnosticCallback);
 
-        private FileInterpreter.AnalyzerDiagnosticCallback CommentAnalyzerDiagnosticCallback => (_, _) => Core.Analyzers.CommentAnalyzer.DiagnosticDescriptor;
+        private FileInterpreter.AnalyzerDiagnosticCallback CommentLeadingSpaceAnalyzerDiagnosticCallback => (_, _) => CommentAnalyzer.LeadingSpaceDiagnosticDescriptor;
         private FileInterpreter.CodeFixDiagnosticCallback CommentCodeFixDiagnosticCallback => (diagnosticDescriptor, _) => CSharpCodeFixVerifier<CommentAnalyzer, CommentFixProvider>.Diagnostic(diagnosticDescriptor);
-        [MTest] public async Task CommentAnalyzer() => await TestAnalyzer<CommentAnalyzer>("Comment.cs", CommentAnalyzerDiagnosticCallback);
-        [MTest] public async Task CommentFixProvider() => await TestFixProvider<CommentAnalyzer, CommentFixProvider>("Comment.cs", CommentAnalyzerDiagnosticCallback, CommentCodeFixDiagnosticCallback);
+        [MTest] public async Task CommentLeadingSpaceAnalyzer() => await TestAnalyzer<CommentAnalyzer>("Comment_LeadingSpace.cs", CommentLeadingSpaceAnalyzerDiagnosticCallback);
+        [MTest] public async Task CommentLeadingSpaceProvider() => await TestFixProvider<CommentAnalyzer, CommentFixProvider>("Comment_LeadingSpace.cs", CommentLeadingSpaceAnalyzerDiagnosticCallback, CommentCodeFixDiagnosticCallback);
+
+        private FileInterpreter.AnalyzerDiagnosticCallback CommentTrailingFullStopAnalyzerDiagnosticCallback => (_, _) => CommentAnalyzer.TrailingFullStopDiagnosticDescriptor;
+        [MTest] public async Task CommentTrailingFullStopAnalyzer() => await TestAnalyzer<CommentAnalyzer>("Comment_TrailingFullStop.cs", CommentTrailingFullStopAnalyzerDiagnosticCallback);
+        [MTest] public async Task CommentTrailingFullStopFixProvider() => await TestFixProvider<CommentAnalyzer, CommentFixProvider>("Comment_TrailingFullStop.cs", CommentTrailingFullStopAnalyzerDiagnosticCallback, CommentCodeFixDiagnosticCallback);
+
+        private FileInterpreter.AnalyzerDiagnosticCallback CommentNewLineAnalyzerDiagnosticCallback => (_, _) => CommentAnalyzer.NewLineDiagnosticDescriptor;
+        [MTest] public async Task CommentNewLineAnalyzer() => await TestAnalyzer<CommentAnalyzer>("Comment_NewLine.cs", CommentNewLineAnalyzerDiagnosticCallback);
+        [MTest] public async Task CommentNewLineFixProvider() => await TestFixProvider<CommentAnalyzer, CommentFixProvider>("Comment_NewLine.cs", CommentNewLineAnalyzerDiagnosticCallback, CommentCodeFixDiagnosticCallback);
     }
 }

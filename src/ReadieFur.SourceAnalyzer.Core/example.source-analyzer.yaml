@@ -55,3 +55,8 @@ formatting:
   indentation:
     severity: "warning"
     size: 4
+  comments:
+    severity: "warning"
+    new_line: true
+    leading_space: false
+    trailing_full_stop: true

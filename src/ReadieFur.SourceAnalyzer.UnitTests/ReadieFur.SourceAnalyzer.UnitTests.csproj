@@ -43,7 +43,9 @@
 
   <ItemGroup>
     <Compile Remove="TestFiles\ClassName.cs" />
-    <Compile Remove="TestFiles\Comment.cs" />
+    <Compile Remove="TestFiles\Comment_LeadingSpace.cs" />
+    <Compile Remove="TestFiles\Comment_NewLine.cs" />
+    <Compile Remove="TestFiles\Comment_TrailingFullStop.cs" />
     <Compile Remove="TestFiles\CurlyBrace.cs" />
     <Compile Remove="TestFiles\Indentation.cs" />
     <Compile Remove="TestFiles\LocalVariable.cs" />
@@ -51,7 +53,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="TestFiles\Comment.cs" />
+    <None Include="TestFiles\Comment_NewLine.cs" />
+    <None Include="TestFiles\Comment_TrailingFullStop.cs" />
+    <None Include="TestFiles\Comment_LeadingSpace.cs" />
     <None Include="TestFiles\CurlyBrace.cs" />
     <None Include="TestFiles\Indentation.cs" />
     <None Include="TestFiles\LocalVariable.cs" />

@@ -68,6 +68,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                     if (token.Equals(openBraceToken))
                         break;
 
+                    //TODO: Make this a binary search to possibly increase efficency? Might not be worth it though given the typical small number of tokens per line.
                     if (token.IsKind(SyntaxKind.OpenBraceToken))
                     {
                         indentation++;

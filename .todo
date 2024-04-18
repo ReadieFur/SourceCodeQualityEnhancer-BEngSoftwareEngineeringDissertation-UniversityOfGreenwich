@@ -13,6 +13,6 @@ Code:
     ☐ Comment style checker
         ✔ Space after declaration @done(24-04-17 04:37)
         ☐ Single to multi-line
-        ☐ Full stop at end
+        ✔ Full stop at end @done(24-04-17 11:11)
         ☐ Capital letter at start
         ☐ Multi to single-line
