@@ -11,6 +11,11 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
             Assert.IsTrue(await ConfigManager.Instance.LoadAsync(path!), "Failed to load source-analyzer.yaml");
         }
 
+        public static void SetConfiguration(ConfigRoot config)
+        {
+            (typeof(ConfigManager).GetProperty("Config") ?? throw new NullReferenceException()).SetValue(ConfigManager.Instance, config);
+        }
+
         public static async Task<string> GetSourceFile(string fileName)
         {
             if (GetSolutionPath() is not string solutionPath)
