@@ -1,22 +1,26 @@
 Code:
-    ☐ Brace line checker @started(24-03-20 11:56)
+    ☐ Brace line @started(24-03-20 11:56)
         ✔ New line after brace @done(24-04-14 02:05)
         ☐ Ignore single line blocks
         ☐ Last line brace after
         ☐ Move to source line @started(24-04-15 02:31)
-    ✔ Indentation checker @done(24-04-16 08:13)
-    ☐ Single statment block checker
+    ✔ Indentation @done(24-04-16 08:13)
+    ☐ Single statment block
     ☐ Nested node file splitter (split classes into individual files)
-    ✔ Naming convention checker @done
+    ✔ Naming convention @done
     ☐ Auto-documenation generator (based on node tree)
-    ☐ Large parameter multi-line checker
-    ☐ Comment style checker
+    ☐ Large parameter multi-line
+    ☐ Comment style
         ✔ Space after declaration @done(24-04-17 04:37)
         ☐ Single to multi-line
         ✔ Full stop at end @done(24-04-17 11:11)
         ✔ Capital letter at start @done(24-04-19 14:33)
         ☐ Multi to single-line
-    ☐ Operator location checker
+    ☐ Operator location
         ☐ Move && and || to start/end of line
         ☐ Move ? and : to start/end of line
-    ☐ Chaining function checker
+    ☐ Chaining function
+    ☐ Explicit access modifier
+    ✘ Explicit type (already built into the IDE). @cancelled(24-04-19 17:59)
+    ☐ Correct line spacing
+    ☐ Implicit new keyword

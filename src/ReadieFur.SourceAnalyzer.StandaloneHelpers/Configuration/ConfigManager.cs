@@ -1,4 +1,7 @@
-﻿namespace ReadieFur.SourceAnalyzer.Core.Configuration
+﻿using System;
+using System.Threading.Tasks;
+
+namespace ReadieFur.SourceAnalyzer.Core.Configuration
 {
     public partial class ConfigManager
     {
@@ -15,6 +18,11 @@
         {
             Config = await YamlLoader.LoadAsync(configPath);
             return Config is not null;
+        }
+
+        public void LoadDefaultConfiguration()
+        {
+            Config = new();
         }
     }
 }

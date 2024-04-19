@@ -122,7 +122,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                         lastTokenOnPreviousLine = lastTokenOnPreviousLine.GetPreviousToken();
 
                     //Calculate indentation.
-                    int indentation = lastTokenOnPreviousLine.GetNextToken().LeadingTrivia.First(t => t.IsKind(SyntaxKind.WhitespaceTrivia)).ToString().Length;
+                    int indentation = lastTokenOnPreviousLine.GetNextToken().LeadingTrivia.FirstOrDefault(t => t.IsKind(SyntaxKind.WhitespaceTrivia)).ToString().Length;
                     SyntaxTrivia indentationTrivia = SyntaxFactory.Whitespace(new string(' ', indentation));
 
                     //Update the leading trivia on the owning token such that it is lead with: new line, comment, new line, owning token leading trivia, owning token.
