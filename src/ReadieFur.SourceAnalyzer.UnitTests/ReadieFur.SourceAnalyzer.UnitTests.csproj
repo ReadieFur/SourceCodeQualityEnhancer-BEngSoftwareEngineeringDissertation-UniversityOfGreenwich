@@ -45,6 +45,7 @@
     <Compile Remove="TestFiles\ClassName.cs" />
     <Compile Remove="TestFiles\Comment_LeadingSpace.cs" />
     <Compile Remove="TestFiles\Comment_NewLine.cs" />
+    <Compile Remove="TestFiles\Comment_OldLine.cs" />
     <Compile Remove="TestFiles\Comment_TrailingFullStop.cs" />
     <Compile Remove="TestFiles\CurlyBrace.cs" />
     <Compile Remove="TestFiles\Indentation.cs" />
@@ -53,6 +54,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="TestFiles\Comment_OldLine.cs" />
     <None Include="TestFiles\Comment_NewLine.cs" />
     <None Include="TestFiles\Comment_TrailingFullStop.cs" />
     <None Include="TestFiles\Comment_LeadingSpace.cs" />

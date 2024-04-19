@@ -141,21 +141,41 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                 }
                 else
                 {
+                    //Late night work, probably not efficent, brain not at full capacity.
+
                     //Get the end of the next line, this is where the comment will be placed.
                     SyntaxToken lastTokenOnNextLine = commentTrivia.Token;
                     SyntaxToken lastToken = root.GetLastToken();
                     while (!lastTokenOnNextLine.Equals(lastToken) && lastTokenOnNextLine.GetLocation().GetLineSpan().StartLinePosition.Line <= lineSpan.StartLinePosition.Line + 1)
                         lastTokenOnNextLine = lastTokenOnNextLine.GetNextToken();
+                    //Typically we will need to navigate back one token due to the way the above search works.
+                    if (lastTokenOnNextLine.GetLocation().GetLineSpan().StartLinePosition.Line >= lineSpan.StartLinePosition.Line + 2)
+                        lastTokenOnNextLine = lastTokenOnNextLine.GetPreviousToken();
+
                     //TODO: Add a whitespace after the token and before the comment.
-                    updatedTokens.Add(lastTokenOnNextLine, lastTokenOnNextLine.WithTrailingTrivia(lastTokenOnNextLine.TrailingTrivia.Prepend(commentTrivia)));
+                    updatedTokens.Add(lastTokenOnNextLine, lastTokenOnNextLine.WithTrailingTrivia(lastTokenOnNextLine.TrailingTrivia.Prepend(commentTrivia).Prepend(SyntaxFactory.Whitespace(" "))));
 
                     //Comments that are to be moved to be on the same line as code typically are above the code that is being referenced, so we need to move the token to be a trailing token of the next line.
-                    SyntaxTrivia commentEOLTrivia = isCommentInTrailingTrivia
-                        ? commentTrivia.Token.TrailingTrivia.SkipWhile(t => t != commentTrivia).First(t => t.IsKind(SyntaxKind.EndOfLineTrivia))
-                        : commentEOLTrivia = commentTrivia.Token.LeadingTrivia.SkipWhile(t => t != commentTrivia).First(t => t.IsKind(SyntaxKind.EndOfLineTrivia));
+                    List<SyntaxTrivia> triviasToRemove = new() { commentTrivia };
+                    int commentTriviaIndex = commentTrivia.Token.LeadingTrivia.IndexOf(commentTrivia);
+                    if (isCommentInTrailingTrivia)
+                    {
+                        if (commentTriviaIndex - 1 > 0 && commentTrivia.Token.TrailingTrivia[commentTriviaIndex - 1].IsKind(SyntaxKind.WhitespaceTrivia))
+                            triviasToRemove.Add(commentTrivia.Token.TrailingTrivia[commentTriviaIndex - 1]);
 
-                    updatedTokens.Add(commentTrivia.Token, commentTrivia.Token.WithLeadingTrivia(
-                        (isCommentInTrailingTrivia ? commentTrivia.Token.TrailingTrivia : commentTrivia.Token.LeadingTrivia).Where(t => !t.IsKind(SyntaxKind.WhitespaceTrivia) || t.Equals(commentEOLTrivia))));
+                        updatedTokens.Add(commentTrivia.Token, commentTrivia.Token.WithTrailingTrivia(commentTrivia.Token.TrailingTrivia.Where(t => !t.Equals(commentTrivia))));
+                    }
+                    else
+                    {
+                        //If the comment is in the leading trivia, it will likley have an EOL trivia after it, if it does we should remove it.
+                        if (commentTriviaIndex + 1 < commentTrivia.Token.LeadingTrivia.Count && commentTrivia.Token.LeadingTrivia[commentTriviaIndex + 1].IsKind(SyntaxKind.EndOfLineTrivia))
+                            triviasToRemove.Add(commentTrivia.Token.LeadingTrivia[commentTriviaIndex + 1]);
+
+                        if (commentTriviaIndex - 1 >= 0 && commentTrivia.Token.LeadingTrivia[commentTriviaIndex - 1].IsKind(SyntaxKind.WhitespaceTrivia))
+                            triviasToRemove.Add(commentTrivia.Token.LeadingTrivia[commentTriviaIndex - 1]);
+
+                        updatedTokens.Add(commentTrivia.Token, commentTrivia.Token.WithLeadingTrivia(commentTrivia.Token.LeadingTrivia.Where(t => !triviasToRemove.Contains(t))));
+                    }
                 }
             }
 

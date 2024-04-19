@@ -36,5 +36,16 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Analyzers
         private FileInterpreter.AnalyzerDiagnosticCallback CommentNewLineAnalyzerDiagnosticCallback => (_, _) => CommentAnalyzer.NewLineDiagnosticDescriptor;
         [MTest] public async Task CommentNewLineAnalyzer() => await TestAnalyzer<CommentAnalyzer>("Comment_NewLine.cs", CommentNewLineAnalyzerDiagnosticCallback);
         [MTest] public async Task CommentNewLineFixProvider() => await TestFixProvider<CommentAnalyzer, CommentFixProvider>("Comment_NewLine.cs", CommentNewLineAnalyzerDiagnosticCallback, CommentCodeFixDiagnosticCallback);
+        [MTest] public async Task CommentOldLineFixProvider() => await TestFixProvider<CommentAnalyzer, CommentFixProvider>(
+            "Comment_OldLine.cs", CommentNewLineAnalyzerDiagnosticCallback, CommentCodeFixDiagnosticCallback, new Core.Configuration.ConfigRoot
+            {
+                Formatting = new Core.Configuration.Formatting
+                {
+                    Comments = new Core.Configuration.Comments
+                    {
+                        NewLine = false
+                    }
+                }
+            });
     }
 }

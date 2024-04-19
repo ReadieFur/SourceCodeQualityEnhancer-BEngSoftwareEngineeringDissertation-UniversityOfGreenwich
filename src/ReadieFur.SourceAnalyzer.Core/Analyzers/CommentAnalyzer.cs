@@ -124,7 +124,8 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                         Location triviaLocation = trivia.GetLocation();
                         FileLinePositionSpan triviaLineSpan = triviaLocation.GetLineSpan();
                         FileLinePositionSpan tokenLineSpan = trivia.Token.GetLocation().GetLineSpan();
-                        if (triviaLineSpan.StartLinePosition.Line >= tokenLineSpan.StartLinePosition.Line && triviaLineSpan.EndLinePosition.Line <= tokenLineSpan.EndLinePosition.Line)
+                        if ((ConfigManager.Configuration.Formatting.Comments.NewLine && triviaLineSpan.StartLinePosition.Line >= tokenLineSpan.StartLinePosition.Line && triviaLineSpan.EndLinePosition.Line <= tokenLineSpan.EndLinePosition.Line)
+                            || (!ConfigManager.Configuration.Formatting.Comments.NewLine && triviaLineSpan.StartLinePosition.Line != tokenLineSpan.StartLinePosition.Line))
                             context.ReportDiagnostic(Diagnostic.Create(NewLineDiagnosticDescriptor, triviaLocation));
                         break;
                     default:
