@@ -1,4 +1,5 @@
 ﻿using ReadieFur.SourceAnalyzer.Core.Configuration;
+using System.Reflection;
 
 namespace ReadieFur.SourceAnalyzer.UnitTests
 {
@@ -13,7 +14,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
 
         public static void SetConfiguration(ConfigRoot config)
         {
-            (typeof(ConfigManager).GetProperty("Config") ?? throw new NullReferenceException()).SetValue(ConfigManager.Instance, config);
+            (typeof(ConfigManager).GetProperty("Config", BindingFlags.Instance | BindingFlags.NonPublic) ?? throw new NullReferenceException()).SetValue(ConfigManager.Instance, config);
         }
 
         public static void OverrideConfiguration(ConfigRoot config)
