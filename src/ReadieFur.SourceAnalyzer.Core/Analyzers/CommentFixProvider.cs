@@ -60,7 +60,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             switch (trivia.RawKind)
             {
                 case (int)SyntaxKind.SingleLineCommentTrivia:
-                    updatedTrivia = SyntaxFactory.Comment("//" + trivia.ToString().Substring(3));
+                    updatedTrivia = SyntaxFactory.Comment(ConfigManager.Configuration.Formatting.Comments.LeadingSpace ? "// " + trivia.ToString().Substring(2) : "//" + trivia.ToString().Substring(3));
                     break;
                 default:
                     return document;
@@ -80,7 +80,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             switch (trivia.RawKind)
             {
                 case (int)SyntaxKind.SingleLineCommentTrivia:
-                    updatedTrivia = SyntaxFactory.Comment(trivia.ToString() + ".");
+                    updatedTrivia = SyntaxFactory.Comment(ConfigManager.Configuration.Formatting.Comments.TrailingFullStop ? trivia.ToString() + "." : trivia.ToString().TrimEnd(' ', '.'));
                     break;
                 default:
                     return document;

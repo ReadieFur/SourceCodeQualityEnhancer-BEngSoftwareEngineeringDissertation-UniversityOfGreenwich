@@ -5,6 +5,8 @@ using Microsoft.CodeAnalysis.Text;
 using ReadieFur.SourceAnalyzer.Core.Configuration;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace ReadieFur.SourceAnalyzer.Core.Analyzers
 {
@@ -72,10 +74,45 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                 switch (trivia.RawKind)
                 {
                     case (int)SyntaxKind.SingleLineCommentTrivia:
-                        //Single-line comments always have 2 leading characters to denote a comment in C# (either /* or //) so we can just check the third character.
-                        //I will also check the fourth character as a saftey as commenting out code coult result in multiple spaces before the text whereas typically comments only have a single space before the text.
-                        string text = trivia.ToString();
-                        if (char.IsWhiteSpace(text[2]) && !char.IsWhiteSpace(text[3]))
+                        string rawText = trivia.ToString();
+
+                        #region Comment detection
+                        //Typically comments contain individual words seperated by a single space, we can check the text to see if it adhears to something that looks like an english string or a piece of code.
+                        //If the text is less than 4 characters, we canno't work on it.
+                        if (rawText.Length < 4)
+                            break;
+
+                        //Find the index of the first character, skipping the comment delimiter.
+                        int charStart = rawText.IndexOf(rawText.Skip(2).First(c => !char.IsWhiteSpace(c)));
+                        //If the first non-whitespace character is after index 3 then the comment is likely commented out code and so we should ignore it.
+                        if (charStart > 3)
+                            break;
+                        string text = rawText.Substring(charStart);
+
+                        //We can use regex to check for words that are either all lowercase or start with a capital and then only lowercase letters after that.
+                        //If the char count of regular words is greater than x% of the string, then assume it is a comment and not code.
+                        int matchLength = 0;
+                        /* Regex breakdown:
+                         * (?<![.]) Don't capture when the text follows a full-stop.
+                         * \b limit the search to be between word boundaries (i.e. is a letter followed by a non-letter)
+                         * (?: capture everything inside as a single match
+                         * [A-Z][a-z]* capture a Capital and optinally unlimited lowercase letters, or...
+                         * ... [a-z]+ capture one or more lowercase letters, or...
+                         * ... Include spaces in the search captures.
+                         * (?![.(][A-z]) Don't capture when the sequence ends with either a . or ( as these are common code tokens that often directly proceed text, so long as it is followed by another A-z character.
+                         */
+                        foreach (Match match in Regex.Matches(text, @"(?<![.])\b(?:[A-Z][a-z]*|[a-z]+| )\b(?![.(][A-z])"))
+                            matchLength += match.Length;
+
+                        //The search threshold dosen't have to be that high as some comments may reference code, so I will set the threshold to be at 50% for now.
+                        //TODO: Make this parameter configurable.
+                        if ((double)matchLength / text.Length < 0.5d)
+                            break;
+                        #endregion
+
+                        //Space.
+                        if ((ConfigManager.Configuration.Formatting.Comments.LeadingSpace && !char.IsWhiteSpace(rawText[2])) ||
+                            (!ConfigManager.Configuration.Formatting.Comments.LeadingSpace && char.IsWhiteSpace(rawText[2])))
                             context.ReportDiagnostic(Diagnostic.Create(LeadingSpaceDiagnosticDescriptor, trivia.GetLocation()));
 
                         //FullStop.

@@ -16,6 +16,11 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
             (typeof(ConfigManager).GetProperty("Config") ?? throw new NullReferenceException()).SetValue(ConfigManager.Instance, config);
         }
 
+        public static void OverrideConfiguration(ConfigRoot config)
+        {
+            throw new NotImplementedException();
+        }
+
         public static async Task<string> GetSourceFile(string fileName)
         {
             if (GetSolutionPath() is not string solutionPath)

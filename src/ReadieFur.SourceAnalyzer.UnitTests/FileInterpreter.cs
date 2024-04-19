@@ -47,7 +47,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
             #region Remove comments
 #if REMOVE_COMMENTS
             //Remove all comments exccept the ones that contain the tokens used by this analyzer.
-            formattedInput = Regex.Replace(formattedInput, @"(?:^|\n)\/\/(?![#\-+ ])(.*)", string.Empty, RegexOptions.Multiline);
+            formattedInput = Regex.Replace(formattedInput, @"(?:^|\n)\/\/(?![#\-+. ])(.*)", string.Empty, RegexOptions.Multiline);
 #endif
             #endregion
 
@@ -67,10 +67,10 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
             Regex outerRegex = new(@"(?:^|\n)\/\/(#)(.*)", RegexOptions.Multiline);
 
             /* Inner regex breakdown:
-             * Search for the above and select only instances where the next line does not match the pattern "//[+-]".
+             * Search for the above and select only instances where the next line does not match the pattern "//[+-.]".
              * We don't capture any groups as I have no need to here.
              */
-            Regex innerRegex = new(@"(?:^|\n)\/\/[+-].*?(?=\n(?!(\/\/[+-])))", RegexOptions.Multiline);
+            Regex innerRegex = new(@"(?:^|\n)\/\/[+-].*?(?=\n(?!(\/\/[+-.])))", RegexOptions.Multiline);
 
             Match outerMatch;
             int analyzerInputOffset = 0;
@@ -103,6 +103,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
                 string[] blockLines = regexSource.Substring(blockStart, blockLength).Split(Environment.NewLine);
                 IEnumerable<string> removeLines = blockLines.Where(s => s[2] == '-').Select(s => s.Substring(3).TrimEnd(Environment.NewLine.ToCharArray()));
                 IEnumerable<string> addLines = blockLines.Where(s => s[2] == '+').Select(s => s.Substring(3).TrimEnd(Environment.NewLine.ToCharArray()));
+                //IEnumerable<string> unchangedLines = blockLines.Where(s => s[2] == '.').Select(s => s.Substring(3).TrimEnd(Environment.NewLine.ToCharArray()));
                 string analyzerInput = string.Join(Environment.NewLine, removeLines);
                 string codeFixExpected = string.Join(Environment.NewLine, addLines);
                 string codeFixInput; //Assigned below.
