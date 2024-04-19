@@ -19,7 +19,8 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
         public override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(
             CommentAnalyzer.LeadingSpaceDiagnosticDescriptor.Id,
             CommentAnalyzer.TrailingFullStopDiagnosticDescriptor.Id,
-            CommentAnalyzer.NewLineDiagnosticDescriptor.Id
+            CommentAnalyzer.NewLineDiagnosticDescriptor.Id,
+            CommentAnalyzer.CapitalizeDiagnosticDescriptor.Id
         );
 
         public override async Task RegisterCodeFixesAsync(CodeFixContext context)
@@ -45,6 +46,12 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                     context.RegisterCodeFix(CodeAction.Create(
                             title: ConfigManager.Configuration.Formatting.Comments.NewLine ? "Move the comment to a new line." : "Move the comment to the same line as the owning token.",
                             createChangedDocument: cancellationToken => CorrectCommentLineAsync(context.Document, diagnostic.Location, cancellationToken),
+                            equivalenceKey: "Format comment"),
+                        diagnostic);
+                else if (diagnostic.Id == CommentAnalyzer.CapitalizeDiagnosticDescriptor.Id)
+                    context.RegisterCodeFix(CodeAction.Create(
+                            title: ConfigManager.Configuration.Formatting.Comments.NewLine ? "Capitalize the first letter." : "Move the comment to the same line as the owning token.",
+                            createChangedDocument: cancellationToken => CorrectCapitalizationAsync(context.Document, diagnostic.Location, cancellationToken),
                             equivalenceKey: "Format comment"),
                         diagnostic);
             }
@@ -181,6 +188,31 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
 
             //Batch update the tokens for efficency and consistency with the document changes.
             SyntaxNode newRoot = root.ReplaceTokens(updatedTokens.Keys, (original, potentiallyModified) => updatedTokens[original]);
+            return document.WithSyntaxRoot(newRoot);
+        }
+
+        private async Task<Document> CorrectCapitalizationAsync(Document document, Location location, CancellationToken cancellationToken)
+        {
+            SyntaxNode root = await document.GetSyntaxRootAsync(cancellationToken);
+            SyntaxTrivia trivia = root.FindTrivia(location.SourceSpan.Start);
+
+            SyntaxTrivia updatedTrivia;
+            switch (trivia.RawKind)
+            {
+                case (int)SyntaxKind.SingleLineCommentTrivia:
+                    string text = trivia.ToString();
+                    int firstLetterIndex = text.IndexOf(text.Skip(2).First(c => !char.IsWhiteSpace(c)));
+                    string startPart = text.Substring(0, firstLetterIndex);
+                    char updatedLetter = ConfigManager.Configuration.Formatting.Comments.CapitalizeFirstLetter ? char.ToUpper(text[firstLetterIndex]) : char.ToLower(text[firstLetterIndex]);
+                    string lastPart = text.Substring(firstLetterIndex + 1);
+                    string updatedText = startPart + updatedLetter + lastPart;
+                    updatedTrivia = SyntaxFactory.Comment(updatedText);
+                    break;
+                default:
+                    return document;
+            }
+
+            SyntaxNode newRoot = root.ReplaceTrivia(trivia, updatedTrivia);
             return document.WithSyntaxRoot(newRoot);
         }
     }

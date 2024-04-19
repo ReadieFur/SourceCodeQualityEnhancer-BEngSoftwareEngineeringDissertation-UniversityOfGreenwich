@@ -112,6 +112,16 @@
 						{
 							"type": "boolean",
 							"description": "Whether to place a full stop at the end of the comment."
+						},
+						"capitalize_first_letter":
+						{
+							"type": "boolean",
+							"description": "Whether to capitalize the first letter of the comment."
+						},
+						"comment_detection_sensitivity":
+						{
+							"type": "number",
+							"description": "The sensitivity of the comment detection algorithm."
 						}
 					}
 				}

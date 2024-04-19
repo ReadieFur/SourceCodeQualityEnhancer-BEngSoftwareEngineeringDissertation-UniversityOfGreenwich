@@ -60,3 +60,5 @@ formatting:
     new_line: true
     leading_space: false
     trailing_full_stop: true
+    capitalize_first_letter: true
+    comment_detection_sensitivity: 0.5

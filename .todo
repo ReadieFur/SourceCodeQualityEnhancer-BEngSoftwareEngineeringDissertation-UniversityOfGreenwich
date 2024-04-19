@@ -14,5 +14,9 @@ Code:
         ✔ Space after declaration @done(24-04-17 04:37)
         ☐ Single to multi-line
         ✔ Full stop at end @done(24-04-17 11:11)
-        ☐ Capital letter at start
+        ✔ Capital letter at start @done(24-04-19 14:33)
         ☐ Multi to single-line
+    ☐ Operator location checker
+        ☐ Move && and || to start/end of line
+        ☐ Move ? and : to start/end of line
+    ☐ Chaining function checker

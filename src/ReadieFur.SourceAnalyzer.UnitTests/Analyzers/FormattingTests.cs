@@ -47,5 +47,9 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Analyzers
                     }
                 }
             });
+
+        private FileInterpreter.AnalyzerDiagnosticCallback CommentCapitalizeAnalyzerDiagnosticCallback => (_, _) => CommentAnalyzer.CapitalizeDiagnosticDescriptor;
+        [MTest] public async Task CommentCapitalizeAnalyzer() => await TestAnalyzer<CommentAnalyzer>("Comment_Capitalize.cs", CommentCapitalizeAnalyzerDiagnosticCallback);
+        [MTest] public async Task CommentCapitalizeFixProvider() => await TestFixProvider<CommentAnalyzer, CommentFixProvider>("Comment_Capitalize.cs", CommentCapitalizeAnalyzerDiagnosticCallback, CommentCodeFixDiagnosticCallback);
     }
 }

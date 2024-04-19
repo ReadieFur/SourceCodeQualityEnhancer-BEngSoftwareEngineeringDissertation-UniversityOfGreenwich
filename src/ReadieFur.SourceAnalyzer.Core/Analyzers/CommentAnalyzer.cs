@@ -16,9 +16,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
         public static DiagnosticDescriptor LeadingSpaceDiagnosticDescriptor => new(
             id: Helpers.ANALYZER_ID_PREFIX + "0018",
             title: "Comment format (prefix).",
-            messageFormat:
-                "Comments should " + (ConfigManager.Configuration.Formatting.Comments.LeadingSpace ? "" : "not")
-                + " have a leading space.",
+            messageFormat: "Comments should " + (ConfigManager.Configuration.Formatting.Comments.LeadingSpace ? "" : "not") + " have a leading space.",
             category: "Formatting",
             defaultSeverity: ConfigManager.Configuration.Formatting.Comments.Severity.ToDiagnosticSeverity(),
             isEnabledByDefault: ConfigManager.Configuration.Formatting.Comments.IsEnabled);
@@ -26,9 +24,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
         public static DiagnosticDescriptor TrailingFullStopDiagnosticDescriptor => new(
             id: Helpers.ANALYZER_ID_PREFIX + "0019",
             title: "Comment format (suffix).",
-            messageFormat:
-                "Comments should " + (ConfigManager.Configuration.Formatting.Comments.TrailingFullStop ? "" : "not")
-                + " have a full stop at the end.",
+            messageFormat: "Comments should " + (ConfigManager.Configuration.Formatting.Comments.TrailingFullStop ? "" : "not") + " have a full stop at the end.",
             category: "Formatting",
             defaultSeverity: ConfigManager.Configuration.Formatting.Comments.Severity.ToDiagnosticSeverity(),
             isEnabledByDefault: ConfigManager.Configuration.Formatting.Comments.IsEnabled);
@@ -36,14 +32,25 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
         public static DiagnosticDescriptor NewLineDiagnosticDescriptor => new(
             id: Helpers.ANALYZER_ID_PREFIX + "0020",
             title: "Comment format (line).",
-            messageFormat:
-                "Comments should " + (ConfigManager.Configuration.Formatting.Comments.NewLine ? "" : "not")
-                + " be on their own line.",
+            messageFormat: "Comments should " + (ConfigManager.Configuration.Formatting.Comments.NewLine ? "" : "not") + " be on their own line.",
             category: "Formatting",
             defaultSeverity: ConfigManager.Configuration.Formatting.Comments.Severity.ToDiagnosticSeverity(),
             isEnabledByDefault: ConfigManager.Configuration.Formatting.Comments.IsEnabled);
 
-        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(LeadingSpaceDiagnosticDescriptor, TrailingFullStopDiagnosticDescriptor, NewLineDiagnosticDescriptor);
+        public static DiagnosticDescriptor CapitalizeDiagnosticDescriptor => new(
+            id: Helpers.ANALYZER_ID_PREFIX + "0021",
+            title: "Comment format (capitalize).",
+            messageFormat: "The first letter of comments should " + (ConfigManager.Configuration.Formatting.Comments.CapitalizeFirstLetter ? "" : "not") + " be capitalized.",
+            category: "Formatting",
+            defaultSeverity: ConfigManager.Configuration.Formatting.Comments.Severity.ToDiagnosticSeverity(),
+            isEnabledByDefault: ConfigManager.Configuration.Formatting.Comments.IsEnabled);
+
+        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(
+            LeadingSpaceDiagnosticDescriptor,
+            TrailingFullStopDiagnosticDescriptor,
+            NewLineDiagnosticDescriptor,
+            CapitalizeDiagnosticDescriptor
+        );
 
         public override void Initialize(AnalysisContext context)
         {
@@ -106,13 +113,13 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
 
                         //The search threshold dosen't have to be that high as some comments may reference code, so I will set the threshold to be at 50% for now.
                         //TODO: Make this parameter configurable.
-                        if ((double)matchLength / text.Length < 0.5d)
+                        if ((double)matchLength / text.Length < ConfigManager.Configuration.Formatting.Comments.CommentDetectionSensitivity)
                             break;
                         #endregion
 
                         //Space.
-                        if ((ConfigManager.Configuration.Formatting.Comments.LeadingSpace && !char.IsWhiteSpace(rawText[2])) ||
-                            (!ConfigManager.Configuration.Formatting.Comments.LeadingSpace && char.IsWhiteSpace(rawText[2])))
+                        if ((ConfigManager.Configuration.Formatting.Comments.LeadingSpace && !char.IsWhiteSpace(rawText[2]))
+                            || (!ConfigManager.Configuration.Formatting.Comments.LeadingSpace && char.IsWhiteSpace(rawText[2])))
                             context.ReportDiagnostic(Diagnostic.Create(LeadingSpaceDiagnosticDescriptor, trivia.GetLocation()));
 
                         //FullStop.
@@ -127,6 +134,12 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                         if ((ConfigManager.Configuration.Formatting.Comments.NewLine && triviaLineSpan.StartLinePosition.Line >= tokenLineSpan.StartLinePosition.Line && triviaLineSpan.EndLinePosition.Line <= tokenLineSpan.EndLinePosition.Line)
                             || (!ConfigManager.Configuration.Formatting.Comments.NewLine && triviaLineSpan.StartLinePosition.Line != tokenLineSpan.StartLinePosition.Line))
                             context.ReportDiagnostic(Diagnostic.Create(NewLineDiagnosticDescriptor, triviaLocation));
+
+                        //Capitalize.
+                        if (char.IsLetter(text[0])
+                            && ((ConfigManager.Configuration.Formatting.Comments.CapitalizeFirstLetter && char.IsLower(text[0]))
+                            || (!ConfigManager.Configuration.Formatting.Comments.CapitalizeFirstLetter && char.IsUpper(text[0]))))
+                            context.ReportDiagnostic(Diagnostic.Create(CapitalizeDiagnosticDescriptor, trivia.GetLocation()));
                         break;
                     default:
                         break;
