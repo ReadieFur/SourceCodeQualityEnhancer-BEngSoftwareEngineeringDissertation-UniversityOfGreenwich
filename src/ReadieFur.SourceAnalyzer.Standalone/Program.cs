@@ -4,13 +4,13 @@ using Microsoft.CodeAnalysis.MSBuild;
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ReadieFur.SourceAnalyzer.Standalone
 {
     internal class Program
     {
-        [STAThread]
         internal static async Task Main(string[] args)
         {
             //Attempt to set the version of MSBuild.
@@ -74,6 +74,27 @@ namespace ReadieFur.SourceAnalyzer.Standalone
 
                 //Perform analysis on the projects in the loaded solution.
                 SolutionChanges solutionChanges = await Analyzer.AnalyzeSolution(solution);
+
+                //Display the results in a new window.
+                MainWindow mainWindow;
+                if (Thread.CurrentThread.GetApartmentState() != ApartmentState.STA)
+                {
+                    //Spawn a new STA thread to display the window if the main process thread is not STA as UI components require to be run on an STA thread.
+                    Thread thread = new(solutionChangesRef =>
+                    {
+                        mainWindow = new((SolutionChanges)solutionChangesRef);
+                        mainWindow.ShowDialog();
+                    });
+                    thread.SetApartmentState(ApartmentState.STA);
+                    //Objects to be shared across threads must be passed here.
+                    thread.Start(solutionChanges);
+                    thread.Join();
+                }
+                else
+                {
+                    mainWindow = new(solutionChanges);
+                    mainWindow.ShowDialog();
+                }
             }
         }
     }
