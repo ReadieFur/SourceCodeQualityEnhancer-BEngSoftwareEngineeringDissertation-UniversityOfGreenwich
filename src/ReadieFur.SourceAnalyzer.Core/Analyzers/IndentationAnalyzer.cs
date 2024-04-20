@@ -3,8 +3,10 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Text;
 using ReadieFur.SourceAnalyzer.Core.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 
 namespace ReadieFur.SourceAnalyzer.Core.Analyzers
 {
@@ -58,26 +60,63 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                     continue;
 
                 //Attempt to find the node/token.
-                SyntaxToken token;
+                //TODO: Clean this up (too many nested statments).
+                string diagnosticType;
+                Location diagnosticLocation;
+                SyntaxToken? token = null;
+                var a = root.DescendantTrivia(line.Span, _ => true, true);
                 SyntaxNodeOrToken syntax = root.ChildThatContainsPosition(line.Start + firstNonWhitespace);
                 int innerBlockCount = 0;
                 if (syntax.IsNode)
                 {
-                    //TODO: Use the loop below to find the token instead of using the above search function (may be faster).
-                    //token = root.FindToken(line.Start + firstNonWhitespace, true);
-                    //Reduce the search area by using the syntax node as the search domain.
-                    token = syntax.AsNode().FindToken(line.Start + firstNonWhitespace, true);
+                    SyntaxNode node = syntax.AsNode();
+                    SyntaxTrivia? trivia = null;
+
+                    //Reduce the search area.
+                    if (node.GetLocation().GetLineSpan().StartLinePosition.Line == line.LineNumber)
+                    {
+                        diagnosticType = nameof(SyntaxNode);
+                        diagnosticLocation = node.GetLocation();
+                    }
+                    else
+                    {
+                        //TODO: Use the loop below to find the token instead of using the above search function (may be faster).
+                        token = syntax.AsNode().FindToken(line.Start + firstNonWhitespace, true);
+
+                        if (token.Value.GetLocation().GetLineSpan().StartLinePosition.Line == line.LineNumber)
+                        {
+                            diagnosticType = nameof(SyntaxToken);
+                            diagnosticLocation = token.Value.GetLocation();
+                        }
+                        else
+                        {
+                            //Check if the text we are looking for is a trivia type instead.
+                            trivia = syntax.AsNode().DescendantTrivia(_ => true, true).FirstOrDefault(t => t.GetLocation().GetLineSpan().StartLinePosition.Line == line.LineNumber);
+
+                            if (trivia != default)
+                            {
+                                token = null;
+                                diagnosticType = nameof(SyntaxTrivia);
+                                diagnosticLocation = trivia.Value.GetLocation();
+                            }
+                            else
+                            {
+                                //Something has gone wrong and we cannot work on this line (shouldn't occur).
+                                continue;
+                            }
+                        }
+                    }
 
                     //Nodes contain tokens so we need to check if any of the nodes direct decendants have any open braces that we need to track.
                     //This is a required function as the source code could have a brace on the same line as it's declaring node.
                     foreach (SyntaxToken nodeToken in syntax.AsNode().ChildTokens())
                     {
-                        //Limit search to nodes on the same line as the current text line (as we don't want duplicate entries from the line-by-line check.
+                        //Limit search to nodes on the same line as the current text line (as we don't want duplicate entries from the line-by-line check).
                         if (nodeToken.GetLocation().GetLineSpan().StartLinePosition.Line != line.LineNumber)
                             continue;
 
                         //If the child token happens to match the current token then skip it as we work on this token in the next part (avoid duplicates).
-                        if (nodeToken.Equals(token))
+                        if (token.HasValue && nodeToken.Equals(token.Value))
                             continue;
 
                         if (nodeToken.IsKind(SyntaxKind.OpenBraceToken))
@@ -89,12 +128,14 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                 else
                 {
                     token = syntax.AsToken();
+                    diagnosticType = nameof(SyntaxToken);
+                    diagnosticLocation = token.Value.GetLocation();
                 }
 
                 //Decrement the indentation level before checking the actual indentation IF the token is a closing token (as closing tokens should be on the previous indentation level).
                 //TODO: Check indentation level for braceless statments (i.e. single operation if block bodies).
                 //TODO: Update this to work on a line and not an individual token as things such as comments cause errors if not indented here and cannot be fixed by this current code.
-                if (token.IsKind(SyntaxKind.CloseBraceToken))
+                if (token.HasValue && token.Value.IsKind(SyntaxKind.CloseBraceToken))
                     level--;
                 if (innerBlockCount < 0)
                     level += innerBlockCount;
@@ -103,13 +144,17 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                 if (level * ConfigManager.Configuration.Formatting.Indentation.Size != firstNonWhitespace)
                     context.ReportDiagnostic(Diagnostic.Create(
                         DiagnosticDescriptor,
-                        token.GetLocation(),
-                        new Dictionary<string, string> { { "level", level.ToString() } }.ToImmutableDictionary(),
+                        diagnosticLocation,
+                        new Dictionary<string, string>
+                        {
+                            { "level", level.ToString() },
+                            { "diagnosticType", diagnosticType },
+                        }.ToImmutableDictionary(),
                         level));
 
                 //Increment the indentation level after checking the actual indentation IF the token is an opening token.
                 //TODO: Possibly update indentation for curly and square brackets.
-                if (token.IsKind(SyntaxKind.OpenBraceToken))
+                if (token.HasValue && token.Value.IsKind(SyntaxKind.OpenBraceToken))
                     level++;
                 if (innerBlockCount > 0)
                     level += innerBlockCount;

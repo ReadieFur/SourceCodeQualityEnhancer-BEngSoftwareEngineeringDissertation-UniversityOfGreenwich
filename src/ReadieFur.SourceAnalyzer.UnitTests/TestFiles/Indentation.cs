@@ -13,6 +13,9 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.TestFiles
 //-{
 //+    {
 //#0017
+//-//My comment.
+//+        //My comment.
+//#0017
 //-}
 //+    }
 }
