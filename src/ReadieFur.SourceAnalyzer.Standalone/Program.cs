@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ReadieFur.SourceAnalyzer.Standalone
 {
@@ -152,6 +153,7 @@ namespace ReadieFur.SourceAnalyzer.Standalone
             else
             {
                 Console.WriteLine("INFO: Changes applied to the workspace.");
+                System.Windows.Forms.MessageBox.Show("The changes have been saved to the disk.", "Success", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Information);
                 _fileDiffWindow?.Close();
             }
         }
