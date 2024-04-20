@@ -66,15 +66,18 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                         if (token.LeadingTrivia.Contains(trivia.Value))
                             break;
 
-                        //If the token is a trailing trivia then run a different update operation to the code below (this shouldn't occur I don't believe).
-                        //TODO: UNTESTED.
+                        //If the token is a trailing trivia then run a different update operation to the code below.
                         if (token.TrailingTrivia.Contains(trivia.Value))
                         {
                             int triviaIndex = token.TrailingTrivia.IndexOf(trivia.Value);
-                            SyntaxTriviaList _newLeadingTrivia = token.TrailingTrivia.Insert(triviaIndex, whitespaceTrivia);
+                            List<SyntaxTrivia> _newLeadingTrivia = [..token.TrailingTrivia];
+                            if (triviaIndex - 1 >= 0 && _newLeadingTrivia[triviaIndex - 1].IsKind(SyntaxKind.WhitespaceTrivia))
+                                _newLeadingTrivia.RemoveAt(triviaIndex - 1);
+                            
+                            _newLeadingTrivia.Insert(_newLeadingTrivia.IndexOf(trivia.Value), whitespaceTrivia);
 
                             //Update the document.
-                            SyntaxToken _updatedToken = token.WithLeadingTrivia(_newLeadingTrivia);
+                            SyntaxToken _updatedToken = token.WithTrailingTrivia(_newLeadingTrivia);
                             SyntaxNode _newRoot = root.ReplaceToken(token, _updatedToken);
                             return document.WithSyntaxRoot(_newRoot);
                         }
