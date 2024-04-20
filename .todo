@@ -24,3 +24,4 @@ Code:
     ✘ Explicit type (already built into the IDE). @cancelled(24-04-19 17:59)
     ☐ Correct line spacing
     ☐ Implicit new keyword
+    ☐ TODO: Batch fix diff UI

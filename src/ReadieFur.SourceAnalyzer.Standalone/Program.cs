@@ -28,6 +28,8 @@ namespace ReadieFur.SourceAnalyzer.Standalone
 {
     internal class Program
     {
+        private static Solution solution = null!;
+
         static async Task Main(string[] args)
         {
             //Attempt to set the version of MSBuild.
@@ -56,6 +58,12 @@ namespace ReadieFur.SourceAnalyzer.Standalone
                     //Console.ForegroundColor = ConsoleColor.Gray;
                     //Environment.Exit(1);
                 };
+                /*workspace.WorkspaceChanged += (_, e) =>
+                {
+                    if (e.DocumentId is null)
+                        return;
+                    Console.WriteLine($"INFO: Document '{e.DocumentId}' changed.");
+                };*/
 
                 //Get a solution to load from the user.
                 string path =
@@ -65,7 +73,6 @@ namespace ReadieFur.SourceAnalyzer.Standalone
                 Console.WriteLine($"Loading solution '{path}'");
 
                 //Attach progress reporter so we print projects as they are loaded.
-                Solution solution;
                 if (path.EndsWith(".sln"))
                 {
                     solution = await workspace.OpenSolutionAsync(path, new ConsoleProgressReporter());
@@ -78,14 +85,17 @@ namespace ReadieFur.SourceAnalyzer.Standalone
                 }
 
                 //Load an analyzer configuration file.
-                await LoadAnalyzerConfigurationAsync(args, solution);
+                await LoadAnalyzerConfigurationAsync(args);
+
+                if (!solution.Workspace.CanApplyChange(ApplyChangesKind.ChangeDocument))
+                    throw new Exception();
 
                 //Perform analysis on the projects in the loaded solution.
-                await AnalyzeSolutionAsync(solution);
+                await AnalyzeSolutionAsync(workspace, solution);
             }
         }
 
-        private static async Task LoadAnalyzerConfigurationAsync(string[] args, Solution solution)
+        private static async Task LoadAnalyzerConfigurationAsync(string[] args)
         {
             if (args.Length > 1 && args[1] == "default")
             {
@@ -149,23 +159,32 @@ namespace ReadieFur.SourceAnalyzer.Standalone
         }
 
         //https://johnkoerner.com/csharp/creating-a-stand-alone-code-analyzer/
-        private static async Task AnalyzeSolutionAsync(Solution solution)
+        private static async Task AnalyzeSolutionAsync(MSBuildWorkspace workspace, Solution originalSolution)
         {
             //Get all diagnostic analyzers and code fix providers.
             ImmutableArray<DiagnosticAnalyzer> analyzers = GetAllAnalyzers();
             ImmutableArray<CodeFixProvider> codeFixProviders = GetAllCodeFixProviders();
             
-            List<SolutionChanges> solutionChanges = new();
-
-            foreach (Project? project in solution.Projects)
+            List<ProjectId> visitedProjectIDs = new();
+            while (!visitedProjectIDs.SequenceEqual(solution.ProjectIds))
             {
+                Project project = solution.GetProject(solution.ProjectIds.FirstOrDefault(i => !visitedProjectIDs.Contains(i))) ?? throw new KeyNotFoundException();
+
                 //Compile the project and analyze it with my diagnostics.
                 Compilation? projectCompilation = await project.GetCompilationAsync();
                 CompilationWithAnalyzers projectCompilationWithAnalyzers = projectCompilation.WithAnalyzers(analyzers);
                 IEnumerable<Diagnostic> projectDiagnostics = (await projectCompilationWithAnalyzers.GetAllDiagnosticsAsync()).Where(d => d.Id.StartsWith(Core.Analyzers.Helpers.ANALYZER_ID_PREFIX));
 
+                bool hasMadeChanges = false;
                 foreach (Document? document in project.Documents)
                 {
+                    //Ignore auto-generated and library files in the obj directory.
+                    if (document.FilePath.StartsWith(Directory.GetParent(project.FilePath).FullName)
+                        && document.FilePath.Substring(Directory.GetParent(project.FilePath!).FullName.Length + 1).StartsWith("obj\\")) //+1 removes the leading backslash in the path.
+                        continue;
+
+                    Console.WriteLine("INFO: Analyzing document: " + document.FilePath);
+
                     //Get syntax tree for the document.
                     SyntaxTree documentSyntaxTree = await document.GetSyntaxTreeAsync();
 
@@ -173,14 +192,25 @@ namespace ReadieFur.SourceAnalyzer.Standalone
                     IEnumerable<Diagnostic> documentDiagnostics = projectDiagnostics.Where(d => d.Location.SourceTree.IsEquivalentTo(documentSyntaxTree));
 
                     //Apply code fixes for reported diagnostics.
-                    solutionChanges.AddRange(await GetSolutionCodeFixesAsync(solution, document, documentDiagnostics.ToImmutableArray(), codeFixProviders));
+                    hasMadeChanges = await ApplyCodeFixesAsync(document, documentDiagnostics.ToImmutableArray(), codeFixProviders);
+
+                    if (hasMadeChanges)
+                        break;
                 }
+
+                //If changes have been made to the workspace then decrement the counter and re-evaluate the solution.
+                if (hasMadeChanges)
+                {
+                    Console.WriteLine("INFO: Re-evaluate.");
+                    continue;
+                }
+
+                visitedProjectIDs.Add(project.Id);
             }
 
-            /*//Attempt to merge all of the changes and resolve any conflicts.
-            foreach (SolutionChanges updatedSolution in solutionChanges)
-            {
-            }*/
+            //TODO: Ask the user if they would like to apply the changes in-place or save the modified solution to a new location OR show a diff UI with the changes made.
+            SolutionChanges solutionChanges = solution.GetChanges(originalSolution);
+            //workspace.TryApplyChanges(solution);
         }
 
         private static ImmutableArray<DiagnosticAnalyzer> GetAllAnalyzers()
@@ -224,11 +254,11 @@ namespace ReadieFur.SourceAnalyzer.Standalone
             return codeFixProviders.ToImmutableArray();
         }
 
-        private static async Task<List<SolutionChanges>> GetSolutionCodeFixesAsync(Solution solution, Document document, ImmutableArray<Diagnostic> diagnostics, ImmutableArray<CodeFixProvider> codeFixProviders)
+        //Ref cannot be used here so I must use a static class reference instead.
+        private static async Task<bool> ApplyCodeFixesAsync(/*ref Solution solution,*/ Document document, ImmutableArray<Diagnostic> diagnostics, ImmutableArray<CodeFixProvider> codeFixProviders)
         {
             //TODO: Pass this as a variable.
             CancellationTokenSource cts = new();
-            List<SolutionChanges> solutionChanges = new();
 
             foreach (Diagnostic diagnostic in diagnostics)
             {
@@ -251,13 +281,30 @@ namespace ReadieFur.SourceAnalyzer.Standalone
                             if (operation is not ApplyChangesOperation applyChangesOperation)
                                 continue;
 
-                            solutionChanges.Add(applyChangesOperation.ChangedSolution.GetChanges(solution));
+                            //Check if any changes have actually been made.
+                            SolutionChanges solutionChanges = applyChangesOperation.ChangedSolution.GetChanges(solution);
+                            foreach (ProjectChanges projectChanges in solutionChanges.GetProjectChanges())
+                            {
+                                foreach (DocumentId documentID in projectChanges.GetChangedDocuments())
+                                {
+                                    IEnumerable<TextChange> textChanges = await applyChangesOperation.ChangedSolution.GetDocument(documentID)!.GetTextChangesAsync(document);
+                                    if (textChanges.Any())
+                                    {
+                                        //At least one change was detected and so we should apply and re-evaluate the solution.
+                                        Console.WriteLine($"INFO: Applying change at {diagnostic.Location.SourceSpan}: {diagnostic.GetMessage()}");
+                                        //applyChangesOperation.Apply(solution.Workspace, cts.Token);
+                                        solution = applyChangesOperation.ChangedSolution;
+                                        var a = (await solution.GetDocument(documentID)!.GetTextAsync()).ToString();
+                                        return true;
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
 
-            return solutionChanges;
+            return false;
         }
 
         private static string GetSolution()
