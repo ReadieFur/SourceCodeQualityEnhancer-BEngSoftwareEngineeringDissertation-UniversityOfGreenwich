@@ -97,13 +97,14 @@ namespace ReadieFur.SourceAnalyzer.Standalone
                 SolutionChanges solutionChanges = await Analyzer.AnalyzeSolution(solution);
 
                 //Display the results in a new window.
-                FileDiffWindow fileDiffWindow;
                 if (Thread.CurrentThread.GetApartmentState() != ApartmentState.STA)
                 {
                     //Spawn a new STA thread to display the window if the main process thread is not STA as UI components require to be run on an STA thread.
                     Thread thread = new(solutionChangesRef =>
                     {
-                        fileDiffWindow = new((SolutionChanges)solutionChangesRef);
+                        FileDiffWindow fileDiffWindow = new((SolutionChanges)solutionChangesRef);
+                        fileDiffWindow.OnSaveAsNew += FileDiffWindow_OnSaveAsNew;
+                        fileDiffWindow.OnSaveInPlace += FileDiffWindow_OnSaveInPlace;
                         fileDiffWindow.ShowDialog();
                     });
                     thread.SetApartmentState(ApartmentState.STA);
@@ -113,10 +114,22 @@ namespace ReadieFur.SourceAnalyzer.Standalone
                 }
                 else
                 {
-                    fileDiffWindow = new(solutionChanges);
+                    FileDiffWindow fileDiffWindow = new(solutionChanges);
+                    fileDiffWindow.OnSaveAsNew += FileDiffWindow_OnSaveAsNew;
+                    fileDiffWindow.OnSaveInPlace += FileDiffWindow_OnSaveInPlace;
                     fileDiffWindow.ShowDialog();
                 }
             }
+        }
+
+        private static void FileDiffWindow_OnSaveInPlace()
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void FileDiffWindow_OnSaveAsNew(string obj)
+        {
+            throw new NotImplementedException();
         }
     }
 }

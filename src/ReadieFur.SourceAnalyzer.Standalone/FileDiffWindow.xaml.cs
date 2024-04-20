@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -224,9 +225,52 @@ namespace ReadieFur.SourceAnalyzer.Standalone
 
         private void SaveInPlace_Click(object sender, RoutedEventArgs e) => OnSaveInPlace?.Invoke();
 
+        //https://learn.microsoft.com/en-us/dotnet/desktop/wpf/windows/how-to-open-common-system-dialog-box?view=netdesktop-8.0&viewFallbackFrom=netframeworkdesktop-4.8
+        //https://stackoverflow.com/questions/11624298/how-do-i-use-openfiledialog-to-select-a-folder
         private void SaveAsNew_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            //Don't use the WinForms FolderBrowserDialog as it uses the bad tree-only view.
+            //System.Windows.Forms.FolderBrowserDialog folderBrowserDialog = new();
+            FolderBrowserEx.FolderBrowserDialog folderBrowserDialog = new();
+            folderBrowserDialog.Title = "Select an empty folder to save solution to";
+            //folderBrowserDialog.InitialFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            folderBrowserDialog.InitialFolder =
+                _solutionChanges.HasValue && File.Exists(_solutionChanges.Value.GetProjectChanges().First().OldProject.FilePath)
+                ? Directory.GetParent(_solutionChanges.Value.GetProjectChanges().First().OldProject.FilePath).FullName
+                : Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            folderBrowserDialog.AllowMultiSelect = false;
+
+            System.Windows.Forms.DialogResult result = folderBrowserDialog.ShowDialog();
+            if (result != System.Windows.Forms.DialogResult.OK)
+                return;
+
+            try
+            {
+                const string NOT_EMPTY_MESSAGE = "The selected folder is not empty. Please select an empty folder to save the solution to.";
+
+                if (Directory.GetFiles(folderBrowserDialog.SelectedFolder).Length > 0)
+                {
+                    Console.WriteLine(NOT_EMPTY_MESSAGE);
+                    MessageBox.Show(NOT_EMPTY_MESSAGE, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                if (Directory.GetDirectories(folderBrowserDialog.SelectedFolder).Length > 0)
+                {
+                    Console.WriteLine(NOT_EMPTY_MESSAGE);
+                    MessageBox.Show(NOT_EMPTY_MESSAGE, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+            }
+            catch
+            {
+                const string ACCESS_DENIED_MESSAGE = "Access to the folder is denied.";
+                Console.WriteLine(ACCESS_DENIED_MESSAGE);
+                MessageBox.Show(ACCESS_DENIED_MESSAGE, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            OnSaveAsNew?.Invoke(folderBrowserDialog.SelectedFolder);
         }
     }
 }

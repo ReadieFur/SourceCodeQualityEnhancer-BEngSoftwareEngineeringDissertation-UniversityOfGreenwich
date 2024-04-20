@@ -18,6 +18,7 @@
   <ItemGroup>
     <PackageReference Include="DiffPlex" Version="1.7.2" />
     <PackageReference Include="DiffPlex.Wpf" Version="1.4.0" />
+    <PackageReference Include="FolderBrowserEx" Version="1.0.1" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
   </ItemGroup>
@@ -30,6 +31,7 @@
     <PackageReference Include="YamlDotNet" Version="15.1.2" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="WPFTemplate">
       <HintPath>libs\WPFTemplate.dll</HintPath>
     </Reference>
