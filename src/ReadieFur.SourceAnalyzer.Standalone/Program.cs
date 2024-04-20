@@ -13,6 +13,27 @@ namespace ReadieFur.SourceAnalyzer.Standalone
     {
         internal static async Task Main(string[] args)
         {
+#if DEBUG && false
+            if (Thread.CurrentThread.GetApartmentState() != ApartmentState.STA)
+            {
+                Thread dbgThread = new(_ =>
+                {
+                    FileDiffWindow fileDiffWindow = new();
+                    fileDiffWindow.ShowDialog();
+                });
+                dbgThread.SetApartmentState(ApartmentState.STA);
+                //Objects to be shared across threads must be passed here.
+                dbgThread.Start();
+                dbgThread.Join();
+            }
+            else
+            {
+                FileDiffWindow mainWindow = new();
+                mainWindow.ShowDialog();
+            }
+            return;
+#endif
+
             //Attempt to set the version of MSBuild.
             VisualStudioInstance[] visualStudioInstances = MSBuildLocator.QueryVisualStudioInstances().ToArray();
             VisualStudioInstance instance = visualStudioInstances.Length == 1
@@ -76,14 +97,14 @@ namespace ReadieFur.SourceAnalyzer.Standalone
                 SolutionChanges solutionChanges = await Analyzer.AnalyzeSolution(solution);
 
                 //Display the results in a new window.
-                MainWindow mainWindow;
+                FileDiffWindow fileDiffWindow;
                 if (Thread.CurrentThread.GetApartmentState() != ApartmentState.STA)
                 {
                     //Spawn a new STA thread to display the window if the main process thread is not STA as UI components require to be run on an STA thread.
                     Thread thread = new(solutionChangesRef =>
                     {
-                        mainWindow = new((SolutionChanges)solutionChangesRef);
-                        mainWindow.ShowDialog();
+                        fileDiffWindow = new((SolutionChanges)solutionChangesRef);
+                        fileDiffWindow.ShowDialog();
                     });
                     thread.SetApartmentState(ApartmentState.STA);
                     //Objects to be shared across threads must be passed here.
@@ -92,8 +113,8 @@ namespace ReadieFur.SourceAnalyzer.Standalone
                 }
                 else
                 {
-                    mainWindow = new(solutionChanges);
-                    mainWindow.ShowDialog();
+                    fileDiffWindow = new(solutionChanges);
+                    fileDiffWindow.ShowDialog();
                 }
             }
         }

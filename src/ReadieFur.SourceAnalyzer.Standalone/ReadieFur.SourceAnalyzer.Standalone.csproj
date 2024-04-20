@@ -8,8 +8,12 @@
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-  <PropertyGroup />
+  <PropertyGroup>
+    <StartupObject>ReadieFur.SourceAnalyzer.Standalone.App</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="DiffPlex" Version="1.7.2" />
+    <PackageReference Include="DiffPlex.Wpf" Version="1.4.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
   </ItemGroup>
@@ -20,6 +24,11 @@
     <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic.Workspaces" Version="3.3.1" />
     <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="3.3.1" />
     <PackageReference Include="YamlDotNet" Version="15.1.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="WPFTemplate">
+      <HintPath>libs\WPFTemplate.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="..\ReadieFur.SourceAnalyzer.Core\ReadieFur.SourceAnalyzer.Core.projitems" Label="Shared" />
   <Import Project="..\ReadieFur.SourceAnalyzer.StandaloneHelpers\ReadieFur.SourceAnalyzer.StandaloneHelpers.projitems" Label="Shared" />

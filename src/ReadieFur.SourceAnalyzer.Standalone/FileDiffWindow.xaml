@@ -1,0 +1,181 @@
+﻿<controls:WindowChrome x:Class="ReadieFur.SourceAnalyzer.Standalone.FileDiffWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ReadieFur.SourceAnalyzer.Standalone"
+        mc:Ignorable="d"
+        xmlns:controls="clr-namespace:WPFTemplate.Controls;assembly=WPFTemplate"
+        xmlns:styles="clr-namespace:WPFTemplate.Styles;assembly=WPFTemplate"
+        xmlns:extensions="clr-namespace:WPFTemplate.Extensions;assembly=WPFTemplate"
+        xmlns:diffplex="clr-namespace:DiffPlex.Wpf.Controls;assembly=DiffPlex.Wpf"
+        d:DesignHeight="450" d:DesignWidth="800" Height="900" Width="1600"
+        Title="File Diff Explorer" WindowStartupLocation="CenterOwner" Background="{Binding background}">
+
+    <controls:WindowBase.DataContext>
+        <styles:BindableStyles x:Name="Styles"/>
+    </controls:WindowBase.DataContext>
+
+    <Grid Margin="{Binding Source={x:Static extensions:SystemParametersExt.instance}, Path=WindowResizeBorderThickness}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="{Binding Source={x:Static extensions:SystemParametersExt.instance}, Path=BorderWidthLarger}"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel
+            x:Name="HeaderItems"
+            Orientation="Horizontal"
+            FlowDirection="LeftToRight"
+            HorizontalAlignment="Left"
+            Margin="2,0,0,0"
+            Grid.Row="1"
+            Grid.Column="2">
+            <controls:Button
+                Margin="0,0,0,0"
+                Padding="5,0"
+                Content="Save All In Place"
+                Click="SaveInPlace_Click"
+                Height="{Binding Source={x:Static extensions:SystemParametersExt.instance}, Path=WindowNonClientFrameThickness.Top}"
+                Background="{Binding background, ElementName=Styles}"
+                BorderBrush="Transparent"
+                Foreground="{Binding foreground, ElementName=Styles}"
+                MouseOverBackground="{Binding backgroundAlt, ElementName=Styles}"
+                MouseOverBorderBrush="{Binding accent, ElementName=Styles}"
+                MouseOverForeground="{Binding foreground, ElementName=Styles}"
+                PressedBackground="{Binding accent, ElementName=Styles}"
+                PressedBorderBrush="{Binding accent, ElementName=Styles}"
+                PressedForeground="{Binding foreground, ElementName=Styles}">
+            </controls:Button>
+            <controls:Button
+                Margin="0,0,0,0"
+                Padding="5,0"
+                Content="Save As New Solution"
+                Click="SaveAsNew_Click"
+                Height="{Binding Source={x:Static extensions:SystemParametersExt.instance}, Path=WindowNonClientFrameThickness.Top}"
+                Background="{Binding background, ElementName=Styles}"
+                BorderBrush="Transparent"
+                Foreground="{Binding foreground, ElementName=Styles}"
+                MouseOverBackground="{Binding backgroundAlt, ElementName=Styles}"
+                MouseOverBorderBrush="{Binding accent, ElementName=Styles}"
+                MouseOverForeground="{Binding foreground, ElementName=Styles}"
+                PressedBackground="{Binding accent, ElementName=Styles}"
+                PressedBorderBrush="{Binding accent, ElementName=Styles}"
+                PressedForeground="{Binding foreground, ElementName=Styles}"/>
+        </StackPanel>
+        <StackPanel
+            Orientation="Horizontal"
+            FlowDirection="RightToLeft"
+            HorizontalAlignment="Right"
+            Grid.Row="1"
+            Grid.Column="2"
+            Margin="0,0,2,0">
+            <controls:RadioButton
+                VerticalAlignment="Center"
+                Margin="0,0,5,0"
+                Content="Unified"
+                FlowDirection="LeftToRight"
+                IsChecked="False"
+                Background="{Binding backgroundAlt, ElementName=Styles}"
+                BorderBrush="{Binding accent, ElementName=Styles}"
+                Foreground="{Binding foreground, ElementName=Styles}"
+                Glyph="{Binding accent, ElementName=Styles}"
+                MouseOverBackground="{Binding backgroundAlt, ElementName=Styles}"
+                MouseOverBorderBrush="{Binding accent, ElementName=Styles}"
+                MouseOverGlyph="{Binding accent, ElementName=Styles}"
+                PressedBackground="{Binding accent, ElementName=Styles}"
+                PressedGlyph="{Binding accent, ElementName=Styles}"/>
+            <controls:RadioButton
+                Name="SplitViewRadioButton"
+                VerticalAlignment="Center"
+                Margin="0,0,5,0"
+                Content="Split"
+                IsChecked="True"
+                FlowDirection="LeftToRight"
+                Background="{Binding backgroundAlt, ElementName=Styles}"
+                BorderBrush="{Binding accent, ElementName=Styles}"
+                Foreground="{Binding foreground, ElementName=Styles}"
+                Glyph="{Binding accent, ElementName=Styles}"
+                MouseOverBackground="{Binding backgroundAlt, ElementName=Styles}"
+                MouseOverBorderBrush="{Binding accent, ElementName=Styles}"
+                MouseOverGlyph="{Binding accent, ElementName=Styles}"
+                PressedBackground="{Binding accent, ElementName=Styles}"
+                PressedGlyph="{Binding accent, ElementName=Styles}"/>
+            <!--<Label
+                Content="View:"
+                FlowDirection="LeftToRight"
+                Foreground="{Binding foreground, ElementName=Styles}"/>-->
+        </StackPanel>
+        <ScrollViewer
+            Grid.Row="1"
+            Grid.RowSpan="3"
+            Grid.Column="0"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto">
+            <controls:ListBox
+                Name="FilesListBox"
+                Background="Transparent"
+                BorderBrush="Transparent"
+                SelectionChanged="FilesListBox_SelectionChanged">
+                <controls:ListBox.Resources>
+                    <!--Not working for some reason (I think it's because I'm not passing/reading the local resource dictionary on the underlying custom control.-->
+                    <!--<Style TargetType="{x:Type controls:ListBoxItem}">
+                        <Setter Property="MouseOverBackground" Value="{Binding backgroundAlt, ElementName=Styles}"/>
+                        <Setter Property="MouseOverBorderBrush" Value="Transparent"/>
+                        <Setter Property="SelectedActiveBackground" Value="{Binding accent, ElementName=Styles}"/>
+                        <Setter Property="SelectedActiveBorderBrush" Value="{Binding accent, ElementName=Styles}"/>
+                        <Setter Property="SelectedInactiveBackground" Value="{Binding accent, ElementName=Styles}"/>
+                        <Setter Property="SelectedInactiveBorderBrush" Value="{Binding accent, ElementName=Styles}"/>
+                        <Setter Property="Foreground" Value="{Binding foreground, ElementName=Styles}"/>
+                    </Style>-->
+                </controls:ListBox.Resources>
+                <controls:ListBoxItem
+                    MouseOverBackground="{Binding backgroundAlt, ElementName=Styles}"
+                    MouseOverBorderBrush="Transparent"
+                    SelectedActiveBackground="{Binding backgroundAlt, ElementName=Styles}"
+                    SelectedActiveBorderBrush="{Binding backgroundAlt, ElementName=Styles}"
+                    SelectedInactiveBackground="{Binding background, ElementName=Styles}"
+                    SelectedInactiveBorderBrush="{Binding background, ElementName=Styles}">
+                    <Label Content="ListBoxItem" Foreground="{Binding foreground, ElementName=Styles}"/>
+                </controls:ListBoxItem>
+            </controls:ListBox>
+        </ScrollViewer>
+        <!--<GridSplitter Grid.Column="1"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Stretch"
+              ShowsPreview="True"
+              Width="2"/>-->
+        <ScrollViewer Grid.Row="3" Grid.Column="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <!--<controls:ListBox Background="Transparent" BorderBrush="Transparent">
+                <controls:ListBoxItem
+                    MouseOverBackground="Transparent"
+                    MouseOverBorderBrush="Transparent"
+                    SelectedActiveBackground="Transparent"
+                    SelectedActiveBorderBrush="Transparent"
+                    SelectedInactiveBackground="Transparent"
+                    SelectedInactiveBorderBrush="Transparent">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel.Resources>
+                            <Style TargetType="{x:Type Label}">
+                                <Setter Property="Foreground" Value="{Binding foreground, ElementName=Styles}"/>
+                            </Style>
+                        </StackPanel.Resources>
+                        <Label Content="Icon"/>
+                        <Label Content="Text"/>
+                    </StackPanel>
+                </controls:ListBoxItem>
+            </controls:ListBox>-->
+            <diffplex:DiffViewer
+                x:Name="DiffView"
+                IgnoreWhiteSpace="False"
+                IgnoreCase="False"
+                IsSideBySide="{Binding IsChecked, ElementName=SplitViewRadioButton}"
+                SplitterWidth="0"/>
+        </ScrollViewer>
+    </Grid>
+</controls:WindowChrome>
