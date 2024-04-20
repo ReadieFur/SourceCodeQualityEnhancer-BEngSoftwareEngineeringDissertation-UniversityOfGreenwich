@@ -1,14 +1,19 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
     <TargetFramework>net472</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWPF>true</UseWPF>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
+  <PropertyGroup />
   <ItemGroup>
-    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="7.0.0" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Microsoft.Build.Locator" Version="1.2.2" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="2.9.8" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="3.3.1" />
@@ -16,9 +21,6 @@
     <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="3.3.1" />
     <PackageReference Include="YamlDotNet" Version="15.1.2" />
   </ItemGroup>
-
-  <Import Project="..\ReadieFur.SourceAnalyzer.StandaloneHelpers\ReadieFur.SourceAnalyzer.StandaloneHelpers.projitems" Label="Shared" />
-
   <Import Project="..\ReadieFur.SourceAnalyzer.Core\ReadieFur.SourceAnalyzer.Core.projitems" Label="Shared" />
-
+  <Import Project="..\ReadieFur.SourceAnalyzer.StandaloneHelpers\ReadieFur.SourceAnalyzer.StandaloneHelpers.projitems" Label="Shared" />
 </Project>

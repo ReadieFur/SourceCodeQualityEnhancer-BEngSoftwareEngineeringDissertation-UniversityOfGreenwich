@@ -7,12 +7,9 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyTitle($"{AssemblyInfo.ASSEMBLY_NAME}.VSIX")]
 [assembly: AssemblyDescription(AssemblyInfo.DESCRIPTION)]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct($"{AssemblyInfo.ASSEMBLY_NAME}.VSIX")]
+[assembly: AssemblyProduct($"{AssemblyInfo.PRODUCT_NAME} VSIX")]
 [assembly: AssemblyCopyright(AssemblyInfo.AUTHOR)]
 [assembly: AssemblyTrademark(AssemblyInfo.LICENSE)]
-[assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 

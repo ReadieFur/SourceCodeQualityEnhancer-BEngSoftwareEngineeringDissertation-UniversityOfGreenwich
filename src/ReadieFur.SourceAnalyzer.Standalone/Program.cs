@@ -1,34 +1,17 @@
 ﻿using Microsoft.Build.Locator;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CodeActions;
-using Microsoft.CodeAnalysis.CodeFixes;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Symbols;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Diagnostics;
-using Microsoft.CodeAnalysis.Editing;
 using Microsoft.CodeAnalysis.MSBuild;
-using Microsoft.CodeAnalysis.Text;
-using ReadieFur.SourceAnalyzer.Core.Configuration;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Xml.Linq;
-using Document = Microsoft.CodeAnalysis.Document;
 
 namespace ReadieFur.SourceAnalyzer.Standalone
 {
     internal class Program
     {
-        static async Task Main(string[] args)
+        [STAThread]
+        internal static async Task Main(string[] args)
         {
             //Attempt to set the version of MSBuild.
             VisualStudioInstance[] visualStudioInstances = MSBuildLocator.QueryVisualStudioInstances().ToArray();
@@ -46,7 +29,7 @@ namespace ReadieFur.SourceAnalyzer.Standalone
             */
             MSBuildLocator.RegisterInstance(instance);
 
-            using (MSBuildWorkspace? workspace = MSBuildWorkspace.Create())
+            using (MSBuildWorkspace workspace = MSBuildWorkspace.Create())
             {
                 //Print message for WorkspaceFailed event to help diagnosing project load failures.
                 workspace.WorkspaceFailed += (_, e) =>
@@ -90,7 +73,7 @@ namespace ReadieFur.SourceAnalyzer.Standalone
                     throw new Exception();
 
                 //Perform analysis on the projects in the loaded solution.
-                await Analyzer.AnalyzeSolution(solution);
+                SolutionChanges solutionChanges = await Analyzer.AnalyzeSolution(solution);
             }
         }
     }
