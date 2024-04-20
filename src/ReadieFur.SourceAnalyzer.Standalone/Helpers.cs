@@ -5,6 +5,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace ReadieFur.SourceAnalyzer.Standalone
 {
@@ -52,6 +53,25 @@ namespace ReadieFur.SourceAnalyzer.Standalone
 #if RELEASE || (DEBUG && true)
                 Console.WriteLine("No analyzer configuration file found! Please provide the full path to an analyzer configuration file or leave blank to load defaults:");
 
+                OpenFileDialog openFileDialog = new()
+                {
+                    Filter = "Source Analyzer YAML files (source-analyzer.yaml)|source-analyzer.yaml|All files (*.*)|*.*",
+                    Title = "Select an analyzer configuration file",
+                    CheckFileExists = true
+                };
+                if (openFileDialog.ShowDialog() == true)
+                {
+                    if (await ConfigManager.Instance.LoadAsync(openFileDialog.FileName))
+                    {
+                        Console.WriteLine("INFO: Using analyzer configuration from file: " + openFileDialog.FileName);
+                        return;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("The specified file was either not found or not valid. Please continue below:");
+                }
+
                 while (true)
                 {
                     string input = Console.ReadLine().Trim();
@@ -81,6 +101,17 @@ namespace ReadieFur.SourceAnalyzer.Standalone
             //Attempt to find a project file in the current directory.
             if (FindSolutionFile(Environment.CurrentDirectory, out string? cwdSolutionFile) && cwdSolutionFile is not null)
                 return cwdSolutionFile;
+
+            OpenFileDialog openFileDialog = new()
+            {
+                Filter = "Solution and Project files (*.sln, *.csproj)|*.sln;*.csproj|Solution files (*.sln)|*.sln|Project files (*.csproj)|*.csproj|All files (*.*)|*.*",
+                Title = "Select a C# project or solution file",
+                CheckFileExists = true
+            };
+            if (openFileDialog.ShowDialog() == true)
+                return openFileDialog.FileName;
+            else
+                Console.WriteLine("The specified file was either not found or not valid. Please continue below:");
 
             //Otherwise prompt the user for a file.
             Console.WriteLine("Please enter the path to the file or directory for the C# project or solution you would like to analyze:");
