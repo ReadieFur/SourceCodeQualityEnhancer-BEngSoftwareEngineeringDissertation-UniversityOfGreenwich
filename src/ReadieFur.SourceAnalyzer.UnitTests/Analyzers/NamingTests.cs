@@ -42,10 +42,10 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Analyzers
                 .WithArguments(input, pattern);
         };
 
-        [MTest] public async Task ClassNameAnalyzer() => await TestAnalyzer<NamingAnalyzer>("ClassName.cs");
+        [MTest] public async Task ClassNameAnalyzer() => await TestAnalyzer<NamingAnalyzer>("Naming_Class.cs");
 
-        [MTest] public async Task ClassNameFixProvider() => await TestFixProvider<NamingAnalyzer, NamingFixProvider>("ClassName.cs");
+        [MTest] public async Task ClassNameFixProvider() => await TestFixProvider<NamingAnalyzer, NamingFixProvider>("Naming_Class.cs");
 
-        [MTest] public async Task LocalVariableFixProvider() => await TestFixProvider<NamingAnalyzer, NamingFixProvider>("LocalVariable.cs");
+        [MTest] public async Task LocalVariableFixProvider() => await TestFixProvider<NamingAnalyzer, NamingFixProvider>("Naming_Local.cs");
     }
 }

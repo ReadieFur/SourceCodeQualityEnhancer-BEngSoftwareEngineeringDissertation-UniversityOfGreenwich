@@ -42,7 +42,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="TestFiles\ClassName.cs" />
     <Compile Remove="TestFiles\Comment_Capitalize.cs" />
     <Compile Remove="TestFiles\Comment_LeadingSpace.cs" />
     <Compile Remove="TestFiles\Comment_NewLine.cs" />
@@ -50,13 +49,13 @@
     <Compile Remove="TestFiles\Comment_TrailingFullStop.cs" />
     <Compile Remove="TestFiles\CurlyBrace.cs" />
     <Compile Remove="TestFiles\Indentation.cs" />
-    <Compile Remove="TestFiles\LocalVariable.cs" />
     <Compile Remove="TestFiles\Naming.cs" />
+    <Compile Remove="TestFiles\Naming_Class.cs" />
+    <Compile Remove="TestFiles\Naming_Local.cs" />
     <Compile Remove="TestFiles\Test.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="TestFiles\ClassName.cs" />
     <None Include="TestFiles\Comment_OldLine.cs" />
     <None Include="TestFiles\Comment_NewLine.cs" />
     <None Include="TestFiles\Comment_Capitalize.cs" />
@@ -64,7 +63,8 @@
     <None Include="TestFiles\Comment_LeadingSpace.cs" />
     <None Include="TestFiles\CurlyBrace.cs" />
     <None Include="TestFiles\Indentation.cs" />
-    <None Include="TestFiles\LocalVariable.cs" />
+    <None Include="TestFiles\Naming_Class.cs" />
+    <None Include="TestFiles\Naming_Local.cs" />
     <None Include="TestFiles\Test.cs" />
   </ItemGroup>
 
