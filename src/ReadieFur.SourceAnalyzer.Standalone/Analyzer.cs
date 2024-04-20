@@ -17,33 +17,39 @@ namespace ReadieFur.SourceAnalyzer.Standalone
     internal class Analyzer
     {
         #region Static
-        public static async Task<SolutionChanges> AnalyzeSolution(Solution solution)
+        public static async Task<Analyzer> AnalyzeSolution(Solution solution)
         {
             Analyzer analyzer = new(solution);
-            return await analyzer.AnalyzeSolutionAsync(solution);
+            await analyzer.AnalyzeSolutionAsync();
+            return analyzer;
         }
         #endregion
 
-        private Solution _originalSolution;
-        private Solution _solution;
+        public Solution OriginalSolution { get; private set; }
+        public Solution NewSolution { get; private set; }
+        private SolutionChanges? _solutionChanges = null;
+        public SolutionChanges SolutionChanges => _solutionChanges ?? throw new InvalidOperationException("Solution has not been analyzed yet.");
 
         private Analyzer(Solution solution)
         {
-            _originalSolution = solution;
-            _solution = solution;
+            OriginalSolution = solution;
+            NewSolution = solution;
         }
 
         //https://johnkoerner.com/csharp/creating-a-stand-alone-code-analyzer/
-        private async Task<SolutionChanges> AnalyzeSolutionAsync(Solution originalSolution)
+        public async Task<SolutionChanges> AnalyzeSolutionAsync()
         {
+            if (_solutionChanges is not null)
+                throw new InvalidOperationException("Solution has already been analyzed.");
+
             //Get all diagnostic analyzers and code fix providers.
             ImmutableArray<DiagnosticAnalyzer> analyzers = GetAllAnalyzers();
             ImmutableArray<CodeFixProvider> codeFixProviders = GetAllCodeFixProviders();
 
             List<ProjectId> visitedProjectIDs = new();
-            while (!visitedProjectIDs.SequenceEqual(_solution.ProjectIds))
+            while (!visitedProjectIDs.SequenceEqual(NewSolution.ProjectIds))
             {
-                Project project = _solution.GetProject(_solution.ProjectIds.FirstOrDefault(i => !visitedProjectIDs.Contains(i))) ?? throw new KeyNotFoundException();
+                Project project = NewSolution.GetProject(NewSolution.ProjectIds.FirstOrDefault(i => !visitedProjectIDs.Contains(i))) ?? throw new KeyNotFoundException();
 
                 //Compile the project and analyze it with my diagnostics.
                 Compilation? projectCompilation = await project.GetCompilationAsync();
@@ -84,8 +90,9 @@ namespace ReadieFur.SourceAnalyzer.Standalone
             }
 
             //TODO: Ask the user if they would like to apply the changes in-place or save the modified solution to a new location OR show a diff UI with the changes made.
-            SolutionChanges solutionChanges = _solution.GetChanges(originalSolution);
+            SolutionChanges solutionChanges = NewSolution.GetChanges(OriginalSolution);
             //workspace.TryApplyChanges(solution);
+            _solutionChanges = solutionChanges;
             return solutionChanges;
         }
 
@@ -158,7 +165,7 @@ namespace ReadieFur.SourceAnalyzer.Standalone
                                 continue;
 
                             //Check if any changes have actually been made.
-                            SolutionChanges solutionChanges = applyChangesOperation.ChangedSolution.GetChanges(_solution);
+                            SolutionChanges solutionChanges = applyChangesOperation.ChangedSolution.GetChanges(NewSolution);
                             foreach (ProjectChanges projectChanges in solutionChanges.GetProjectChanges())
                             {
                                 foreach (DocumentId documentID in projectChanges.GetChangedDocuments())
@@ -169,8 +176,8 @@ namespace ReadieFur.SourceAnalyzer.Standalone
                                         //At least one change was detected and so we should apply and re-evaluate the solution.
                                         Console.WriteLine($"INFO: Applying change at {diagnostic.Location.SourceSpan}: {diagnostic.GetMessage()}");
                                         //applyChangesOperation.Apply(solution.Workspace, cts.Token);
-                                        _solution = applyChangesOperation.ChangedSolution;
-                                        var a = (await _solution.GetDocument(documentID)!.GetTextAsync()).ToString();
+                                        NewSolution = applyChangesOperation.ChangedSolution;
+                                        var a = (await NewSolution.GetDocument(documentID)!.GetTextAsync()).ToString();
                                         return true;
                                     }
                                 }

@@ -22,8 +22,8 @@ namespace ReadieFur.SourceAnalyzer.Standalone
         private SolutionChanges? _solutionChanges;
         private DocumentId? _currentDocumentId;
 
-        public event Action? OnSaveInPlace;
-        public event Action<string> OnSaveAsNew;
+        public event Action? OnSaveInPlace = null;
+        public event Action<string>? OnSaveAsNew = null;
 
         public FileDiffWindow()
         {

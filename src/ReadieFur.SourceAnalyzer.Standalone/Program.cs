@@ -11,6 +11,10 @@ namespace ReadieFur.SourceAnalyzer.Standalone
 {
     internal class Program
     {
+        private static MSBuildWorkspace? _workspace = null;
+        private static Analyzer? _analyzer = null;
+        private static FileDiffWindow? _fileDiffWindow = null;
+
         internal static async Task Main(string[] args)
         {
 #if DEBUG && false
@@ -50,10 +54,12 @@ namespace ReadieFur.SourceAnalyzer.Standalone
             */
             MSBuildLocator.RegisterInstance(instance);
 
-            using (MSBuildWorkspace workspace = MSBuildWorkspace.Create())
+            _workspace = MSBuildWorkspace.Create();
+
+            try
             {
                 //Print message for WorkspaceFailed event to help diagnosing project load failures.
-                workspace.WorkspaceFailed += (_, e) =>
+                _workspace.WorkspaceFailed += (_, e) =>
                 {
                     //Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("ERROR: " + e.Diagnostic.Message);
@@ -78,12 +84,12 @@ namespace ReadieFur.SourceAnalyzer.Standalone
                 Solution solution;
                 if (path.EndsWith(".sln"))
                 {
-                    solution = await workspace.OpenSolutionAsync(path, ConsoleProgressReporter.Instance);
+                    solution = await _workspace.OpenSolutionAsync(path, ConsoleProgressReporter.Instance);
                     Console.WriteLine($"Finished loading solution '{path}'");
                 }
                 else
                 {
-                    solution = (await workspace.OpenProjectAsync(path, ConsoleProgressReporter.Instance)).Solution;
+                    solution = (await _workspace.OpenProjectAsync(path, ConsoleProgressReporter.Instance)).Solution;
                     Console.WriteLine($"Finished loading project '{path}'");
                 }
 
@@ -94,7 +100,7 @@ namespace ReadieFur.SourceAnalyzer.Standalone
                     throw new Exception();
 
                 //Perform analysis on the projects in the loaded solution.
-                SolutionChanges solutionChanges = await Analyzer.AnalyzeSolution(solution);
+                _analyzer = await Analyzer.AnalyzeSolution(solution);
 
                 //Display the results in a new window.
                 if (Thread.CurrentThread.GetApartmentState() != ApartmentState.STA)
@@ -102,34 +108,66 @@ namespace ReadieFur.SourceAnalyzer.Standalone
                     //Spawn a new STA thread to display the window if the main process thread is not STA as UI components require to be run on an STA thread.
                     Thread thread = new(solutionChangesRef =>
                     {
-                        FileDiffWindow fileDiffWindow = new((SolutionChanges)solutionChangesRef);
-                        fileDiffWindow.OnSaveAsNew += FileDiffWindow_OnSaveAsNew;
-                        fileDiffWindow.OnSaveInPlace += FileDiffWindow_OnSaveInPlace;
-                        fileDiffWindow.ShowDialog();
+                        _fileDiffWindow = new((SolutionChanges)solutionChangesRef);
+                        _fileDiffWindow.OnSaveAsNew += FileDiffWindow_OnSaveAsNew;
+                        _fileDiffWindow.OnSaveInPlace += FileDiffWindow_OnSaveInPlace;
+                        _fileDiffWindow.ShowDialog();
                     });
                     thread.SetApartmentState(ApartmentState.STA);
                     //Objects to be shared across threads must be passed here.
-                    thread.Start(solutionChanges);
+                    thread.Start(_analyzer.SolutionChanges);
                     thread.Join();
                 }
                 else
                 {
-                    FileDiffWindow fileDiffWindow = new(solutionChanges);
-                    fileDiffWindow.OnSaveAsNew += FileDiffWindow_OnSaveAsNew;
-                    fileDiffWindow.OnSaveInPlace += FileDiffWindow_OnSaveInPlace;
-                    fileDiffWindow.ShowDialog();
+                    _fileDiffWindow = new(_analyzer.SolutionChanges);
+                    _fileDiffWindow.OnSaveAsNew += FileDiffWindow_OnSaveAsNew;
+                    _fileDiffWindow.OnSaveInPlace += FileDiffWindow_OnSaveInPlace;
+                    _fileDiffWindow.ShowDialog();
                 }
+            }
+            catch {}
+            finally
+            {
+                _workspace.Dispose();
+
+                //Unregister the instance of MSBuild.
+                MSBuildLocator.Unregister();
             }
         }
 
         private static void FileDiffWindow_OnSaveInPlace()
         {
-            throw new NotImplementedException();
+            if (_workspace is null || _analyzer is null)
+            {
+                Console.WriteLine("ERROR: Workspace is null.");
+                return;
+            }
+
+            //Save the changes to the files in the workspace.
+            if (!_workspace.TryApplyChanges(_analyzer.NewSolution))
+            {
+                Console.WriteLine("ERROR: Failed to apply changes to the workspace.");
+            }
+            else
+            {
+                Console.WriteLine("INFO: Changes applied to the workspace.");
+                _fileDiffWindow?.Close();
+            }
         }
 
-        private static void FileDiffWindow_OnSaveAsNew(string obj)
+        private static void FileDiffWindow_OnSaveAsNew(string targetDirectory)
         {
+            if (_workspace is null || _analyzer is null)
+            {
+                Console.WriteLine("ERROR: Workspace is null.");
+                return;
+            }
+
+            //Save the new workspace to a new directory.
             throw new NotImplementedException();
+
+            _fileDiffWindow?.Close();
         }
     }
 }
