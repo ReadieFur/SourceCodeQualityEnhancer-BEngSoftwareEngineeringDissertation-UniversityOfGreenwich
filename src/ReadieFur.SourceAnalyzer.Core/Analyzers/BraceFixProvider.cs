@@ -26,7 +26,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             {
                 context.RegisterCodeFix(
                         CodeAction.Create(
-                        title: "Move brace to the " + (ConfigManager.Configuration.Formatting?.CurlyBraces?.NewLine ?? true ? "next" : "previous") + " line.",
+                        title: "Move brace to the " + (ConfigManager.Configuration.Formatting?.CurlyBraces?.NewLine is true ? "next" : "previous") + " line.",
                         //Use createChangedDocument as we only want to update the document in this case instead of providing a solution fix.
                         createChangedDocument: cancellationToken => MoveBraceAsync(context.Document, diagnostic.Location, cancellationToken),
                         equivalenceKey: "Move brace"),

@@ -1,0 +1,11 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace ReadieFur.SourceAnalyzer.Core.Configuration
+{
+    public class Punctuation
+    {
+        public PunctuationTokens? SpaceAround { get; set; }
+    }
+}

@@ -18,7 +18,6 @@
 			"type": "object",
 			"properties":
 			{
-				"enabled": { "$ref": "#/definitions/enabled" },
 				"pattern":
 				{
 					"type": "string",
@@ -27,6 +26,86 @@
 				"severity": { "$ref": "#/definitions/severity" }
 			},
 			"required": ["pattern"]
+		},
+		"punctuation_tokens":
+		{
+			//https://stackoverflow.com/questions/30924271/correct-way-to-define-array-of-enums-in-json-schema
+			"type": "array",
+			"items":
+			{
+				"type": "string",
+				"enum":
+				[
+					"~",
+					"!",
+					"$",
+					"%",
+					"^",
+					"&",
+					"*",
+					"(",
+					")",
+					"-",
+					"+",
+					"=",
+					"{",
+					"}",
+					"[",
+					"]",
+					"|",
+					"\\",
+					":",
+					";",
+					"\"",
+					"'",
+					"<",
+					",",
+					">",
+					".",
+					"?",
+					"#",
+					"/",
+					"..",
+					"||",
+					"&&",
+					"--",
+					"++",
+					"::",
+					"??",
+					"->",
+					"!=",
+					"==",
+					"=>",
+					"<=",
+					"<<",
+					"<<=",
+					">=",
+					">>",
+					">>=",
+					"/=",
+					"*=",
+					"|=",
+					"&=",
+					"+=",
+					"-=",
+					"^=",
+					"??=",
+					">>>",
+					">>>="
+				]
+			},
+			"description": "The punctuation to include in this rule."
+		},
+		"punctuation_block":
+		{
+			"type": "object",
+			"properties":
+			{
+				"severity": { "$ref": "#/definitions/severity" },
+				"require": { "$ref": "#/definitions/enabled" },
+				"tokens": { "$ref": "#/definitions/punctuation_tokens" }
+			},
+			"required": ["require", "tokens"]
 		}
 	},
 	"type": "object",
@@ -66,7 +145,6 @@
 					"type": "object",
 					"properties":
 					{
-						"enabled": { "$ref": "#/definitions/enabled" },
 						"severity": { "$ref": "#/definitions/severity" },
 						"new_line":
 						{
@@ -81,7 +159,6 @@
 					"type": "object",
 					"properties":
 					{
-						"enabled": { "$ref": "#/definitions/enabled" },
 						"severity": { "$ref": "#/definitions/severity" },
 						"size":
 						{
@@ -96,7 +173,6 @@
 					"type": "object",
 					"properties":
 					{
-						"enabled": { "$ref": "#/definitions/enabled" },
 						"severity": { "$ref": "#/definitions/severity" },
 						"new_line":
 						{
@@ -123,6 +199,14 @@
 							"type": "number",
 							"description": "The sensitivity of the comment detection algorithm."
 						}
+					}
+				},
+				"punctuation":
+				{
+					"type": "object",
+					"properties":
+					{
+						"space_around": { "$ref": "#/definitions/punctuation_block" }
 					}
 				}
 			}

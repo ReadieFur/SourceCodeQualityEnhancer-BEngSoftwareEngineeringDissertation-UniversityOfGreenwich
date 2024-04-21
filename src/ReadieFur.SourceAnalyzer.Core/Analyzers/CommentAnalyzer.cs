@@ -16,7 +16,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
         public static DiagnosticDescriptor LeadingSpaceDiagnosticDescriptor => new(
             id: EAnalyzerID.Comment_LeadingSpace.ToTag(),
             title: "Comment format (prefix).",
-            messageFormat: "Comments should" + (ConfigManager.Configuration.Formatting?.Comments?.LeadingSpace ?? false ? "" : " not") + " have a leading space.",
+            messageFormat: "Comments should" + (ConfigManager.Configuration.Formatting?.Comments?.LeadingSpace is true ? "" : " not") + " have a leading space.",
             category: "Formatting",
             defaultSeverity: Helpers.GetDiagnosticSeverity(ConfigManager.Configuration.Formatting?.Comments?.Severity),
             isEnabledByDefault: ConfigManager.Configuration.Formatting?.Comments is not null);
@@ -24,7 +24,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
         public static DiagnosticDescriptor TrailingFullStopDiagnosticDescriptor => new(
             id: EAnalyzerID.Comment_TrailingFullStop.ToTag(),
             title: "Comment format (suffix).",
-            messageFormat: "Comments should" + (ConfigManager.Configuration.Formatting?.Comments?.TrailingFullStop ?? false ? "" : " not") + " have a full stop at the end.",
+            messageFormat: "Comments should" + (ConfigManager.Configuration.Formatting?.Comments?.TrailingFullStop is true ? "" : " not") + " have a full stop at the end.",
             category: "Formatting",
             defaultSeverity: Helpers.GetDiagnosticSeverity(ConfigManager.Configuration.Formatting?.Comments?.Severity),
             isEnabledByDefault: ConfigManager.Configuration.Formatting?.Comments is not null);
@@ -32,7 +32,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
         public static DiagnosticDescriptor NewLineDiagnosticDescriptor => new(
             id: EAnalyzerID.Comment_NewLine.ToTag(),
             title: "Comment format (line).",
-            messageFormat: "Comments should" + (ConfigManager.Configuration.Formatting?.Comments?.NewLine ?? false ? "" : " not") + " be on their own line.",
+            messageFormat: "Comments should" + (ConfigManager.Configuration.Formatting?.Comments?.NewLine is true ? "" : " not") + " be on their own line.",
             category: "Formatting",
             defaultSeverity: Helpers.GetDiagnosticSeverity(ConfigManager.Configuration.Formatting?.Comments?.Severity),
             isEnabledByDefault: ConfigManager.Configuration.Formatting?.Comments is not null);
@@ -40,7 +40,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
         public static DiagnosticDescriptor CapitalizeDiagnosticDescriptor => new(
             id: EAnalyzerID.Comment_Capitalize.ToTag(),
             title: "Comment format (capitalize).",
-            messageFormat: "The first letter of comments should" + (ConfigManager.Configuration.Formatting?.Comments?.CapitalizeFirstLetter ?? false ? "" : " not") + " be capitalized.",
+            messageFormat: "The first letter of comments should" + (ConfigManager.Configuration.Formatting?.Comments?.CapitalizeFirstLetter is true ? "" : " not") + " be capitalized.",
             category: "Formatting",
             defaultSeverity: Helpers.GetDiagnosticSeverity(ConfigManager.Configuration.Formatting?.Comments?.Severity),
             isEnabledByDefault: ConfigManager.Configuration.Formatting?.Comments is not null);

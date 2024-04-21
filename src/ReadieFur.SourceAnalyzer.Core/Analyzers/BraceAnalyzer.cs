@@ -15,7 +15,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             title: "Brace location",
             messageFormat:
                 "Braces should be on "
-                    + (ConfigManager.Configuration.Formatting?.CurlyBraces?.NewLine ?? true
+                    + (ConfigManager.Configuration.Formatting?.CurlyBraces?.NewLine is true
                     ? "the line after"
                     : "the same line as")
                 + " the declaring statement.",

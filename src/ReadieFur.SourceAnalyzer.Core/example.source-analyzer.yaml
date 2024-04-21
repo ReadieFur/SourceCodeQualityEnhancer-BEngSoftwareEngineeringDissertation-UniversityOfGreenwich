@@ -46,6 +46,6 @@ formatting:
     comment_detection_sensitivity: 0.5
   punctuation:
     space_around:
-      severity: "warning"
       tokens:
         - "&&"
+        - "||"

@@ -5,5 +5,6 @@
         public CurlyBraces? CurlyBraces { get; set; }
         public Indentation? Indentation { get; set; }
         public Comments? Comments { get; set; }
+        public Punctuation? Punctuation { get; set; }
     }
 }
