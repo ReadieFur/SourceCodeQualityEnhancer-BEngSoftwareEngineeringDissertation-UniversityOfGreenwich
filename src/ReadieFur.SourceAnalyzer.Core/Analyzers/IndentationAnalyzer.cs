@@ -19,8 +19,8 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             //messageFormat: "Indentation does not match the expected amount for the current level '{0}'.",
             messageFormat: "Indentation does not match the expected amount.",
             category: "Formatting",
-            defaultSeverity: ConfigManager.Configuration.Formatting.Indentation.Severity.ToDiagnosticSeverity(),
-            isEnabledByDefault: ConfigManager.Configuration.Formatting.Indentation.IsEnabled);
+            defaultSeverity: Helpers.GetDiagnosticSeverity(ConfigManager.Configuration.Formatting?.Indentation?.Severity),
+            isEnabledByDefault: ConfigManager.Configuration.Formatting?.Indentation is not null);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(DiagnosticDescriptor);
         //public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create<DiagnosticDescriptor>(); //TODO: TEMPORARY!

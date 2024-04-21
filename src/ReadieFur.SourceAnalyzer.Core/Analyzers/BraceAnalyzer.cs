@@ -15,13 +15,13 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             title: "Brace location",
             messageFormat:
                 "Braces should be on "
-                    + (ConfigManager.Configuration.Formatting.CurlyBraces.NewLine
+                    + (ConfigManager.Configuration.Formatting?.CurlyBraces?.NewLine ?? true
                     ? "the line after"
                     : "the same line as")
                 + " the declaring statement.",
             category: "Formatting",
-            defaultSeverity: ConfigManager.Configuration.Formatting.CurlyBraces.Severity.ToDiagnosticSeverity(),
-            isEnabledByDefault: ConfigManager.Configuration.Formatting.CurlyBraces.IsEnabled);
+            defaultSeverity: Helpers.GetDiagnosticSeverity(ConfigManager.Configuration.Formatting?.CurlyBraces?.Severity),
+            isEnabledByDefault: ConfigManager.Configuration.Formatting?.CurlyBraces is not null);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(DiagnosticDescriptor);
 
@@ -107,7 +107,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             Location braceLocation = token.GetLocation();
 
             bool isBraceOnParentLine = braceLocation.GetLineSpan().StartLinePosition.Line == braceTokenPreviousNode?.GetLocation().GetLineSpan().StartLinePosition.Line;
-            if ((ConfigManager.Configuration.Formatting.CurlyBraces.NewLine && isBraceOnParentLine) || (!ConfigManager.Configuration.Formatting.CurlyBraces.NewLine && !isBraceOnParentLine))
+            if (((ConfigManager.Configuration.Formatting?.CurlyBraces?.NewLine ?? true) && isBraceOnParentLine) || (!(ConfigManager.Configuration.Formatting?.CurlyBraces?.NewLine ?? true) && !isBraceOnParentLine))
                 context.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptor, braceLocation));
         }
     }

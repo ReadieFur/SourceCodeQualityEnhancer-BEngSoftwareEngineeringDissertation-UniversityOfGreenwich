@@ -2,7 +2,7 @@
 {
     public sealed class ConfigRoot
     {
-        public Naming Naming { get; set; } = new();
-        public Formatting Formatting { get; set; } = new();
+        public Naming? Naming { get; set; }
+        public Formatting? Formatting { get; set; }
     }
 }

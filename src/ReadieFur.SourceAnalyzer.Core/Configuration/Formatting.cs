@@ -1,10 +1,9 @@
-﻿
-namespace ReadieFur.SourceAnalyzer.Core.Configuration
+﻿namespace ReadieFur.SourceAnalyzer.Core.Configuration
 {
     public sealed class Formatting
     {
-        public CurlyBraces CurlyBraces { get; set; } = new();
-        public Indentation Indentation { get; set; } = new();
-        public Comments Comments { get; set; } = new();
+        public CurlyBraces? CurlyBraces { get; set; }
+        public Indentation? Indentation { get; set; }
+        public Comments? Comments { get; set; }
     }
 }

@@ -4,61 +4,48 @@
 
 naming:
   private_field:
-    severity: "warning"
     pattern: "_[a-z]+([A-Z][a-z]+)*" #_camelCase
   internal_field:
-    severity: "warning"
     pattern: "([A-Z][a-z]+)+"
   protected_field:
-    severity: "warning"
     pattern: "([A-Z][a-z]+)+"
   public_field:
-    severity: "warning"
     pattern: "([A-Z][a-z]+)+"
   property:
-    severity: "warning"
     pattern: "([A-Z][a-z]+)+"
   method:
-    severity: "warning"
     pattern: "([A-Z][a-z]+)+"
   class:
-    severity: "warning"
     pattern: "([A-Z][a-z]+)+"
   interface:
-    severity: "warning"
     pattern: "I([A-Z][a-z]+)+" #IPascalCase
   enum:
-    severity: "warning"
     pattern: "E([A-Z][a-z]+)+" #EPascalCase
   struct:
-    severity: "warning"
     pattern: "S([A-Z][a-z]+)+" #EPascalCase
   local_variable:
-    severity: "warning"
     pattern: "[a-z]+([A-Z][a-z]+)*"
   parameter:
-    severity: "warning"
     pattern: "[a-z]+([A-Z][a-z]+)*"
   constant:
-    severity: "warning"
     pattern: "[A-Z]+(?:_[A-Z]+)*$" #https://stackoverflow.com/questions/43224835/regex-to-match-all-capital-and-underscore
   namespace:
-    severity: "warning"
     pattern: "[A-Z][a-z]+(?:\\.?[A-Z][a-z]+)*$" #Pascal.Case
   generic_parameter:
-    severity: "warning"
     pattern: "T([A-Z][a-z]+)+" #TPascalCase
 formatting:
   curly_braces:
-    severity: "warning"
     new_line: true
   indentation:
-    severity: "warning"
     size: 4
   comments:
-    severity: "warning"
     new_line: true
     leading_space: false
     trailing_full_stop: true
     capitalize_first_letter: true
     comment_detection_sensitivity: 0.5
+  punctuation:
+    space_around:
+      severity: "warning"
+      tokens:
+        - "&&"

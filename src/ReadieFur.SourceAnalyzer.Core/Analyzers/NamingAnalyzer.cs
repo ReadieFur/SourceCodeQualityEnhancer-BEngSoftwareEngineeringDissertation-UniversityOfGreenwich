@@ -40,7 +40,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                         messageFormat: "'{0}' does not match the regular expression '{1}'",
                         category: "Naming",
                         defaultSeverity: value.Severity.ToDiagnosticSeverity(),
-                        isEnabledByDefault: value.IsEnabled
+                        isEnabledByDefault: true
                     ));
                 }
             }
@@ -95,16 +95,16 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                     switch (fieldSymbol.DeclaredAccessibility)
                     {
                         case Accessibility.Private:
-                            namingConvention = ConfigManager.Configuration.Naming.PrivateField;
+                            namingConvention = ConfigManager.Configuration.Naming?.PrivateField;
                             break;
                         case Accessibility.Internal:
-                            namingConvention = ConfigManager.Configuration.Naming.InternalField;
+                            namingConvention = ConfigManager.Configuration.Naming?.InternalField;
                             break;
                         case Accessibility.Protected:
-                            namingConvention = ConfigManager.Configuration.Naming.ProtectedField;
+                            namingConvention = ConfigManager.Configuration.Naming?.ProtectedField;
                             break;
                         case Accessibility.Public:
-                            namingConvention = ConfigManager.Configuration.Naming.PublicField;
+                            namingConvention = ConfigManager.Configuration.Naming?.PublicField;
                             break;
                         default:
                             //TODO: Look into the And/Or Friend values more.
@@ -112,47 +112,47 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                     }
                     break;
                 case IPropertySymbol:
-                    namingConvention = ConfigManager.Configuration.Naming.Property;
+                    namingConvention = ConfigManager.Configuration.Naming?.Property;
                     break;
                 case IMethodSymbol:
-                    namingConvention = ConfigManager.Configuration.Naming.Method;
+                    namingConvention = ConfigManager.Configuration.Naming?.Method;
                     break;
                 case INamedTypeSymbol namedTypeSymbol:
                     switch (namedTypeSymbol.TypeKind)
                     {
                         case TypeKind.Class:
-                            namingConvention = ConfigManager.Configuration.Naming.Class;
+                            namingConvention = ConfigManager.Configuration.Naming?.Class;
                             break;
                         case TypeKind.Interface:
-                            namingConvention = ConfigManager.Configuration.Naming.Interface;
+                            namingConvention = ConfigManager.Configuration.Naming?.Interface;
                             break;
                         case TypeKind.Enum:
-                            namingConvention = ConfigManager.Configuration.Naming.Enum;
+                            namingConvention = ConfigManager.Configuration.Naming?.Enum;
                             break;
                         case TypeKind.Struct:
-                            namingConvention = ConfigManager.Configuration.Naming.Struct;
+                            namingConvention = ConfigManager.Configuration.Naming?.Struct;
                             break;
                         case TypeKind.TypeParameter:
-                            namingConvention = ConfigManager.Configuration.Naming.GenericParameter;
+                            namingConvention = ConfigManager.Configuration.Naming?.GenericParameter;
                             break;
                         default:
                             return;
                     }
                     break;
                 case ILocalSymbol:
-                    namingConvention = ConfigManager.Configuration.Naming.LocalVariable;
+                    namingConvention = ConfigManager.Configuration.Naming?.LocalVariable;
                     break;
                 case IParameterSymbol:
-                    namingConvention = ConfigManager.Configuration.Naming.Parameter;
+                    namingConvention = ConfigManager.Configuration.Naming?.Parameter;
                     break;
                 case INamespaceSymbol:
-                    namingConvention = ConfigManager.Configuration.Naming.Namespace;
+                    namingConvention = ConfigManager.Configuration.Naming?.Namespace;
                     break;
                 default:
                     return;
             }
 
-            if (namingConvention is null || !namingConvention.IsEnabled)
+            if (namingConvention is null)
                 return;
 
             Match match = Regex.Match(symbol.Name, namingConvention.Pattern);

@@ -39,6 +39,14 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             };
         }
 
+        public static DiagnosticSeverity GetDiagnosticSeverity(ESeverity? severity)
+        {
+            if (!severity.HasValue)
+                return DiagnosticSeverity.Hidden;
+            else
+                return severity.Value.ToDiagnosticSeverity();
+        }
+
         public static string ToTag(this EAnalyzerID self)
         {
             return ANALYZER_ID_PREFIX + ((int)self).ToString().PadLeft(4, '0');

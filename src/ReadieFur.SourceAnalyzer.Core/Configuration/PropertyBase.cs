@@ -1,13 +1,15 @@
-﻿using YamlDotNet.Serialization;
-
-namespace ReadieFur.SourceAnalyzer.Core.Configuration
+﻿namespace ReadieFur.SourceAnalyzer.Core.Configuration
 {
     public class ConfigBase
     {
-        public bool? Enabled { get; set; } = true;
-        public ESeverity Severity { get; set; } = ESeverity.Info;
+        public const ESeverity DEFAULT_SEVERITY = ESeverity.Info;
 
-        //When Enabled is null, assume the property is set (in place so that the user does not have to explicitly set the property to true).
-        [YamlIgnore] public bool IsEnabled => Enabled ?? true;
+        public ESeverity Severity { get; set; } = DEFAULT_SEVERITY;
+
+        [YamlDotNet.Serialization.Callbacks.OnDeserialized]
+        internal void OnDeserialized()
+        {
+            //TODO: Use a custom attribute to check if the required properties have been set.
+        }
     }
 }

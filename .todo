@@ -19,6 +19,7 @@ Code:
     ☐ Operator location
         ☐ Move && and || to start/end of line
         ☐ Move ? and : to start/end of line
+        ☐ Add/remove spaces around operators
     ☐ Chaining function
     ☐ Explicit access modifier
     ✘ Explicit type (already built into the IDE). @cancelled(24-04-19 17:59)

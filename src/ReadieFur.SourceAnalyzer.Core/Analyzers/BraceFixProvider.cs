@@ -26,7 +26,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             {
                 context.RegisterCodeFix(
                         CodeAction.Create(
-                        title: "Move brace to the " + (ConfigManager.Configuration.Formatting.CurlyBraces.NewLine ? "next" : "previous") + " line.",
+                        title: "Move brace to the " + (ConfigManager.Configuration.Formatting?.CurlyBraces?.NewLine ?? true ? "next" : "previous") + " line.",
                         //Use createChangedDocument as we only want to update the document in this case instead of providing a solution fix.
                         createChangedDocument: cancellationToken => MoveBraceAsync(context.Document, diagnostic.Location, cancellationToken),
                         equivalenceKey: "Move brace"),
@@ -45,7 +45,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             //The use of trivia objects is benificial over editing the document directly as it allows us to maintain the formatting of the document and to take a programmatic approach to editing the document via the syntax tree.
 
             Dictionary<SyntaxToken, SyntaxToken> updatedTokens = new(); //First token is the old token, second is the new token to be replaced with.
-            if (ConfigManager.Configuration.Formatting.CurlyBraces.NewLine)
+            if (ConfigManager.Configuration.Formatting?.CurlyBraces?.NewLine is true)
             {
                 //Determine if the document is using CLRF, LF or CR.
                 //For now I am going to use a simple check by only looking at the first new line.
@@ -98,7 +98,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
 
                 //Calculate the indentation to be used.
                 //Use the indentation from the user config if indentation settings are enabled, otherwise use the documents indentation (or fallback to the hardcoded default size).
-                if (ConfigManager.Configuration.Formatting.Indentation.IsEnabled)
+                if (ConfigManager.Configuration.Formatting.Indentation is not null)
                     indentationSize = ConfigManager.Configuration.Formatting.Indentation.Size;
                 else if (indentationSize == 0)
                     indentationSize = Indentation.DEFAULT_SIZE;
