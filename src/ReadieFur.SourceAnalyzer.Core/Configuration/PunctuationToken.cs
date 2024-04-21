@@ -5,7 +5,7 @@ using YamlDotNet.Serialization;
 
 namespace ReadieFur.SourceAnalyzer.Core.Configuration
 {
-    public class PunctuationTokens : ConfigBase
+    public class PunctuationToken : ConfigBase
     {
         [YamlIgnore] public static readonly Dictionary<string, SyntaxKind> Punctuation = new()
         {
@@ -69,7 +69,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Configuration
 #endif
         };
 
-        public bool Require { get; set; } = true;
+        public bool Required { get; set; } = true;
 
         [YamlMember(Alias = "tokens")]
         public List<string> _tokens { get; set; } = new();

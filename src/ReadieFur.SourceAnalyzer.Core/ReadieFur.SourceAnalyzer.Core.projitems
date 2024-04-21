@@ -33,7 +33,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\Naming.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\NamingConvention.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\Punctuation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Configuration\PunctuationTokens.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\PunctuationToken.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\YamlLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\Anchor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\Atom.cs" />

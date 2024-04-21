@@ -24,8 +24,6 @@
         Comment_TrailingFullStop,
         Comment_NewLine,
         Comment_Capitalize,
-        Operand_Boolean,
-        Operand_Conditional,
-        Operand_Space,
+        Punctuation_Space,
     }
 }

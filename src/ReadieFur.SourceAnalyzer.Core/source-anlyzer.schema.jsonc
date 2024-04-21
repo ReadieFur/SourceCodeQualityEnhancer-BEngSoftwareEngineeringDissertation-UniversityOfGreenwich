@@ -102,10 +102,10 @@
 			"properties":
 			{
 				"severity": { "$ref": "#/definitions/severity" },
-				"require": { "$ref": "#/definitions/enabled" },
+				"required": { "$ref": "#/definitions/enabled" },
 				"tokens": { "$ref": "#/definitions/punctuation_tokens" }
 			},
-			"required": ["require", "tokens"]
+			"required": ["required", "tokens"]
 		}
 	},
 	"type": "object",

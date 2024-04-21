@@ -14,9 +14,9 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
     internal class PunctuationAnalyzer : DiagnosticAnalyzer
     {
         public static DiagnosticDescriptor SpaceDiagnosticDescriptor => new(
-            id: EAnalyzerID.Operand_Space.ToTag(),
+            id: EAnalyzerID.Punctuation_Space.ToTag(),
             title: "Operand space",
-            messageFormat: "The operand '{0}' should" + (ConfigManager.Configuration.Formatting?.Punctuation?.SpaceAround?.Require is true ? "" : " not") + " have spaces either side of it.",
+            messageFormat: "The operand '{0}' should" + (ConfigManager.Configuration.Formatting?.Punctuation?.SpaceAround?.Required is true ? "" : " not") + " have spaces either side of it.",
             category: "Formatting",
             defaultSeverity: Helpers.GetDiagnosticSeverity(ConfigManager.Configuration.Formatting?.Punctuation?.SpaceAround?.Severity),
             isEnabledByDefault: ConfigManager.Configuration.Formatting?.Punctuation?.SpaceAround is not null);
@@ -25,12 +25,14 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
 
         public override void Initialize(AnalysisContext context)
         {
-            context.RegisterSyntaxNodeAction(AnalyzeSpace, PunctuationTokens.Punctuation.Values.ToArray());
+            //The below won't work because we need to analyze tokens and not nodes, unfortunately there is only a register node action available so we must instead analyze the entire tree instead.
+            //context.RegisterSyntaxNodeAction(AnalyzeSpace, PunctuationToken.Punctuation.Values.ToArray());
+            
+            context.RegisterSyntaxTreeAction(Analyze);
         }
 
-        private void AnalyzeSpace(SyntaxNodeAnalysisContext context)
+        private void Analyze(SyntaxTreeAnalysisContext context)
         {
-            throw new NotImplementedException();
         }
     }
 }

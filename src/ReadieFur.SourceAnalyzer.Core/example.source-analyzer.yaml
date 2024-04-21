@@ -46,6 +46,7 @@ formatting:
     comment_detection_sensitivity: 0.5
   punctuation:
     space_around:
+      required: true
       tokens:
         - "&&"
         - "||"
