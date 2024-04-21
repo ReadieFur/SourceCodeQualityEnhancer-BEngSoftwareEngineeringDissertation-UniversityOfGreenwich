@@ -52,7 +52,14 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Analyzers
         [MTest] public async Task CommentCapitalizeAnalyzer() => await TestAnalyzer<CommentAnalyzer>("Comment_Capitalize.cs", CommentCapitalizeAnalyzerDiagnosticCallback);
         [MTest] public async Task CommentCapitalizeFixProvider() => await TestFixProvider<CommentAnalyzer, CommentFixProvider>("Comment_Capitalize.cs", CommentCapitalizeAnalyzerDiagnosticCallback, CommentCodeFixDiagnosticCallback);
 
-        private FileInterpreter.AnalyzerDiagnosticCallback PunctuationSpaceAnalyzerDiagnosticCallback => (_, _) => PunctuationAnalyzer.SpaceDiagnosticDescriptor;
+        private FileInterpreter.AnalyzerDiagnosticCallback PunctuationSpaceAnalyzerDiagnosticCallback => (_, input) => new(
+            PunctuationAnalyzer.SpaceDiagnosticDescriptor.Id,
+            PunctuationAnalyzer.SpaceDiagnosticDescriptor.Title,
+            string.Format(PunctuationAnalyzer.SpaceDiagnosticDescriptor.MessageFormat.ToString(), input),
+            PunctuationAnalyzer.SpaceDiagnosticDescriptor.Category,
+            PunctuationAnalyzer.SpaceDiagnosticDescriptor.DefaultSeverity,
+            PunctuationAnalyzer.SpaceDiagnosticDescriptor.IsEnabledByDefault
+        );
         [MTest] public async Task PunctuationSpaceAnalyzer() => await TestAnalyzer<PunctuationAnalyzer>("Punctuation_Space.cs", PunctuationSpaceAnalyzerDiagnosticCallback);
     }
 }
