@@ -14,7 +14,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
     internal class IndentationAnalyzer : DiagnosticAnalyzer
     {
         public static DiagnosticDescriptor DiagnosticDescriptor => new(
-            id: Helpers.ANALYZER_ID_PREFIX + "0017",
+            id: EAnalyzerID.Indentation.ToTag(),
             title: "Indentation",
             //messageFormat: "Indentation does not match the expected amount for the current level '{0}'.",
             messageFormat: "Indentation does not match the expected amount.",

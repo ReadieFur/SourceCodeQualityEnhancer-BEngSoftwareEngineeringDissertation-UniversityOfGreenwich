@@ -11,7 +11,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
     internal class BraceAnalyzer : DiagnosticAnalyzer
     {
         public static DiagnosticDescriptor DiagnosticDescriptor => new(
-            id: Helpers.ANALYZER_ID_PREFIX + "0016",
+            id: EAnalyzerID.Brace_Location.ToTag(),
             title: "Brace location",
             messageFormat:
                 "Braces should be on "

@@ -35,7 +35,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                     catch { continue; }
 
                     yield return new(value, new(
-                        id: Helpers.ANALYZER_ID_PREFIX + ((int)enumValue).ToString().PadLeft(4, '0'),
+                        id: enumValue.ToTag(),
                         title: $"{prop.Name} does not match the provided naming schema.",
                         messageFormat: "'{0}' does not match the regular expression '{1}'",
                         category: "Naming",

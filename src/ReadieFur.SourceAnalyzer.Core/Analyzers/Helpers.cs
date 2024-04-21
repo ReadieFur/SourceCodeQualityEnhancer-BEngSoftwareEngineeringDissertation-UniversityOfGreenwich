@@ -38,5 +38,10 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                 _ => throw new InvalidOperationException()
             };
         }
+
+        public static string ToTag(this EAnalyzerID self)
+        {
+            return ANALYZER_ID_PREFIX + ((int)self).ToString().PadLeft(4, '0');
+        }
     }
 }

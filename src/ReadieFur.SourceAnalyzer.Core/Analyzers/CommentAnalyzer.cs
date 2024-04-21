@@ -14,7 +14,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
     internal class CommentAnalyzer : DiagnosticAnalyzer
     {
         public static DiagnosticDescriptor LeadingSpaceDiagnosticDescriptor => new(
-            id: Helpers.ANALYZER_ID_PREFIX + "0018",
+            id: EAnalyzerID.Comment_LeadingSpace.ToTag(),
             title: "Comment format (prefix).",
             messageFormat: "Comments should" + (ConfigManager.Configuration.Formatting.Comments.LeadingSpace ? "" : " not") + " have a leading space.",
             category: "Formatting",
@@ -22,7 +22,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             isEnabledByDefault: ConfigManager.Configuration.Formatting.Comments.IsEnabled);
 
         public static DiagnosticDescriptor TrailingFullStopDiagnosticDescriptor => new(
-            id: Helpers.ANALYZER_ID_PREFIX + "0019",
+            id: EAnalyzerID.Comment_TrailingFullStop.ToTag(),
             title: "Comment format (suffix).",
             messageFormat: "Comments should" + (ConfigManager.Configuration.Formatting.Comments.TrailingFullStop ? "" : " not") + " have a full stop at the end.",
             category: "Formatting",
@@ -30,7 +30,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             isEnabledByDefault: ConfigManager.Configuration.Formatting.Comments.IsEnabled);
 
         public static DiagnosticDescriptor NewLineDiagnosticDescriptor => new(
-            id: Helpers.ANALYZER_ID_PREFIX + "0020",
+            id: EAnalyzerID.Comment_NewLine.ToTag(),
             title: "Comment format (line).",
             messageFormat: "Comments should" + (ConfigManager.Configuration.Formatting.Comments.NewLine ? "" : " not") + " be on their own line.",
             category: "Formatting",
@@ -38,7 +38,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             isEnabledByDefault: ConfigManager.Configuration.Formatting.Comments.IsEnabled);
 
         public static DiagnosticDescriptor CapitalizeDiagnosticDescriptor => new(
-            id: Helpers.ANALYZER_ID_PREFIX + "0021",
+            id: EAnalyzerID.Comment_Capitalize.ToTag(),
             title: "Comment format (capitalize).",
             messageFormat: "The first letter of comments should" + (ConfigManager.Configuration.Formatting.Comments.CapitalizeFirstLetter ? "" : " not") + " be capitalized.",
             category: "Formatting",
