@@ -14,8 +14,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Analyzers
 
         protected override FileInterpreter.AnalyzerDiagnosticCallback AnalyzerDiagnosticCallback => (diagnosticID, input) =>
         {
-            IEnumerable<KeyValuePair<NamingConvention, DiagnosticDescriptor>> namingDescriptors = Core.Analyzers.Helpers.GetNamingDescriptors();
-            KeyValuePair<NamingConvention, DiagnosticDescriptor>? diagnosticDescriptor = namingDescriptors.FirstOrDefault(kvp => kvp.Value.Id == diagnosticID);
+            KeyValuePair<NamingConvention, DiagnosticDescriptor>? diagnosticDescriptor = NamingAnalyzer.DiagnosticDescriptors.FirstOrDefault(kvp => kvp.Value.Id == diagnosticID);
 
             DiagnosticDescriptor descriptor = new(
                 diagnosticDescriptor.Value.Value.Id,

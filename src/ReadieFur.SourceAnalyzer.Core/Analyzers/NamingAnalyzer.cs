@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace ReadieFur.SourceAnalyzer.Core.Analyzers
@@ -14,8 +15,39 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class NamingAnalyzer : DiagnosticAnalyzer
     {
+        public static IEnumerable<KeyValuePair<NamingConvention, DiagnosticDescriptor>> DiagnosticDescriptors
+        {
+            get
+            {
+                //Using reflection here is ok as it is a one-time thing, I am only using it to reduce the amount of code I have to manually write here (ideally I'd have something auto-generate static code here).
+                foreach (PropertyInfo? prop in typeof(Naming).GetProperties(BindingFlags.Instance | BindingFlags.Public))
+                {
+                    if (prop is null || prop.PropertyType != typeof(NamingConvention))
+                        continue;
+
+                    if (!Enum.TryParse("Naming_" + prop.Name, out EAnalyzerID enumValue)
+                        || prop.GetValue(ConfigManager.Configuration.Naming) is not NamingConvention value
+                        || string.IsNullOrEmpty(value.Pattern))
+                        continue;
+
+                    //Make sure the regex format is valid.
+                    try { new Regex(value.Pattern); }
+                    catch { continue; }
+
+                    yield return new(value, new(
+                        id: Helpers.ANALYZER_ID_PREFIX + ((int)enumValue).ToString().PadLeft(4, '0'),
+                        title: $"{prop.Name} does not match the provided naming schema.",
+                        messageFormat: "'{0}' does not match the regular expression '{1}'",
+                        category: "Naming",
+                        defaultSeverity: value.Severity.ToDiagnosticSeverity(),
+                        isEnabledByDefault: value.IsEnabled
+                    ));
+                }
+            }
+        }
+
         //https://michaelscodingspot.com/debug-3rd-party-code-dotnet/
-        private readonly IReadOnlyDictionary<NamingConvention, DiagnosticDescriptor> _descriptors = Helpers.GetNamingDescriptors().ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+        private readonly IReadOnlyDictionary<NamingConvention, DiagnosticDescriptor> _descriptors = DiagnosticDescriptors.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => _descriptors.Values.ToImmutableArray();
 
         public override void Initialize(AnalysisContext context)

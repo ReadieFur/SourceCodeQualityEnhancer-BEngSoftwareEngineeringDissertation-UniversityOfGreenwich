@@ -19,7 +19,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
     [ExportCodeFixProvider(LanguageNames.CSharp), Shared]
     public class NamingFixProvider : CodeFixProvider
     {
-        private readonly IReadOnlyDictionary<string, NamingConvention> _descriptors = Helpers.GetNamingDescriptors().ToDictionary(kvp => kvp.Value.Id, kvp => kvp.Key);
+        private readonly IReadOnlyDictionary<string, NamingConvention> _descriptors = NamingAnalyzer.DiagnosticDescriptors.ToDictionary(kvp => kvp.Value.Id, kvp => kvp.Key);
         public override ImmutableArray<string> FixableDiagnosticIds => _descriptors.Keys.ToImmutableArray();
 
         public override FixAllProvider? GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
@@ -36,27 +36,27 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                 NamingConvention namingConvention = _descriptors[diagnostic.Id];
 
                 //Check what type of node we will be working with.
-                if (!Helpers.TryGetAnalyzerType(diagnostic.Id, out ENamingAnalyzer namingAnalyzer))
+                if (!Helpers.TryGetAnalyzerType(diagnostic.Id, out EAnalyzerID analyzer))
                     continue;
-                Type? nodeType = namingAnalyzer switch
+                Type? nodeType = analyzer switch
                 {
                     //https://stackoverflow.com/questions/56676260/c-sharp-8-switch-expression-with-multiple-cases-with-same-result
                     //"or" is not to be confused with the bitwise "|" or operator which would change the result of this switch expression.
-                    ENamingAnalyzer.PrivateField
-                    or ENamingAnalyzer.InternalField
-                    or ENamingAnalyzer.ProtectedField
-                    or ENamingAnalyzer.PublicField => typeof(FieldDeclarationSyntax),
-                    ENamingAnalyzer.Property => typeof(PropertyDeclarationSyntax),
-                    ENamingAnalyzer.Method => typeof(MethodDeclarationSyntax),
-                    ENamingAnalyzer.Class => typeof(ClassDeclarationSyntax),
-                    ENamingAnalyzer.Interface => typeof(InterfaceDeclarationSyntax),
-                    ENamingAnalyzer.Enum => typeof(EnumDeclarationSyntax),
-                    ENamingAnalyzer.Struct => typeof(StructDeclarationSyntax),
-                    ENamingAnalyzer.LocalVariable => typeof(VariableDeclaratorSyntax),
-                    ENamingAnalyzer.Parameter => typeof(ParameterSyntax),
-                    ENamingAnalyzer.Constant => typeof(FieldDeclarationSyntax),
-                    ENamingAnalyzer.Namespace => typeof(NamespaceDeclarationSyntax),
-                    ENamingAnalyzer.GenericParameter => typeof(TypeParameterSyntax),
+                    EAnalyzerID.Naming_PrivateField
+                    or EAnalyzerID.Naming_InternalField
+                    or EAnalyzerID.Naming_ProtectedField
+                    or EAnalyzerID.Naming_PublicField => typeof(FieldDeclarationSyntax),
+                    EAnalyzerID.Naming_Property => typeof(PropertyDeclarationSyntax),
+                    EAnalyzerID.Naming_Method => typeof(MethodDeclarationSyntax),
+                    EAnalyzerID.Naming_Class => typeof(ClassDeclarationSyntax),
+                    EAnalyzerID.Naming_Interface => typeof(InterfaceDeclarationSyntax),
+                    EAnalyzerID.Naming_Enum => typeof(EnumDeclarationSyntax),
+                    EAnalyzerID.Naming_Struct => typeof(StructDeclarationSyntax),
+                    EAnalyzerID.Naming_LocalVariable => typeof(VariableDeclaratorSyntax),
+                    EAnalyzerID.Naming_Parameter => typeof(ParameterSyntax),
+                    EAnalyzerID.Naming_Constant => typeof(FieldDeclarationSyntax),
+                    EAnalyzerID.Naming_Namespace => typeof(NamespaceDeclarationSyntax),
+                    EAnalyzerID.Naming_GenericParameter => typeof(TypeParameterSyntax),
                     _ => null
                 };
                 if (nodeType is null)
