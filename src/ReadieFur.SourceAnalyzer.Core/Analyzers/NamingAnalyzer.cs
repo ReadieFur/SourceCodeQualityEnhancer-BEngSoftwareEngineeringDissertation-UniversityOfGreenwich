@@ -119,9 +119,12 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                 default:
                     return;
             }
-            if (namingConvention is null
-                || !namingConvention.IsEnabled
-                || new Regex(namingConvention.Pattern).IsMatch(symbol.Name))
+
+            if (namingConvention is null || !namingConvention.IsEnabled)
+                return;
+
+            Match match = Regex.Match(symbol.Name, namingConvention.Pattern);
+            if (match.Success && match.Value.Length == symbol.Name.Length)
                 return;
 
             Diagnostic diagnostic = Diagnostic.Create(

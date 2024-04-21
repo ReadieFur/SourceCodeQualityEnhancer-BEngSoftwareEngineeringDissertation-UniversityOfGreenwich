@@ -47,5 +47,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Analyzers
         [MTest] public async Task ClassNameFixProvider() => await TestFixProvider<NamingAnalyzer, NamingFixProvider>("Naming_Class.cs");
 
         [MTest] public async Task LocalVariableFixProvider() => await TestFixProvider<NamingAnalyzer, NamingFixProvider>("Naming_Local.cs");
+
+        [MTest] public async Task PublicFieldFixProvider() => await TestFixProvider<NamingAnalyzer, NamingFixProvider>("Naming_PrivateField.cs");
     }
 }

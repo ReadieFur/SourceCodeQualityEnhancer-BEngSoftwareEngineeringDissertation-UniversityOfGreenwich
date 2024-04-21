@@ -52,6 +52,7 @@
     <Compile Remove="TestFiles\Naming.cs" />
     <Compile Remove="TestFiles\Naming_Class.cs" />
     <Compile Remove="TestFiles\Naming_Local.cs" />
+    <Compile Remove="TestFiles\Naming_PrivateField.cs" />
     <Compile Remove="TestFiles\Test.cs" />
   </ItemGroup>
 
@@ -64,6 +65,7 @@
     <None Include="TestFiles\CurlyBrace.cs" />
     <None Include="TestFiles\Indentation.cs" />
     <None Include="TestFiles\Naming_Class.cs" />
+    <None Include="TestFiles\Naming_PrivateField.cs" />
     <None Include="TestFiles\Naming_Local.cs" />
     <None Include="TestFiles\Test.cs" />
   </ItemGroup>

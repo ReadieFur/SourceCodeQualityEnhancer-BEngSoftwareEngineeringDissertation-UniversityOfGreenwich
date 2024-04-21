@@ -95,6 +95,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             //TODO: Possibly move this to the above method.
             string? originalName = node switch
             {
+                //TODO: Analyze each of these variables, this can occur when a variable is declared like so: public int a = 1, b = 2;
                 FieldDeclarationSyntax fieldDeclaration => fieldDeclaration.Declaration.Variables.First().Identifier.Text,
                 PropertyDeclarationSyntax propertyDeclaration => propertyDeclaration.Identifier.Text,
                 MethodDeclarationSyntax methodDeclaration => methodDeclaration.Identifier.Text,
@@ -130,6 +131,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             catch
             {
                 //TODO: Impliment the various error handling.
+                return document.Project.Solution;
             }
 #if THREAD_BASED
             });
@@ -144,24 +146,45 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                 return document.Project.Solution;
             #endregion
 
+            /*ISymbol? symbol = semanticModel.GetDeclaredSymbol(node, cancellationToken);
+            if (symbol is null)
+                return document.Project.Solution;*/
+            ISymbol? symbol = node switch
+            {
+                FieldDeclarationSyntax fieldDeclaration => semanticModel.GetDeclaredSymbol(fieldDeclaration.Declaration.Variables.First(), cancellationToken),
+                PropertyDeclarationSyntax
+                or MethodDeclarationSyntax
+                or ClassDeclarationSyntax
+                or InterfaceDeclarationSyntax
+                or EnumDeclarationSyntax
+                or StructDeclarationSyntax
+                or VariableDeclaratorSyntax
+                or ParameterSyntax
+                or NamespaceDeclarationSyntax
+                or TypeParameterSyntax
+                _ => semanticModel.GetDeclaredSymbol(node, cancellationToken)
+            };
+            if (symbol is null)
+                return document.Project.Solution;
+
+            Solution newSolution;
 #if VSIX
-            Solution newSolution = await Renamer.RenameSymbolAsync(
+            newSolution = await Renamer.RenameSymbolAsync(
                 document.Project.Solution,
-                semanticModel.GetDeclaredSymbol(node, cancellationToken),
+                symbol,
                 default(Microsoft.CodeAnalysis.Rename.SymbolRenameOptions),
                 newName,
                 cancellationToken
             );
 #else
-            Solution newSolution = await Renamer.RenameSymbolAsync(
+            newSolution = await Renamer.RenameSymbolAsync(
                 document.Project.Solution,
-                semanticModel.GetDeclaredSymbol(node, cancellationToken),
+                symbol,
                 newName,
                 document.Project.Solution.Workspace.Options,
                 cancellationToken
             );
 #endif
-
             return newSolution;
         }
     }
