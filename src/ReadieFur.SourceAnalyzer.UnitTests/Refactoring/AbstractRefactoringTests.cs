@@ -70,7 +70,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Refactoring
 
         [MTest]
         public async Task TestAsync() => await Wrapper(["AbstractRefactoring_A.cs", "AbstractRefactoring_B.cs"], TestAsync);
-        public async Task TestAsync(Project project)
+        private async Task TestAsync(Project project)
         {
             AbstractRefactoringProvider refactoringProvider = new(project);
             await refactoringProvider.Refactor();
