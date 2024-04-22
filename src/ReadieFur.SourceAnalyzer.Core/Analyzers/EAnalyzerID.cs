@@ -25,9 +25,7 @@
         Comment_NewLine,
         Comment_Capitalize,
         Punctuation_Space,
-        Inferred_This,
+        Punctuation_NewLine,
         Inferred_AccessModifier,
-        Inferred_Constructor,
-        Inferred_Type,
     }
 }

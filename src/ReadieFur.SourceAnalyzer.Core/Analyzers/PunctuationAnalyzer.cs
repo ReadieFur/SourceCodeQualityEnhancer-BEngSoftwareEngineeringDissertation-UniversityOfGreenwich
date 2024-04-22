@@ -15,14 +15,23 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
     {
         public static DiagnosticDescriptor SpaceDiagnosticDescriptor => new(
             id: EAnalyzerID.Punctuation_Space.ToTag(),
-            title: "Operand space",
+            title: "Punctuation space",
             //messageFormat: "The operand '{0}' should{1}.",
-            messageFormat: "The operand '{0}' does not have the correct spacing around it.",
+            messageFormat: "The punctuation '{0}' does not have the correct spacing around it.",
             category: "Formatting",
             defaultSeverity: DiagnosticSeverity.Info, //Fallback value.
             isEnabledByDefault: ConfigManager.Configuration.Formatting?.Punctuation?.SpaceAround is not null);
 
-        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(SpaceDiagnosticDescriptor);
+        public static DiagnosticDescriptor NewLineDiagnosticDescriptor => new(
+            id: EAnalyzerID.Punctuation_NewLine.ToTag(),
+            title: "Punctuation new line",
+            //messageFormat: "The operand '{0}' should{1}.",
+            messageFormat: "The punctuation '{0}' does not have the correct line spacing around it.",
+            category: "Formatting",
+            defaultSeverity: DiagnosticSeverity.Info, //Fallback value.
+            isEnabledByDefault: ConfigManager.Configuration.Formatting?.Punctuation?.NewLine is not null);
+
+        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(SpaceDiagnosticDescriptor, NewLineDiagnosticDescriptor);
 
         public override void Initialize(AnalysisContext context)
         {
@@ -41,6 +50,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             foreach (SyntaxToken token in root.DescendantTokens(_ => true))
             {
                 AnalyzeSpace(context, token);
+                AnalyzeNewLine(context, token);
             }
         }
 
@@ -56,7 +66,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             //Additionally if a space is to be required then we should check to see if multiple spaces exist and if so report that as an error.
 
             //Attempt to find the first configuration that matches the token.
-            SpaceAround? config = ConfigManager.Configuration.Formatting.Punctuation.SpaceAround.FirstOrDefault(c => c.Tokens.Contains(token.Kind()));
+            AroundToken? config = ConfigManager.Configuration.Formatting.Punctuation.SpaceAround.FirstOrDefault(c => c.Tokens.Contains(token.Kind()));
             if (config is null)
                 return;
 
@@ -119,7 +129,79 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                 { "right", right.ToString() }
             }.ToImmutableDictionary();
 
-            context.ReportDiagnostic(Diagnostic.Create(SpaceDiagnosticDescriptor, token.GetLocation(), properties: diagnosticProps, token.Text/*, sb.ToString()*/));
+            DiagnosticDescriptor diagnosticDescriptor = new(
+                id: SpaceDiagnosticDescriptor.Id,
+                title: SpaceDiagnosticDescriptor.Title,
+                messageFormat: SpaceDiagnosticDescriptor.MessageFormat,
+                category: SpaceDiagnosticDescriptor.Category,
+                defaultSeverity: config.Severity.ToDiagnosticSeverity(),
+                isEnabledByDefault: SpaceDiagnosticDescriptor.IsEnabledByDefault
+            );
+
+            context.ReportDiagnostic(Diagnostic.Create(diagnosticDescriptor, token.GetLocation(), properties: diagnosticProps, token.Text/*, sb.ToString()*/));
+        }
+
+        private void AnalyzeNewLine(SyntaxTreeAnalysisContext context, SyntaxToken token)
+        {
+            if (ConfigManager.Configuration.Formatting?.Punctuation?.NewLine is null)
+                return;
+
+            AroundToken? config = ConfigManager.Configuration.Formatting.Punctuation.NewLine.FirstOrDefault(c => c.Tokens.Contains(token.Kind()));
+            if (config is null)
+                return;
+
+            IEnumerable<SyntaxTrivia> leadingTrivia = token.GetPreviousToken().TrailingTrivia.Concat(token.LeadingTrivia);
+            IEnumerable<SyntaxTrivia> trailingTrivia = token.TrailingTrivia.Concat(token.GetNextToken().LeadingTrivia);
+            bool hasLeadingNewLine = leadingTrivia.Any(t => t.IsKind(SyntaxKind.EndOfLineTrivia));
+            bool hasTrailingNewLine = trailingTrivia.Any(t => t.IsKind(SyntaxKind.EndOfLineTrivia));
+
+            int left;
+            if (config.Left && !hasLeadingNewLine)
+            {
+                left = 1;
+            }
+            else if (!config.Left && hasLeadingNewLine)
+            {
+                left = -1;
+            }
+            else
+            {
+                left = 0;
+            }
+
+            int right;
+            if (config.Right && !hasTrailingNewLine)
+            {
+                right = 1;
+            }
+            else if (!config.Right && hasTrailingNewLine)
+            {
+                right = -1;
+            }
+            else
+            {
+                right = 0;
+            }
+
+            if (left == 0 && right == 0)
+                return;
+
+            ImmutableDictionary<string, string> diagnosticProps = new Dictionary<string, string>()
+            {
+                { "left", left.ToString() },
+                { "right", right.ToString() }
+            }.ToImmutableDictionary();
+
+            DiagnosticDescriptor diagnosticDescriptor = new(
+                id: NewLineDiagnosticDescriptor.Id,
+                title: NewLineDiagnosticDescriptor.Title,
+                messageFormat: NewLineDiagnosticDescriptor.MessageFormat,
+                category: NewLineDiagnosticDescriptor.Category,
+                defaultSeverity: config.Severity.ToDiagnosticSeverity(),
+                isEnabledByDefault: NewLineDiagnosticDescriptor.IsEnabledByDefault
+            );
+
+            context.ReportDiagnostic(Diagnostic.Create(diagnosticDescriptor, token.GetLocation(), properties: diagnosticProps, token.Text));
         }
     }
 }

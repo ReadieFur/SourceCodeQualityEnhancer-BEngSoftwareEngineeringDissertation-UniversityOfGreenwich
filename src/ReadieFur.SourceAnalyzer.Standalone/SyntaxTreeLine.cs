@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using ReadieFur.SourceAnalyzer.Core;
+using System.Collections.Generic;
 using System.Text;
 
 namespace ReadieFur.SourceAnalyzer.Standalone

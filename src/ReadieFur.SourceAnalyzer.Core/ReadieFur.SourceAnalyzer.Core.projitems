@@ -39,7 +39,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\NamingConvention.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\Punctuation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\PunctuationToken.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Configuration\SpaceAround.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\AroundToken.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\YamlLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\Anchor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\Atom.cs" />
@@ -53,6 +53,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\Regex.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\ConformQuantifierOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\AToken.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SyntaxNodeTokenOrTrivia.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)example.source-analyzer.yaml" />

@@ -46,11 +46,18 @@ formatting:
     comment_detection_sensitivity: 0.5
   punctuation:
     space_around:
-      required: true
-      tokens:
-        - "&&"
-        - "||"
-        - "+"
+      - left: true
+        right: true
+        tokens:
+          - "+"
+          - "-"
+          - "="
+    new_line:
+      - left: true
+        right: false
+        tokens:
+          - "&&"
+          - "||"
 inferred:
   this:
     mode: "implicit"

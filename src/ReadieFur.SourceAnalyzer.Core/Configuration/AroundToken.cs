@@ -2,7 +2,7 @@
 
 namespace ReadieFur.SourceAnalyzer.Core.Configuration
 {
-    public class SpaceAround : PunctuationToken
+    public class AroundToken : PunctuationToken
     {
         [YamlMember(Alias = "left")] public bool? _left { get; set; }
         [YamlIgnore] public bool Left => _left ?? true;

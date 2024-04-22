@@ -6,6 +6,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Configuration
 {
     public class Punctuation
     {
-        public List<SpaceAround>? SpaceAround { get; set; }
+        public List<AroundToken>? SpaceAround { get; set; }
+        public List<AroundToken>? NewLine { get; set; }
     }
 }

@@ -54,6 +54,7 @@
     <Compile Remove="TestFiles\Naming_Class.cs" />
     <Compile Remove="TestFiles\Naming_Local.cs" />
     <Compile Remove="TestFiles\Naming_PrivateField.cs" />
+    <Compile Remove="TestFiles\Punctuation_NewLine.cs" />
     <Compile Remove="TestFiles\Punctuation_Space.cs" />
     <Compile Remove="TestFiles\Test.cs" />
   </ItemGroup>
@@ -68,6 +69,7 @@
     <None Include="TestFiles\Indentation.cs" />
     <None Include="TestFiles\Naming_Class.cs" />
     <None Include="TestFiles\Inferred_AccessModifier.cs" />
+    <None Include="TestFiles\Punctuation_NewLine.cs" />
     <None Include="TestFiles\Punctuation_Space.cs" />
     <None Include="TestFiles\Naming_PrivateField.cs" />
     <None Include="TestFiles\Naming_Local.cs" />

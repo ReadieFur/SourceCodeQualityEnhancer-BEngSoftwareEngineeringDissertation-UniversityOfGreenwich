@@ -1,9 +1,11 @@
 ﻿using Microsoft.CodeAnalysis;
 using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace ReadieFur.SourceAnalyzer.Standalone
+namespace ReadieFur.SourceAnalyzer.Core
 {
-    internal struct SyntaxNodeTokenOrTrivia
+    public struct SyntaxNodeTokenOrTrivia
     {
         private SyntaxNode? _underlyingNode { get; set; }
         private SyntaxToken? _underlyingToken { get; set; }
@@ -39,5 +41,27 @@ namespace ReadieFur.SourceAnalyzer.Standalone
         public static implicit operator SyntaxNodeTokenOrTrivia(SyntaxNode node) => new(node);
         public static implicit operator SyntaxNodeTokenOrTrivia(SyntaxToken token) => new(token);
         public static implicit operator SyntaxNodeTokenOrTrivia(SyntaxTrivia trivia) => new(trivia);
+
+        public Location GetLocation()
+        {
+            if (IsNode)
+                return Node.GetLocation();
+            else if (IsToken)
+                return Token.GetLocation();
+            else if (IsTrivia)
+                return Trivia.GetLocation();
+            throw new InvalidOperationException("Not a node, token or trivia.");
+        }
+
+        public override string ToString()
+        {
+            if (IsNode)
+                return Node.ToString();
+            else if (IsToken)
+                return Token.ToString();
+            else if (IsTrivia)
+                return Trivia.ToString();
+            throw new InvalidOperationException("Not a node, token or trivia.");
+        }
     }
 }

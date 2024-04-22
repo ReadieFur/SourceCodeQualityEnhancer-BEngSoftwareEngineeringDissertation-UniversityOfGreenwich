@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+using ReadieFur.SourceAnalyzer.Core;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

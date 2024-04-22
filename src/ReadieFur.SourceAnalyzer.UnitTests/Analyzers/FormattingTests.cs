@@ -60,8 +60,19 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Analyzers
             PunctuationAnalyzer.SpaceDiagnosticDescriptor.DefaultSeverity,
             PunctuationAnalyzer.SpaceDiagnosticDescriptor.IsEnabledByDefault
         );
-        private FileInterpreter.CodeFixDiagnosticCallback PunctuationSpaceCodeFixDiagnosticCallback => (diagnosticDescriptor, _) => CSharpCodeFixVerifier<PunctuationAnalyzer, PunctuationFixProvider>.Diagnostic(diagnosticDescriptor);
+        private FileInterpreter.CodeFixDiagnosticCallback PunctuationCodeFixDiagnosticCallback => (diagnosticDescriptor, _) => CSharpCodeFixVerifier<PunctuationAnalyzer, PunctuationFixProvider>.Diagnostic(diagnosticDescriptor);
         [MTest] public async Task PunctuationSpaceAnalyzer() => await TestAnalyzer<PunctuationAnalyzer>("Punctuation_Space.cs", PunctuationSpaceAnalyzerDiagnosticCallback);
-        [MTest] public async Task PunctuationSpaceFixProvider() => await TestFixProvider<PunctuationAnalyzer, PunctuationFixProvider>("Punctuation_Space.cs", PunctuationSpaceAnalyzerDiagnosticCallback, PunctuationSpaceCodeFixDiagnosticCallback);
+        [MTest] public async Task PunctuationSpaceFixProvider() => await TestFixProvider<PunctuationAnalyzer, PunctuationFixProvider>("Punctuation_Space.cs", PunctuationSpaceAnalyzerDiagnosticCallback, PunctuationCodeFixDiagnosticCallback);
+
+        private FileInterpreter.AnalyzerDiagnosticCallback PunctuationNewLineAnalyzerCallback => (_, input) => new(
+            PunctuationAnalyzer.NewLineDiagnosticDescriptor.Id,
+            PunctuationAnalyzer.NewLineDiagnosticDescriptor.Title,
+            string.Format(PunctuationAnalyzer.NewLineDiagnosticDescriptor.MessageFormat.ToString(), input),
+            PunctuationAnalyzer.NewLineDiagnosticDescriptor.Category,
+            PunctuationAnalyzer.NewLineDiagnosticDescriptor.DefaultSeverity,
+            PunctuationAnalyzer.NewLineDiagnosticDescriptor.IsEnabledByDefault
+        );
+        [MTest] public async Task PunctuationNewLineAnalyzer() => await TestAnalyzer<PunctuationAnalyzer>("Punctuation_NewLine.cs", PunctuationNewLineAnalyzerCallback);
+        [MTest] public async Task PunctuationNewLineFixProvider() => await TestFixProvider<PunctuationAnalyzer, PunctuationFixProvider>("Punctuation_NewLine.cs", PunctuationNewLineAnalyzerCallback, PunctuationCodeFixDiagnosticCallback);
     }
 }
