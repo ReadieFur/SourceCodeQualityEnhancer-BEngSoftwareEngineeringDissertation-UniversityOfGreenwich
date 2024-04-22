@@ -41,6 +41,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\PunctuationToken.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\AroundToken.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\YamlLoader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Refactoring\AbstractRefactoringProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\Anchor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\Atom.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\CharacterClass.cs" />

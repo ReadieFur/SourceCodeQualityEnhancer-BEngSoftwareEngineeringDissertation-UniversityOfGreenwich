@@ -2,6 +2,7 @@ Priority:
     ☐ Abstract generator
     ☐ Auto-documenation generator (based on node tree)
     ☐ Generate example code to demonstrate with
+    ☐ Implicit new keyword (C#8+)
 
 Code:
     ☐ Brace line @started(24-03-20 11:56)
@@ -28,7 +29,6 @@ Code:
     ✔ Explicit access modifier @done(24-04-22 04:38)
     ✘ Explicit type (already built into the IDE). @cancelled(24-04-22 04:38)
     ☐ Correct line spacing
-    ☐ Implicit new keyword
     ✔ Batch fix diff UI @done(24-04-21 02:08)
     ☐ Abstract own code
 

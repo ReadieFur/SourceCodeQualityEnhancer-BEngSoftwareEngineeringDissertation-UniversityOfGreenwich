@@ -39,7 +39,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
             return await File.ReadAllTextAsync(sourceFile);
         }
 
-        private static string? GetSolutionPath()
+        public static string? GetSolutionPath()
         {
             string? directory = Environment.CurrentDirectory;
             do
@@ -54,7 +54,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
             return null;
         }
 
-        private static string? FindFile(string directory, string fileName)
+        public static string? FindFile(string directory, string fileName)
         {
             foreach (string file in Directory.EnumerateFiles(directory))
             {
