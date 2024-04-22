@@ -51,3 +51,12 @@ formatting:
         - "&&"
         - "||"
         - "+"
+inferred:
+  this:
+    mode: "implicit"
+  access_modifier:
+    mode: "explicit"
+  constructor:
+    mode: "implicit"
+  type:
+    mode: "explicit"

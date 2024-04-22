@@ -106,6 +106,31 @@
 				"tokens": { "$ref": "#/definitions/punctuation_tokens" }
 			},
 			"required": ["required", "tokens"]
+		},
+		"base_block":
+		{
+			"type": "object",
+			"properties":
+			{
+				"severity": { "$ref": "#/definitions/severity" },
+				"required": { "$ref": "#/definitions/enabled" }
+			},
+			"required": ["required"]
+		},
+		"inferred_block":
+		{
+			"type": "object",
+			"properties":
+			{
+				"severity": { "$ref": "#/definitions/severity" },
+				"mode":
+				{
+					"type": "string",
+					"enum": ["implicit", "explicit"],
+					"description": "The mode to use for inferred rules."
+				}
+			},
+			"required": ["mode"]
 		}
 	},
 	"type": "object",
@@ -209,6 +234,18 @@
 						"space_around": { "$ref": "#/definitions/punctuation_block" }
 					}
 				}
+			}
+		},
+		"implicit":
+		{
+			"type": "object",
+			"description": "Implicit rules for the source code.",
+			"properties":
+			{
+				"this": { "$ref": "#/definitions/inferred_block" },
+				"access_modifier": { "$ref": "#/definitions/inferred_block" },
+				"constructor": { "$ref": "#/definitions/inferred_block" },
+				"type": { "$ref": "#/definitions/inferred_block" }
 			}
 		}
 	}

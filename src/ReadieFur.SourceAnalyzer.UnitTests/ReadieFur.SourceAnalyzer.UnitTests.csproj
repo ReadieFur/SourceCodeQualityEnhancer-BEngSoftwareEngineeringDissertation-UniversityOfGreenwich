@@ -49,6 +49,7 @@
     <Compile Remove="TestFiles\Comment_TrailingFullStop.cs" />
     <Compile Remove="TestFiles\CurlyBrace.cs" />
     <Compile Remove="TestFiles\Indentation.cs" />
+    <Compile Remove="TestFiles\Inferred_AccessModifier.cs" />
     <Compile Remove="TestFiles\Naming.cs" />
     <Compile Remove="TestFiles\Naming_Class.cs" />
     <Compile Remove="TestFiles\Naming_Local.cs" />
@@ -66,6 +67,7 @@
     <None Include="TestFiles\CurlyBrace.cs" />
     <None Include="TestFiles\Indentation.cs" />
     <None Include="TestFiles\Naming_Class.cs" />
+    <None Include="TestFiles\Inferred_AccessModifier.cs" />
     <None Include="TestFiles\Punctuation_Space.cs" />
     <None Include="TestFiles\Naming_PrivateField.cs" />
     <None Include="TestFiles\Naming_Local.cs" />

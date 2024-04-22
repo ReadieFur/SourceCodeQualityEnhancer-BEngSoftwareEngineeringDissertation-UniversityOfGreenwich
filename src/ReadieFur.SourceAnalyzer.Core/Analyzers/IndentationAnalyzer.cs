@@ -126,7 +126,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                     context.ReportDiagnostic(Diagnostic.Create(
                         DiagnosticDescriptor,
                         diagnosticLocation,
-                        new Dictionary<string, string>
+                        properties: new Dictionary<string, string>
                         {
                             { "level", level.ToString() },
                             { "diagnosticType", diagnosticType },

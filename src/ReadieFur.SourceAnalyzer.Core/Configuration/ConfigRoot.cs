@@ -4,5 +4,6 @@
     {
         public Naming? Naming { get; set; }
         public Formatting? Formatting { get; set; }
+        public Inferred? Inferred { get; set; }
     }
 }
