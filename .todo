@@ -19,10 +19,10 @@ Code:
     ☐ Operator location
         ☐ Move && and || to start/end of line
         ☐ Move ? and : to start/end of line
-        ☐ Add/remove spaces around operators @started(24-04-21 23:03)
+        ✔ Add/remove spaces around operators @started(24-04-21 23:03) @done(24-04-22 04:38) @lasted(5h35m21s)
     ☐ Chaining function
-    ☐ Explicit access modifier
-    ✘ Explicit type (already built into the IDE). @cancelled(24-04-19 17:59)
+    ✔ Explicit access modifier @done(24-04-22 04:38)
+    ✘ Explicit type (already built into the IDE). @cancelled(24-04-22 04:38)
     ☐ Correct line spacing
     ☐ Implicit new keyword
     ✔ Batch fix diff UI @done(24-04-21 02:08)
