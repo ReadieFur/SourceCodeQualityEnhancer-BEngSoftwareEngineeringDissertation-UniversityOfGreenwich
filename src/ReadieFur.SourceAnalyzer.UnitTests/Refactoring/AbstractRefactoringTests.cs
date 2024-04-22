@@ -14,7 +14,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Refactoring
     [CTest]
     public class AbstractRefactoringTests
     {
-        private async Task Wrapper(Func<MSBuildWorkspace, Task> func)
+        private static async Task Wrapper(string[] files, Func<Project, Task> func)
         {
             MSBuildWorkspace? workspace = null;
             try
@@ -24,7 +24,31 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Refactoring
                 MSBuildLocator.RegisterMSBuildPath("S:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin");
                 workspace = MSBuildWorkspace.Create();
 
-                await func(workspace);
+                Solution solution = workspace.CurrentSolution;
+
+                //Load files.
+                string basePath = GetSolutionPath() ?? throw new Exception("Could not find solution directory.");
+                IEnumerable<string> sourceFilePaths = files.Select(file => FindFile(basePath, file) ?? throw new Exception($"Could not find source file: {file}"));
+
+                //Create a temporary project to test the refactoring.
+                ProjectId projectId = ProjectId.CreateNewId();
+                ProjectInfo projectInfo = ProjectInfo.Create(projectId, VersionStamp.Create(), "TestProject", "TestProject", LanguageNames.CSharp)
+                    .WithMetadataReferences(new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) }) //Load default references.
+                    .WithCompilationOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)) //Set output type to be a dll (so a static entrypoint is not required).
+                    .WithParseOptions(new CSharpParseOptions(LanguageVersion.Latest)) //Set the language version to the latest.
+                    .WithDocuments(sourceFilePaths.Select(filePath => DocumentInfo.Create(DocumentId.CreateNewId(projectId), filePath, filePath: filePath)));
+                solution = solution.AddProject(projectInfo);
+
+                //Get the project.
+                Project project = solution.GetProject(projectId) ?? throw new Exception("Could not find project.");
+
+                //Precompile to ensure there are no errors.
+                await Compile(project);
+
+                await func(project);
+
+                //Compile again to make sure we didn't not break anything.
+                await Compile(project);
             }
             finally
             {
@@ -34,41 +58,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Refactoring
             }
         }
 
-        [MTest]
-        public async Task TestAsync() => await Wrapper(TestAsync);
-        public async Task TestAsync(MSBuildWorkspace workspace)
-        {
-            Solution solution = workspace.CurrentSolution;
-
-            //Load files.
-            string[] files = { "AbstractRefactoring_A.cs", "AbstractRefactoring_B.cs" };
-            string basePath = GetSolutionPath() ?? throw new Exception("Could not find solution directory.");
-            IEnumerable<string> sourceFilePaths = files.Select(file => FindFile(basePath, file) ?? throw new Exception($"Could not find source file: {file}"));
-
-            //Create a temporary project to test the refactoring.
-            ProjectId projectId = ProjectId.CreateNewId();
-            ProjectInfo projectInfo = ProjectInfo.Create(projectId, VersionStamp.Create(), "TestProject", "TestProject", LanguageNames.CSharp)
-                .WithMetadataReferences(new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) }) //Load default references.
-                .WithCompilationOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)) //Set output type to be a dll (so a static entrypoint is not required).
-                .WithParseOptions(new CSharpParseOptions(LanguageVersion.Latest)) //Set the language version to the latest.
-                .WithDocuments(sourceFilePaths.Select(filePath => DocumentInfo.Create(DocumentId.CreateNewId(projectId), filePath, filePath: filePath)));
-            solution = solution.AddProject(projectInfo);
-
-            //Get the project.
-            Project project = solution.GetProject(projectId) ?? throw new Exception("Could not find project.");
-
-            //Precompile to ensure there are no errors.
-            await Compile(project);
-
-            //Refactor.
-            AbstractRefactoringProvider refactoringProvider = new(project);
-            await refactoringProvider.Refactor();
-
-            //Compile again to make sure we didn't not break anything.
-            await Compile(project);
-        }
-
-        private async Task Compile(Project project)
+        private static async Task Compile(Project project)
         {
             Compilation compilation = await project.GetCompilationAsync() ?? throw new Exception("Could not compile project.");
             if (compilation.GetDiagnostics().Any(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error))
@@ -76,6 +66,14 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Refactoring
                 Assert.Fail("Project has errors:" + string.Join(Environment.NewLine,
                     compilation.GetDiagnostics().Where(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error).Select(diagnostic => diagnostic.GetMessage())));
             }
+        }
+
+        [MTest]
+        public async Task TestAsync() => await Wrapper(["AbstractRefactoring_A.cs", "AbstractRefactoring_B.cs"], TestAsync);
+        public async Task TestAsync(Project project)
+        {
+            AbstractRefactoringProvider refactoringProvider = new(project);
+            await refactoringProvider.Refactor();
         }
     }
 }
