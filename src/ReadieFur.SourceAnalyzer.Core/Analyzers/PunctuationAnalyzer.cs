@@ -16,9 +16,10 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
         public static DiagnosticDescriptor SpaceDiagnosticDescriptor => new(
             id: EAnalyzerID.Punctuation_Space.ToTag(),
             title: "Operand space",
-            messageFormat: "The operand '{0}' should" + (ConfigManager.Configuration.Formatting?.Punctuation?.SpaceAround?.Required is true ? "" : " not") + " have spaces either side of it.",
+            //messageFormat: "The operand '{0}' should{1}.",
+            messageFormat: "The operand '{0}' does not have the correct spacing around it.",
             category: "Formatting",
-            defaultSeverity: Helpers.GetDiagnosticSeverity(ConfigManager.Configuration.Formatting?.Punctuation?.SpaceAround?.Severity),
+            defaultSeverity: DiagnosticSeverity.Info, //Fallback value.
             isEnabledByDefault: ConfigManager.Configuration.Formatting?.Punctuation?.SpaceAround is not null);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(SpaceDiagnosticDescriptor);
@@ -45,7 +46,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
 
         private void AnalyzeSpace(SyntaxTreeAnalysisContext context, SyntaxToken token)
         {
-            if (ConfigManager.Configuration.Formatting?.Punctuation?.SpaceAround is null || !ConfigManager.Configuration.Formatting.Punctuation.SpaceAround.Tokens.Contains((SyntaxKind)token.RawKind))
+            if (ConfigManager.Configuration.Formatting?.Punctuation?.SpaceAround is null)
                 return;
 
             //TODO: Check for space around the token.
@@ -54,14 +55,71 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             //For this I will include any whitespace trivia as a space, i.e. EOL, tab, space, etc.
             //Additionally if a space is to be required then we should check to see if multiple spaces exist and if so report that as an error.
 
-            SyntaxKind[] whitespaceTrivia = [SyntaxKind.WhitespaceTrivia, SyntaxKind.EndOfLineTrivia];
+            //Attempt to find the first configuration that matches the token.
+            SpaceAround? config = ConfigManager.Configuration.Formatting.Punctuation.SpaceAround.FirstOrDefault(c => c.Tokens.Contains(token.Kind()));
+            if (config is null)
+                return;
 
-            int leadingWhitespace = token.LeadingTrivia.Concat(token.GetPreviousToken().TrailingTrivia).Count(t => whitespaceTrivia.Contains(t.Kind()));
-            int trailingTrivia = token.TrailingTrivia.Concat(token.GetNextToken().LeadingTrivia).Count(t => whitespaceTrivia.Contains(t.Kind()));
+            //Check if there is any leading/trailing whitespace, delimited by EOL.
+            IEnumerable<SyntaxTrivia> leadingTrivia = token.GetPreviousToken().TrailingTrivia.Concat(token.LeadingTrivia);
+            IEnumerable<SyntaxTrivia> trailingTrivia = token.TrailingTrivia.Concat(token.GetNextToken().LeadingTrivia);
+            int eolIndex;
+            if ((eolIndex = leadingTrivia.ToList().FindLastIndex(t => t.IsKind(SyntaxKind.EndOfLineTrivia))) != -1)
+                leadingTrivia = leadingTrivia.Skip(eolIndex + 1);
+            if ((eolIndex = trailingTrivia.ToList().FindIndex(t => t.IsKind(SyntaxKind.EndOfLineTrivia))) != -1)
+                trailingTrivia = trailingTrivia.Take(eolIndex + 1);
+            SyntaxKind[] whitespaceTrivia = [SyntaxKind.WhitespaceTrivia/*, SyntaxKind.EndOfLineTrivia*/];
+            bool hasLeadingWhitespace = leadingTrivia.Any(t => whitespaceTrivia.Contains(t.Kind()));
+            bool hasTrailingTrivia = trailingTrivia.Any(t => whitespaceTrivia.Contains(t.Kind()));
 
-            if ((ConfigManager.Configuration.Formatting.Punctuation.SpaceAround.Required && (leadingWhitespace != 1 || trailingTrivia != 1))
-                || (!ConfigManager.Configuration.Formatting.Punctuation.SpaceAround.Required && (leadingWhitespace != 0 || trailingTrivia != 0)))
-                context.ReportDiagnostic(Diagnostic.Create(SpaceDiagnosticDescriptor, token.GetLocation(), token.ValueText));
+            //StringBuilder sb = new();
+
+            int left;
+            if (config.Left && !hasLeadingWhitespace)
+            {
+                left = 1;
+                //sb.Append(" have a space on the left ");
+            }
+            else if (!config.Left && hasLeadingWhitespace)
+            {
+                left = -1;
+                //sb.Append(" not have a space on the left ");
+            }
+            else
+            {
+                left = 0;
+            }
+
+            int right;
+            if (config.Right && !hasTrailingTrivia)
+            {
+                right = 1;
+                /*if (sb.Length > 0)
+                    sb.Append("and ");
+                sb.Append("have a space on the right");*/
+            }
+            else if (!config.Right && hasTrailingTrivia)
+            {
+                right = -1;
+                /*if (sb.Length > 0)
+                    sb.Append("and ");
+                sb.Append("not have a space on the right");*/
+            }
+            else
+            {
+                right = 0;
+            }
+
+            if (left == 0 && right == 0)
+                return;
+
+            ImmutableDictionary<string, string> diagnosticProps = new Dictionary<string, string>()
+            {
+                { "left", left.ToString() },
+                { "right", right.ToString() }
+            }.ToImmutableDictionary();
+
+            context.ReportDiagnostic(Diagnostic.Create(SpaceDiagnosticDescriptor, token.GetLocation(), properties: diagnosticProps, token.Text/*, sb.ToString()*/));
         }
     }
 }

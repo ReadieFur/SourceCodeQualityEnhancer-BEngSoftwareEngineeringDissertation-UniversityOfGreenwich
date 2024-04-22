@@ -96,17 +96,6 @@
 			},
 			"description": "The punctuation to include in this rule."
 		},
-		"punctuation_block":
-		{
-			"type": "object",
-			"properties":
-			{
-				"severity": { "$ref": "#/definitions/severity" },
-				"required": { "$ref": "#/definitions/enabled" },
-				"tokens": { "$ref": "#/definitions/punctuation_tokens" }
-			},
-			"required": ["required", "tokens"]
-		},
 		"base_block":
 		{
 			"type": "object",
@@ -231,7 +220,30 @@
 					"type": "object",
 					"properties":
 					{
-						"space_around": { "$ref": "#/definitions/punctuation_block" }
+						"space_around":
+						{
+							"type": "array",
+							"items":
+							{
+								"type": "object",
+								"properties":
+								{
+									"severity": { "$ref": "#/definitions/severity" },
+									"left":
+									{
+										"type": "boolean",
+										"description": "Whether to require a space to the left of the punctuation token."
+									},
+									"right":
+									{
+										"type": "boolean",
+										"description": "Whether to require a space to the right of the punctuation token."
+									},
+									"tokens": { "$ref": "#/definitions/punctuation_tokens" }
+								},
+								"required": ["left", "right", "tokens"]
+							}
+						}
 					}
 				}
 			}

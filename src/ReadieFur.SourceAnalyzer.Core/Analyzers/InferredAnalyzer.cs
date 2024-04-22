@@ -77,22 +77,23 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             //We need to check if the parent is null, not just a namespace as the language syntax allows for non-block contained namespaces.
             SyntaxKind defaultAccessModifier = context.Node.Parent is NamespaceDeclarationSyntax or null ? SyntaxKind.InternalKeyword : SyntaxKind.PrivateKeyword;
 
-            Location location;
+            Location nodeLocation = context.Node.GetLocation();
+            Location diagnosticLocation;
             switch (context.Node)
             {
                 case TypeDeclarationSyntax typeDeclarationSyntax:
                     //location = typeDeclarationSyntax.Identifier.GetLocation();
-                    location = typeDeclarationSyntax.Keyword.GetLocation();
+                    diagnosticLocation = typeDeclarationSyntax.Keyword.GetLocation();
                     break;
                 case FieldDeclarationSyntax fieldDeclarationSyntax:
                     //location = Location.Create(fieldDeclarationSyntax.SyntaxTree, fieldDeclarationSyntax.Declaration.Variables.Span);
-                    location = fieldDeclarationSyntax.Declaration.Type.GetLocation();
+                    diagnosticLocation = fieldDeclarationSyntax.Declaration.Type.GetLocation();
                     break;
                 case MethodDeclarationSyntax methodDeclarationSyntax:
-                    location = methodDeclarationSyntax.ReturnType.GetLocation();
+                    diagnosticLocation = methodDeclarationSyntax.ReturnType.GetLocation();
                     break;
                 default:
-                    location = context.Node.GetLocation();
+                    diagnosticLocation = nodeLocation;
                     break;
             }
 
@@ -100,17 +101,17 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             ImmutableDictionary<string, string> props = new Dictionary<string, string>()
             {
                 { "defaultAccessModifier", defaultAccessModifier.ToString() },
-                { "start", context.Node.FullSpan.Start.ToString() },
-                { "length", context.Node.FullSpan.Length.ToString() }
+                { "start", nodeLocation.SourceSpan.Start.ToString() },
+                { "length", nodeLocation.SourceSpan.Length.ToString() }
             }.ToImmutableDictionary();
             if (!ConfigManager.Configuration.Inferred.AccessModifier.IsInferred && accessModifier == SyntaxKind.None)
             {
-                context.ReportDiagnostic(Diagnostic.Create(AccessModifierDiagnosticDescriptor, location, properties: props));
+                context.ReportDiagnostic(Diagnostic.Create(AccessModifierDiagnosticDescriptor, diagnosticLocation, /*additionalLocations: [nodeLocation],*/ properties: props));
             }
             //If the configuration is set to not require access modifiers we need to check if the node can be inferred with it's current access modifier.
             else if (ConfigManager.Configuration.Inferred.AccessModifier.IsInferred && accessModifier == defaultAccessModifier)
             {
-                context.ReportDiagnostic(Diagnostic.Create(AccessModifierDiagnosticDescriptor, location, properties: props));
+                context.ReportDiagnostic(Diagnostic.Create(AccessModifierDiagnosticDescriptor, diagnosticLocation, /*additionalLocations: [nodeLocation],*/ properties: props));
             }
         }
         #endregion

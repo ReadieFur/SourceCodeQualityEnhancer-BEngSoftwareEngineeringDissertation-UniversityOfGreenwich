@@ -69,13 +69,8 @@ namespace ReadieFur.SourceAnalyzer.Core.Configuration
 #endif
         };
 
-        public bool Required { get; set; } = true;
-
-        [YamlMember(Alias = "tokens")]
-        public List<string> _tokens { get; set; } = new();
-
-        [YamlIgnore]
-        public IEnumerable<SyntaxKind> Tokens => _tokens
+        [YamlMember(Alias = "tokens")] public List<string> _tokens { get; set; } = new();
+        [YamlIgnore] public IEnumerable<SyntaxKind> Tokens => _tokens
             .Where(Punctuation.ContainsKey)
             .Select(token => Punctuation[token]);
     }

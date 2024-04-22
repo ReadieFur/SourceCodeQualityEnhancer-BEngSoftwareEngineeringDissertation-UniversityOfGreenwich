@@ -60,6 +60,8 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Analyzers
             PunctuationAnalyzer.SpaceDiagnosticDescriptor.DefaultSeverity,
             PunctuationAnalyzer.SpaceDiagnosticDescriptor.IsEnabledByDefault
         );
+        private FileInterpreter.CodeFixDiagnosticCallback PunctuationSpaceCodeFixDiagnosticCallback => (diagnosticDescriptor, _) => CSharpCodeFixVerifier<PunctuationAnalyzer, PunctuationFixProvider>.Diagnostic(diagnosticDescriptor);
         [MTest] public async Task PunctuationSpaceAnalyzer() => await TestAnalyzer<PunctuationAnalyzer>("Punctuation_Space.cs", PunctuationSpaceAnalyzerDiagnosticCallback);
+        [MTest] public async Task PunctuationSpaceFixProvider() => await TestFixProvider<PunctuationAnalyzer, PunctuationFixProvider>("Punctuation_Space.cs", PunctuationSpaceAnalyzerDiagnosticCallback, PunctuationSpaceCodeFixDiagnosticCallback);
     }
 }

@@ -33,7 +33,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                     context.RegisterCodeFix(
                         CodeAction.Create(
                             title: "Infer access modifier",
-                            createChangedDocument: ct => CorrectAccessModifierAsync(context.Document, diagnostic.Properties, ct),
+                            createChangedDocument: ct => CorrectAccessModifierAsync(context.Document, /*diagnostic.AdditionalLocations.First(),*/ diagnostic.Properties, ct),
                             equivalenceKey: "Infer access modifier"
                         ),
                         diagnostic
@@ -42,7 +42,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             }
         }
 
-        private async Task<Document> CorrectAccessModifierAsync(Document document, ImmutableDictionary<string, string> diagnosticParms, CancellationToken cancellationToken)
+        private async Task<Document> CorrectAccessModifierAsync(Document document, /*Location nodeLocation,*/ ImmutableDictionary<string, string> diagnosticParms, CancellationToken cancellationToken)
         {
             //Shouldn't happen but just in case.
             if (ConfigManager.Configuration.Inferred?.AccessModifier is null
@@ -53,6 +53,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             if (!int.TryParse(diagnosticParms["start"], out int start) || !int.TryParse(diagnosticParms["length"], out int length))
                 return document;
             SyntaxNode? node = documentRoot.FindNode(new(start, length), findInsideTrivia: true);
+            //SyntaxNode? node = documentRoot.FindNode(nodeLocation.SourceSpan, findInsideTrivia: true);
             if (node is not TypeDeclarationSyntax and not MemberDeclarationSyntax)
                 return document;
 

@@ -22,6 +22,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\NamingAnalyzer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\NamingFixProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\PunctuationAnalyzer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\PunctuationFixProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\Comments.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\Indentation.cs" />
@@ -38,6 +39,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\NamingConvention.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\Punctuation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\PunctuationToken.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\SpaceAround.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\YamlLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\Anchor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\Atom.cs" />
