@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Composition;
 using System.Threading.Tasks;
+using System.Collections.Immutable;
 
 namespace ReadieFur.SourceAnalyzer.Core.Refactoring
 {
@@ -24,16 +25,27 @@ namespace ReadieFur.SourceAnalyzer.Core.Refactoring
             _project = project;
         }
 
-        public async Task Refactor()
+        public async Task RefactorAsync()
         {
+            await FindSimilarDocumentsAsync();
         }
 
-        private async Task FindSimilarDocuments()
+        private async Task FindSimilarDocumentsAsync()
         {
+            //Break down all documents into nodes.
+            //Parallelize.
+            List<Task<ImmutableArray<SyntaxNode>>> nodeTasks = new();
             foreach (Document document in _project.Documents)
-            {
-                //document.
-            }
+                nodeTasks.Add(GetSyntaxNodesAsync(document));
+            await Task.WhenAll(nodeTasks);
+        }
+
+        private async Task<ImmutableArray<SyntaxNode>> GetSyntaxNodesAsync(Document document)
+        {
+            //TODO: Check why these are returning empty.
+            SyntaxTree syntaxTree = await document.GetSyntaxTreeAsync();
+            SyntaxNode root = await syntaxTree.GetRootAsync();
+            return root.DescendantNodes(_ => true, true).ToImmutableArray();
         }
     }
 }

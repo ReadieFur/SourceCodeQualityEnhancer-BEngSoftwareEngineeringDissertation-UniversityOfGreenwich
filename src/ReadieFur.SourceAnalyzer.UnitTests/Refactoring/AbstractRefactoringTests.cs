@@ -73,7 +73,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Refactoring
         private async Task TestAsync(Project project)
         {
             AbstractRefactoringProvider refactoringProvider = new(project);
-            await refactoringProvider.Refactor();
+            await refactoringProvider.RefactorAsync();
         }
     }
 }
