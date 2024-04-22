@@ -1,6 +1,7 @@
 Priority:
     ☐ Abstract generator
     ☐ Auto-documenation generator (based on node tree)
+    ☐ Generate example code to demonstrate with
 
 Code:
     ☐ Brace line @started(24-03-20 11:56)
@@ -29,5 +30,6 @@ Code:
     ☐ Correct line spacing
     ☐ Implicit new keyword
     ✔ Batch fix diff UI @done(24-04-21 02:08)
-    ☐ Generate example code to demonstrate with
     ☐ Abstract own code
+
+Writeup:
