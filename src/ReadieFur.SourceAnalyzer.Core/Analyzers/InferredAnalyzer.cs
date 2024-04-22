@@ -47,7 +47,14 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                 SyntaxKind[] accessModifiers = { SyntaxKind.PrivateKeyword, SyntaxKind.ProtectedKeyword, SyntaxKind.InternalKeyword, SyntaxKind.PublicKeyword };
 
                 //If this fails then one of the types is not a declaration statement (should not happen).
-                accessModifier = ((SyntaxTokenList)((dynamic)context.Node).Modifiers).FirstOrDefault(m => accessModifiers.Contains(m.Kind())).Kind();
+                //accessModifier = ((SyntaxTokenList)((dynamic)context.Node).Modifiers).FirstOrDefault(m => accessModifiers.Contains(m.Kind())).Kind();
+                accessModifier = context.Node switch
+                {
+                    TypeDeclarationSyntax typeDeclarationSyntax => typeDeclarationSyntax.Modifiers.FirstOrDefault(m => accessModifiers.Contains(m.Kind())).Kind(),
+                    FieldDeclarationSyntax fieldDeclarationSyntax => fieldDeclarationSyntax.Modifiers.FirstOrDefault(m => accessModifiers.Contains(m.Kind())).Kind(),
+                    MethodDeclarationSyntax methodDeclarationSyntax => methodDeclarationSyntax.Modifiers.FirstOrDefault(m => accessModifiers.Contains(m.Kind())).Kind(),
+                    _ => throw new InvalidOperationException()
+                };
             }
             catch
             {

@@ -62,7 +62,14 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             if (ConfigManager.Configuration.Inferred.AccessModifier.IsInferred)
             {
                 //Remove access modifiers.
-                IEnumerable<SyntaxToken> modifiers = ((SyntaxTokenList)((dynamic)node).Modifiers).Where(m => !accessModifiers.Contains(m.Kind()));
+                //IEnumerable<SyntaxToken> modifiers = ((SyntaxTokenList)((dynamic)node).Modifiers).Where(m => !accessModifiers.Contains(m.Kind()));
+                IEnumerable<SyntaxToken> modifiers = node switch
+                {
+                    TypeDeclarationSyntax typeDeclarationSyntax => typeDeclarationSyntax.Modifiers.Where(m => !accessModifiers.Contains(m.Kind())),
+                    FieldDeclarationSyntax fieldDeclarationSyntax => fieldDeclarationSyntax.Modifiers.Where(m => !accessModifiers.Contains(m.Kind())),
+                    MethodDeclarationSyntax methodDeclarationSyntax => methodDeclarationSyntax.Modifiers.Where(m => !accessModifiers.Contains(m.Kind())),
+                    _ => throw new InvalidOperationException()
+                };
                 newModifiers = SyntaxFactory.TokenList(modifiers);
             }
             else
@@ -70,10 +77,24 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                 //Add access modifiers.
                 if (!Enum.TryParse(diagnosticParms["defaultAccessModifier"], out SyntaxKind defaultAccessModifierSyntax) || !accessModifiers.Contains(defaultAccessModifierSyntax))
                     return document;
-                newModifiers = ((SyntaxTokenList)((dynamic)node).Modifiers).Add(SyntaxFactory.Token(defaultAccessModifierSyntax));
+                //newModifiers = ((SyntaxTokenList)((dynamic)node).Modifiers).Insert(0, SyntaxFactory.Token(defaultAccessModifierSyntax));
+                newModifiers = node switch
+                {
+                    TypeDeclarationSyntax typeDeclarationSyntax => typeDeclarationSyntax.Modifiers.Insert(0, SyntaxFactory.Token(defaultAccessModifierSyntax)),
+                    FieldDeclarationSyntax fieldDeclarationSyntax => fieldDeclarationSyntax.Modifiers.Insert(0, SyntaxFactory.Token(defaultAccessModifierSyntax)),
+                    MethodDeclarationSyntax methodDeclarationSyntax => methodDeclarationSyntax.Modifiers.Insert(0, SyntaxFactory.Token(defaultAccessModifierSyntax)),
+                    _ => throw new InvalidOperationException()
+                };
             }
 
-            SyntaxNode newNode = (SyntaxNode)((dynamic)node).WithModifiers(newModifiers);
+            //SyntaxNode newNode = (SyntaxNode)((dynamic)node).WithModifiers(newModifiers);
+            SyntaxNode newNode = node switch
+            {
+                TypeDeclarationSyntax typeDeclarationSyntax => typeDeclarationSyntax.WithModifiers(newModifiers),
+                FieldDeclarationSyntax fieldDeclarationSyntax => fieldDeclarationSyntax.WithModifiers(newModifiers),
+                MethodDeclarationSyntax methodDeclarationSyntax => methodDeclarationSyntax.WithModifiers(newModifiers),
+                _ => throw new InvalidOperationException()
+            };
             SyntaxNode newRoot = documentRoot.ReplaceNode(node, newNode);
             return document.WithSyntaxRoot(newRoot);
         }
