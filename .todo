@@ -1,3 +1,7 @@
+Priority:
+    ☐ Abstract generator
+    ☐ Auto-documenation generator (based on node tree)
+
 Code:
     ☐ Brace line @started(24-03-20 11:56)
         ✔ New line after brace @done(24-04-14 02:05)
@@ -8,22 +12,22 @@ Code:
     ☐ Single statment block
     ☐ Nested node file splitter (split classes into individual files)
     ✔ Naming convention @done
-    ☐ Auto-documenation generator (based on node tree)
-    ☐ Large parameter multi-line
+    ✘ Large parameter multi-line (somewhat achieved through operator location) @cancelled(24-04-22 07:15)
     ☐ Comment style
         ✔ Space after declaration @done(24-04-17 04:37)
         ☐ Single to multi-line
         ✔ Full stop at end @done(24-04-17 11:11)
         ✔ Capital letter at start @done(24-04-19 14:33)
         ☐ Multi to single-line
-    ☐ Operator location
-        ☐ Move && and || to start/end of line
-        ☐ Move ? and : to start/end of line
+    ✔ Operator location @done(24-04-22 07:14)
+        ✔ Move && and || to start/end of line @done(24-04-22 07:14)
+        ✔ Move ? and : to start/end of line @done(24-04-22 07:14)
         ✔ Add/remove spaces around operators @started(24-04-21 23:03) @done(24-04-22 04:38) @lasted(5h35m21s)
-    ☐ Chaining function
+    ☐ Chain functions on new lines
     ✔ Explicit access modifier @done(24-04-22 04:38)
     ✘ Explicit type (already built into the IDE). @cancelled(24-04-22 04:38)
     ☐ Correct line spacing
     ☐ Implicit new keyword
     ✔ Batch fix diff UI @done(24-04-21 02:08)
     ☐ Generate example code to demonstrate with
+    ☐ Abstract own code
