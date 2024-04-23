@@ -163,7 +163,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             ITypeSymbol underlyingType;
             Location underlyingTypeLocation;
             ITypeSymbol declaredType;
-            ILocalSymbol? localSymbol = null;
+            bool? isVar = null;
             switch (node.Parent)
             {
                 case EqualsValueClauseSyntax equalsValueClauseSyntax:
@@ -172,16 +172,31 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                         {
                             case VariableDeclaratorSyntax variableDeclaratorSyntax:
                                 {
-                                    if (context.SemanticModel.GetDeclaredSymbol(variableDeclaratorSyntax) is not ILocalSymbol _localSymbol)
+                                    if (context.SemanticModel.GetDeclaredSymbol(variableDeclaratorSyntax) is not ILocalSymbol localSymbol)
                                         return;
 
-                                    localSymbol = _localSymbol;
                                     //diagnosticLocation = variableDeclaratorSyntax.GetLocation();
                                     underlyingType = localSymbol.Type;
                                     //The previous token of the identifier is the type (or var).
                                     underlyingTypeLocation = variableDeclaratorSyntax.Identifier.GetPreviousToken().GetLocation();
-                                    var a = context.SemanticModel.SyntaxTree.GetRoot().FindToken(underlyingTypeLocation.SourceSpan.Start);
                                     declaredType = context.SemanticModel.GetTypeInfo(equalsValueClauseSyntax.Value, context.CancellationToken).Type;
+
+                                    //There is probably a proper way to check for the var keyword but I am unable to find it in the documentation.
+                                    //The localSymbol is of a private sealed type so we can't check for this type staticly, so instead I will use reflection to check for the value (as access modifiers in the VM are "just a suggestion").
+                                    //Microsoft.CodeAnalysis.CSharp.Symbols.SourceLocalSymbol.LocalWithInitializer //Line 309 -> public bool IsVar { get; }
+                                    //bool? isVar = localSymbol?.GetType().GetProperty("IsVar", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public)?.GetValue(localSymbol) as bool?;
+
+                                    //The property we are looking for is EITHER under localSymbol.IsVar OR localSymbol.UnderlyingSymbol.IsVar.
+                                    //If it cannot be inferred then it is safest to assume that it is not a var keyword.
+                                    Type reflectionContext = localSymbol.GetType();
+                                    object reflectionContextObject = localSymbol;
+                                    object? underlyingSymbol = reflectionContext.GetProperty("UnderlyingSymbol", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)?.GetValue(reflectionContextObject);
+                                    if (underlyingSymbol is not null)
+                                    {
+                                        reflectionContext = underlyingSymbol.GetType();
+                                        reflectionContextObject = underlyingSymbol;
+                                    }
+                                    isVar = reflectionContext.GetProperty("IsVar", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public)?.GetValue(reflectionContextObject) as bool?;
                                     break;
                                 }
                             default:
@@ -226,10 +241,6 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             //Using the .Equals or == operator does not work for ITypeSymbol so we need to use the SymbolEqualityComparer.
             //https://github.com/dotnet/roslyn-analyzers/issues/3427
             bool typesMatch = SymbolEqualityComparer.Default.Equals(underlyingType, declaredType);
-
-            //The localSymbol is of a private sealed type so we can't check for this type staticly, so instead I will use reflection to check for the value (as access modifiers in the VM are "just a suggestion").
-            //Microsoft.CodeAnalysis.CSharp.Symbols.SourceLocalSymbol.LocalWithInitializer //Line 309 -> public bool IsVar { get; }
-            bool? isVar = localSymbol?.GetType().GetProperty("IsVar", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public)?.GetValue(localSymbol) as bool?;
 
             //TODO: Temporary workaround for diagnostic analyzer with additional locations.
             ImmutableDictionary<string, string> parameters = new Dictionary<string, string>()
