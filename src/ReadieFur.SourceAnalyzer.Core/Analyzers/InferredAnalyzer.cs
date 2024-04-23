@@ -162,6 +162,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             Location diagnosticLocation = node.GetLocation();
             ITypeSymbol underlyingType;
             Location underlyingTypeLocation;
+            string underlyingTypeString;
             ITypeSymbol declaredType;
             bool? isVar = null;
             switch (node.Parent)
@@ -179,6 +180,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                                     underlyingType = localSymbol.Type;
                                     //The previous token of the identifier is the type (or var).
                                     underlyingTypeLocation = variableDeclaratorSyntax.Identifier.GetPreviousToken().GetLocation();
+                                    underlyingTypeString = underlyingType.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat);
                                     declaredType = context.SemanticModel.GetTypeInfo(equalsValueClauseSyntax.Value, context.CancellationToken).Type;
 
                                     //There is probably a proper way to check for the var keyword but I am unable to find it in the documentation.
@@ -229,6 +231,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                         //diagnosticLocation = argumentSyntax.GetLocation();
                         underlyingType = methodSymbol.Parameters[parameterIndex].Type;
                         underlyingTypeLocation = methodSymbol.Parameters[parameterIndex].Locations.FirstOrDefault();
+                        underlyingTypeString = underlyingType.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat);
                         declaredType = context.SemanticModel.GetTypeInfo(argumentSyntax.Expression, context.CancellationToken).Type;
                         break;
                     }
@@ -246,7 +249,8 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             ImmutableDictionary<string, string> parameters = new Dictionary<string, string>()
             {
                 { "underlyingStart", underlyingTypeLocation.SourceSpan.Start.ToString() },
-                { "underlyingLength", underlyingTypeLocation.SourceSpan.Length.ToString() }
+                { "underlyingLength", underlyingTypeLocation.SourceSpan.Length.ToString() },
+                { "underlyingType", underlyingTypeString }
             }.ToImmutableDictionary();
 
             //I think this is correct?
@@ -261,7 +265,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                 else if (typesMatch)
                 {
                     //Remove the explicit object creation type and replace it with an implicit object creation type.
-                    context.ReportDiagnostic(Diagnostic.Create(NewKeywordDiagnosticDescriptor, diagnosticLocation));
+                    context.ReportDiagnostic(Diagnostic.Create(NewKeywordDiagnosticDescriptor, diagnosticLocation, properties: parameters));
                 }
             }
             else

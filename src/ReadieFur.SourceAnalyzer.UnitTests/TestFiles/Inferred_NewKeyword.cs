@@ -27,6 +27,8 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.TestFiles
 //-            Dummy.FooBar(''new Dummy()'');
 //+            Dummy.FooBar(new());
 
+            //Dummy d = new Dummy();
+
             /*var a = new Dummy(); //Change.
             new Dummy(); //Dont change.
             Dummy.FooBar(new Dummy()); //Change.*/

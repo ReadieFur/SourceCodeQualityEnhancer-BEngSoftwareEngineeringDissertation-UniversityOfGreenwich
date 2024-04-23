@@ -55,7 +55,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                                         ct);
 
                                     return [
-                                        SyntaxFactory.LineFeed,
+                                        SyntaxFactory.LineFeed, //TODO: Check if this should be CLRF or LF.
                                         SyntaxFactory.Whitespace(new string(' ', Helpers.IndentationLevelToSpaces(indentation)))
                                     ];
                                 }

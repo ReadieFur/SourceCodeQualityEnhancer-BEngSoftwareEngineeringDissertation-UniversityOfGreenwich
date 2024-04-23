@@ -2,7 +2,6 @@ Priority:
     ☐ Abstract generator @started(24-04-22 16:05)
     ☐ Auto-documenation generator (based on node tree)
     ☐ Generate example code to demonstrate with
-    ☐ Implicit new keyword (C#8+)
     ☐ Fields and properties at the top of a type declaration
 
 Code:
@@ -32,5 +31,6 @@ Code:
     ☐ Correct line spacing
     ✔ Batch fix diff UI @done(24-04-21 02:08)
     ☐ Abstract own code
+    ✔ Implicit new keyword (C#8+) @done(24-04-23 23:26)
 
 Writeup:

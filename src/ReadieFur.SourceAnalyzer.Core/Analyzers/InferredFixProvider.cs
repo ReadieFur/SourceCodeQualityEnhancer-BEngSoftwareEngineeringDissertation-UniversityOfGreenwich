@@ -46,7 +46,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                     context.RegisterCodeFix(
                         CodeAction.Create(
                             title: (ConfigManager.Configuration.Inferred?.Constructor?.IsInferred is true ? "Infer" : "Declare") + " object constructor",
-                            createChangedDocument: ct => CorrectNewKeywordAsync(context.Document, /*diagnostic.AdditionalLocations.First(),*/ diagnostic.Properties, ct),
+                            createChangedDocument: ct => CorrectNewKeywordAsync(context.Document, diagnostic.Location, diagnostic.Properties, ct),
                             equivalenceKey: "Infer"
                         ),
                         diagnostic
@@ -112,10 +112,13 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             return document.WithSyntaxRoot(newRoot);
         }
 
-        private async Task<Document> CorrectNewKeywordAsync(Document document, ImmutableDictionary<string, string> properties, CancellationToken ct)
+        private async Task<Document> CorrectNewKeywordAsync(Document document, Location diagnosticLocation, ImmutableDictionary<string, string> properties, CancellationToken ct)
         {
             if (ConfigManager.Configuration.Inferred?.Constructor is null
-                || await document.GetSyntaxRootAsync(ct) is not SyntaxNode documentRoot)
+                || await document.GetSyntaxRootAsync(ct) is not SyntaxNode documentRoot
+                || documentRoot.FindNode(diagnosticLocation.SourceSpan) is not SyntaxNode node
+                || !properties.TryGetValue("underlyingType", out string? underlyingType)
+                || string.IsNullOrWhiteSpace(underlyingType))
                 return document;
 
             SyntaxToken? underlyingToken = null;
@@ -132,19 +135,57 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                     return document;
             }
 
-            if (ConfigManager.Configuration.Inferred.Constructor.IsInferred)
+            Dictionary<SyntaxNode, SyntaxNode> replacementNodes = new();
+            Dictionary<SyntaxToken, SyntaxToken> replacementTokens = new();
+
+            if (ConfigManager.Configuration.Inferred.Constructor.IsInferred is true)
             {
-                //Get constructor type.
+                if (node is ObjectCreationExpressionSyntax objectCreationExpressionSyntax)
+                {
+                    //Replace constructor with implicit new (aka remove the type).
+                    replacementNodes.Add(node, SyntaxFactory.ImplicitObjectCreationExpression(
+                        argumentList: objectCreationExpressionSyntax.ArgumentList,
+                        initializer: objectCreationExpressionSyntax.Initializer));
 
-                //Replace constructor with implicit new.
+                    //Replace the underlying token if it is a "var" keyword.
+                    if (underlyingToken is not null && underlyingToken.Value.Text == "var")
+                    {
+                        /*//TODO: Get the identifier syntax for the analyzer instead of relying on reflection as the IsVar property is exposed here.
+                        if (objectCreationExpressionSyntax.Type is not IdentifierNameSyntax identifierNameSyntax)
+                            return document;*/
 
-                //Replace the underlying token if it is a "var" keyword.
+                        //Replace the "var" keyword with the original type.
+                        replacementTokens.Add(underlyingToken.Value, SyntaxFactory.Identifier(underlyingToken.Value.LeadingTrivia, underlyingType, underlyingToken.Value.TrailingTrivia));
+                    }
+                }
+                else if (node is ArgumentSyntax argumentSyntax && argumentSyntax.Expression is ObjectCreationExpressionSyntax argumentObjectCreationExpressionSyntax)
+                {
+                    //Replace constructor with implicit new (aka remove the type).
+                    replacementNodes.Add(node, SyntaxFactory.Argument(expression: SyntaxFactory.ImplicitObjectCreationExpression(
+                        argumentList: argumentObjectCreationExpressionSyntax.ArgumentList,
+                        initializer: argumentObjectCreationExpressionSyntax.Initializer)));
+                }
             }
             else
             {
+                if (underlyingToken is null
+                    || !underlyingToken.Value.IsKind(SyntaxKind.IdentifierToken)
+                    || node is not BaseObjectCreationExpressionSyntax baseObjectCreationExpressionSyntax)
+                    return document;
+
+                //Replace implicit new with constructor (aka add the type).
+                replacementNodes.Add(node, SyntaxFactory.ObjectCreationExpression(
+                    type: SyntaxFactory.IdentifierName(underlyingType),
+                    argumentList: baseObjectCreationExpressionSyntax.ArgumentList,
+                    initializer: baseObjectCreationExpressionSyntax.Initializer
+                ));
             }
 
-            throw new NotImplementedException();
+            SyntaxNode newRoot = documentRoot.ReplaceSyntax(
+                replacementNodes.Keys, (original, _) => replacementNodes[original],
+                replacementTokens.Keys, (original, _) => replacementTokens[original],
+                null, null);
+            return document.WithSyntaxRoot(newRoot);
         }
     }
 }
