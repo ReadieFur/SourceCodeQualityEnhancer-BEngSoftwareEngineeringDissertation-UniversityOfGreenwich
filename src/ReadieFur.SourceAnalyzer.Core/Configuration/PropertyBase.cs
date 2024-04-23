@@ -6,10 +6,10 @@
 
         public ESeverity Severity { get; set; } = DEFAULT_SEVERITY;
 
-        [YamlDotNet.Serialization.Callbacks.OnDeserialized]
+        /*[YamlDotNet.Serialization.Callbacks.OnDeserialized]
         internal void OnDeserialized()
         {
             //TODO: Use a custom attribute to check if the required properties have been set.
-        }
+        }*/
     }
 }

@@ -8,9 +8,12 @@ namespace ReadieFur.SourceAnalyzer.Core.Configuration
     public class InferredBlock : ConfigBase
     {
         [YamlMember(Alias = "mode")]
-        private string _mode { get; set; }
+        [Obsolete("This property is for deserialization only. Use IsInferred instead.", false)]
+        public string _mode { get; set; }
 
         [YamlIgnore]
-        public bool IsInferred => _mode == "inferred";
+#pragma warning disable CS0618 // Type or member is obsolete
+        public bool IsInferred => _mode == "implicit";
+#pragma warning restore CS0618
     }
 }

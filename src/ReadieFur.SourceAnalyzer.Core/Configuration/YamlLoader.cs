@@ -10,6 +10,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Configuration
         private static IDeserializer _deserializer = new DeserializerBuilder()
             .WithNamingConvention(UnderscoredNamingConvention.Instance)
             .IgnoreUnmatchedProperties() //See: https://github.com/aaubry/YamlDotNet/issues/842
+            .EnablePrivateConstructors()
             .Build();
 
         public static async Task<ConfigRoot?> LoadAsync(string path)
