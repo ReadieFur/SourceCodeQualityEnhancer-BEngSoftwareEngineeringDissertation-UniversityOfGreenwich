@@ -1,5 +1,7 @@
-﻿using ReadieFur.SourceAnalyzer.Core.Configuration;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ReadieFur.SourceAnalyzer.Core.Configuration;
 using System.Reflection;
+using System.Text;
 
 namespace ReadieFur.SourceAnalyzer.UnitTests
 {
@@ -36,7 +38,25 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
                 return string.Empty;
             }
 
+            //https://stackoverflow.com/questions/59700704/proper-way-to-read-files-asynchronously
+#if !NETFRAMEWORK
             return await File.ReadAllTextAsync(sourceFile);
+#elif false
+            using (FileStream stream = new(sourceFile, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, FileOptions.Asynchronous))
+            {
+                StringBuilder stringBuilder = new();
+                byte[] buffer = new byte[0x1000];
+                int numRead;
+                while ((numRead = await stream.ReadAsync(buffer, 0, buffer.Length)) != 0)
+                {
+                    string text = Encoding.Unicode.GetString(buffer, 0, numRead);
+                    stringBuilder.Append(text);
+                }
+                return stringBuilder.ToString();
+            }
+#else
+            return File.ReadAllText(sourceFile);
+#endif
         }
 
         public static string? GetSolutionPath()

@@ -39,17 +39,23 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
             int usingsStart = SourceText.IndexOf("using", StringComparison.Ordinal);
             int usingsEnd = SourceText.LastIndexOf("using", StringComparison.Ordinal);
             string usings = SourceText.Substring(usingsStart, usingsEnd - usingsStart);
+#if !NETFRAMEWORK
             foreach (string originalUsing in usings.Split(Environment.NewLine).Reverse())
                 if (!string.IsNullOrEmpty(originalUsing) && !originalUsing.StartsWith("using System"))
                     formattedInput = formattedInput.Replace(originalUsing, string.Empty);
-            #endregion
+#else
+            foreach (string originalUsing in usings.Split('\n').Reverse())
+                if (!string.IsNullOrEmpty(originalUsing) && !originalUsing.StartsWith("using System"))
+                    formattedInput = formattedInput.Replace(originalUsing, string.Empty);
+#endif
+#endregion
 
             #region Remove comments
 #if REMOVE_COMMENTS
             //Remove all comments exccept the ones that contain the tokens used by this analyzer.
             formattedInput = Regex.Replace(formattedInput, @"(?:^|\n)\/\/(?![#\-+. ])(.*)", string.Empty, RegexOptions.Multiline);
 #endif
-            #endregion
+#endregion
 
             //Supply a base to work on for each generated document.
             CodeFixExpected =
@@ -100,7 +106,13 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
                 CodeFixExpected = CodeFixExpected.Remove(codeFixExpectedOffset, blockLength);
 
                 //Generate the text to put in place of the source block for each input type.
-                string[] blockLines = regexSource.Substring(blockStart, blockLength).Split(Environment.NewLine);
+                string[] blockLines = regexSource.Substring(blockStart, blockLength).Split(
+#if !NETFRAMEWORK
+                    Environment.NewLine
+#else
+                    '\n'
+#endif
+                );
                 IEnumerable<string> removeLines = blockLines.Where(s => s[2] == '-').Select(s => s.Substring(3).TrimEnd(Environment.NewLine.ToCharArray()));
                 IEnumerable<string> addLines = blockLines.Where(s => s[2] == '+').Select(s => s.Substring(3).TrimEnd(Environment.NewLine.ToCharArray()));
                 //IEnumerable<string> unchangedLines = blockLines.Where(s => s[2] == '.').Select(s => s.Substring(3).TrimEnd(Environment.NewLine.ToCharArray()));
@@ -163,7 +175,7 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
                 //Truncate the source text that the regex is to work on.
                 regexSource = regexSource.Substring(blockEnd);
             }
-            #endregion
+#endregion
         }
     }
 }

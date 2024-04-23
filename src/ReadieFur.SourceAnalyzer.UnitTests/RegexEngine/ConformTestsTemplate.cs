@@ -1,4 +1,5 @@
-﻿using ReadieFur.SourceAnalyzer.Core.RegexEngine;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ReadieFur.SourceAnalyzer.Core.RegexEngine;
 using ReadieFur.SourceAnalyzer.UnitTests.Compatibility;
 using static ReadieFur.SourceAnalyzer.UnitTests.RegexEngine.Common;
 

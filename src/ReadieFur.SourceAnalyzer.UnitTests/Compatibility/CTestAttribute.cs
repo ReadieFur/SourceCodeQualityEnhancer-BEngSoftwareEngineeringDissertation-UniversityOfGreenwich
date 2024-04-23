@@ -5,7 +5,7 @@ using System.Text;
 namespace ReadieFur.SourceAnalyzer.UnitTests.Compatibility
 {
     public class CTestAttribute :
-#if NETCOREAPP
+#if NETCOREAPP || NETFRAMEWORK
         Microsoft.VisualStudio.TestTools.UnitTesting.TestClassAttribute
 #elif NETSTANDARD
         NUnit.Framework.TestFixtureAttribute

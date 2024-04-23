@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.MSBuild;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReadieFur.SourceAnalyzer.Core.Refactoring;
 using ReadieFur.SourceAnalyzer.UnitTests.Compatibility;
 using System;
