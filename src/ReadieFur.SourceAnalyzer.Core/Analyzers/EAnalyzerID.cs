@@ -27,5 +27,6 @@
         Punctuation_Space,
         Punctuation_NewLine,
         Inferred_AccessModifier,
+        Inferred_NewKeyword,
     }
 }

@@ -23,7 +23,15 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             defaultSeverity: Helpers.GetDiagnosticSeverity(ConfigManager.Configuration.Inferred?.AccessModifier?.Severity),
             isEnabledByDefault: ConfigManager.Configuration.Inferred?.AccessModifier is not null);
 
-        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(AccessModifierDiagnosticDescriptor);
+        public static DiagnosticDescriptor NewKeywordDiagnosticDescriptor => new(
+            id: EAnalyzerID.Inferred_NewKeyword.ToTag(),
+            title: "New keyword (inferred).",
+            messageFormat: "The new keyword for constructors should" + (ConfigManager.Configuration.Inferred?.Constructor?.IsInferred is true ? "" : " not") + " be inferred.",
+            category: "Inferred",
+            defaultSeverity: Helpers.GetDiagnosticSeverity(ConfigManager.Configuration.Inferred?.AccessModifier?.Severity),
+            isEnabledByDefault: ConfigManager.Configuration.Inferred?.AccessModifier is not null);
+
+        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(AccessModifierDiagnosticDescriptor, NewKeywordDiagnosticDescriptor);
 
         public override void Initialize(AnalysisContext context)
         {
@@ -31,9 +39,19 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             context.EnableConcurrentExecution();
 
             context.RegisterSyntaxNodeAction(AnalyzeNodeAccess, SyntaxKind.StructDeclaration, SyntaxKind.ClassDeclaration, SyntaxKind.MethodDeclaration, SyntaxKind.FieldDeclaration, SyntaxKind.PropertyDeclaration, SyntaxKind.DelegateDeclaration);
+            //context.RegisterSyntaxNodeAction(AnalyzeObjectCreation, SyntaxKind.ObjectCreationExpression);
+            //ArgumentSyntax needs to be checked via the semantic model because we need access to the underlying method.
+            context.RegisterSemanticModelAction(AnalyzeSemanticModel);
         }
 
-        #region Access Modifier
+        private void AnalyzeSemanticModel(SemanticModelAnalysisContext context)
+        {
+            foreach (SyntaxNode node in context.SemanticModel.SyntaxTree.GetRoot().DescendantNodes(_ => true))
+            {
+                AnalyzeObjectCreation(context, node);
+            }
+        }
+
         //https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/access-modifiers#class-and-struct-accessibility
         private void AnalyzeNodeAccess(SyntaxNodeAnalysisContext context)
         {
@@ -121,6 +139,129 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                 context.ReportDiagnostic(Diagnostic.Create(AccessModifierDiagnosticDescriptor, diagnosticLocation, /*additionalLocations: [nodeLocation],*/ properties: props));
             }
         }
-        #endregion
+
+        private void AnalyzeObjectCreation(SemanticModelAnalysisContext context, SyntaxNode node)
+        {
+            /* Prerequisites:
+             * Config is defined.
+             * Node if of type ObjectCreationExpressionSyntax.
+             * Languange version is C# 9 or higher (required for implicit object creation) --Checked later for implicit to explicit conversion-- (can't work as it won't compile so this diagnostic wont be reached).
+             */
+            if (ConfigManager.Configuration.Inferred?.Constructor is null
+                || node is not ObjectCreationExpressionSyntax
+                || context.SemanticModel.SyntaxTree.Options is not CSharpParseOptions options
+                || options.LanguageVersion < LanguageVersion.CSharp9)
+                return;
+
+            //Attempt to locate the variable that this object is being assigned to IF it is being assigned to a variable.
+            /* Examples:
+             * var a = new A(); //Check - EqualsValueClauseSyntax.
+             * new A(); //Ignore - ExpressionStatementSyntax.
+             * Foo(new A()); //Check (if no overloads) - ArgumentSyntax.
+             */
+            Location diagnosticLocation = node.GetLocation();
+            ITypeSymbol underlyingType;
+            Location underlyingTypeLocation;
+            ITypeSymbol declaredType;
+            ILocalSymbol? localSymbol = null;
+            switch (node.Parent)
+            {
+                case EqualsValueClauseSyntax equalsValueClauseSyntax:
+                    {
+                        switch (equalsValueClauseSyntax.Parent)
+                        {
+                            case VariableDeclaratorSyntax variableDeclaratorSyntax:
+                                {
+                                    if (context.SemanticModel.GetDeclaredSymbol(variableDeclaratorSyntax) is not ILocalSymbol _localSymbol)
+                                        return;
+
+                                    localSymbol = _localSymbol;
+                                    //diagnosticLocation = variableDeclaratorSyntax.GetLocation();
+                                    underlyingType = localSymbol.Type;
+                                    //The previous token of the identifier is the type (or var).
+                                    underlyingTypeLocation = variableDeclaratorSyntax.Identifier.GetPreviousToken().GetLocation();
+                                    var a = context.SemanticModel.SyntaxTree.GetRoot().FindToken(underlyingTypeLocation.SourceSpan.Start);
+                                    declaredType = context.SemanticModel.GetTypeInfo(equalsValueClauseSyntax.Value, context.CancellationToken).Type;
+                                    break;
+                                }
+                            default:
+                                return;
+                        }
+                        break;
+                    }
+                /*case ExpressionStatementSyntax expressionStatementSyntax:
+                    break;*/
+                case ArgumentSyntax argumentSyntax:
+                    {
+                        if (argumentSyntax.Parent is not ArgumentListSyntax argumentListSyntax
+                            || argumentListSyntax.Parent is not InvocationExpressionSyntax invocationExpressionSyntax)
+                            return;
+
+                        //We need to check if the method has overloads and if this is the only overload.
+                        SymbolInfo symbolInfo = context.SemanticModel.GetSymbolInfo(invocationExpressionSyntax, context.CancellationToken);
+                        if (symbolInfo.Symbol is not IMethodSymbol methodSymbol)
+                            return;
+
+                        /*//If the method has overloads we need to check if this is the only overload.
+                        if (methodSymbol.ContainingType.GetMembers(methodSymbol.Name).OfType<IMethodSymbol>().Count() > 1)
+                            return;*/
+
+                        //Check that the base parameter matches the declared type.
+                        int parameterIndex = Math.Min(argumentListSyntax.Arguments.IndexOf(argumentSyntax), methodSymbol.Parameters.Length - 1);
+                        if (parameterIndex < 0)
+                            return;
+
+                        //diagnosticLocation = argumentSyntax.GetLocation();
+                        underlyingType = methodSymbol.Parameters[parameterIndex].Type;
+                        underlyingTypeLocation = methodSymbol.Parameters[parameterIndex].Locations.FirstOrDefault();
+                        declaredType = context.SemanticModel.GetTypeInfo(argumentSyntax.Expression, context.CancellationToken).Type;
+                        break;
+                    }
+                default:
+                    return;
+            }
+
+            //If the underlying type matches the object creation type then we can return a diagnostic here.
+            //Additionally if the underlying type is a var keyword then we can also return a diagnostic here with an additional location to change the var keyword to be explicit.
+            //Using the .Equals or == operator does not work for ITypeSymbol so we need to use the SymbolEqualityComparer.
+            //https://github.com/dotnet/roslyn-analyzers/issues/3427
+            bool typesMatch = SymbolEqualityComparer.Default.Equals(underlyingType, declaredType);
+
+            //The localSymbol is of a private sealed type so we can't check for this type staticly, so instead I will use reflection to check for the value (as access modifiers in the VM are "just a suggestion").
+            //Microsoft.CodeAnalysis.CSharp.Symbols.SourceLocalSymbol.LocalWithInitializer //Line 309 -> public bool IsVar { get; }
+            bool? isVar = localSymbol?.GetType().GetProperty("IsVar", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public)?.GetValue(localSymbol) as bool?;
+
+            //TODO: Temporary workaround for diagnostic analyzer with additional locations.
+            ImmutableDictionary<string, string> parameters = new Dictionary<string, string>()
+            {
+                { "underlyingStart", underlyingTypeLocation.SourceSpan.Start.ToString() },
+                { "underlyingLength", underlyingTypeLocation.SourceSpan.Length.ToString() }
+            }.ToImmutableDictionary();
+
+            //I think this is correct?
+            if (ConfigManager.Configuration.Inferred?.Constructor?.IsInferred is true)
+            {
+                if (typesMatch && isVar is true)
+                {
+                    //Remove the var keyword and replace it with the underlying type.
+                    //Remove the explicit object creation type and replace it with an implicit object creation type.
+                    context.ReportDiagnostic(Diagnostic.Create(NewKeywordDiagnosticDescriptor, diagnosticLocation, properties: parameters));
+                }
+                else if (typesMatch)
+                {
+                    //Remove the explicit object creation type and replace it with an implicit object creation type.
+                    context.ReportDiagnostic(Diagnostic.Create(NewKeywordDiagnosticDescriptor, diagnosticLocation));
+                }
+            }
+            else
+            {
+                if (isVar is false)
+                {
+                    //Make the object definition a var.
+                    //Make the object creation type explicit.
+                    context.ReportDiagnostic(Diagnostic.Create(NewKeywordDiagnosticDescriptor, diagnosticLocation, properties: parameters));
+                }
+            }
+        }
     }
 }

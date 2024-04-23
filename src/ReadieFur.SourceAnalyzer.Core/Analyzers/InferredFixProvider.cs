@@ -19,7 +19,9 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
     [ExportCodeFixProvider(LanguageNames.CSharp), Shared]
     internal class InferredFixProvider : CodeFixProvider
     {
-        public override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(InferredAnalyzer.AccessModifierDiagnosticDescriptor.Id);
+        public override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(
+            InferredAnalyzer.AccessModifierDiagnosticDescriptor.Id,
+            InferredAnalyzer.NewKeywordDiagnosticDescriptor.Id);
 
         public override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
@@ -32,9 +34,20 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                 {
                     context.RegisterCodeFix(
                         CodeAction.Create(
-                            title: "Infer access modifier",
+                            title: (ConfigManager.Configuration.Inferred?.AccessModifier?.IsInferred is true ? "Infer" : "Declare") + " access modifier",
                             createChangedDocument: ct => CorrectAccessModifierAsync(context.Document, /*diagnostic.AdditionalLocations.First(),*/ diagnostic.Properties, ct),
-                            equivalenceKey: "Infer access modifier"
+                            equivalenceKey: "Infer"
+                        ),
+                        diagnostic
+                    );
+                }
+                else if (diagnostic.Id == InferredAnalyzer.NewKeywordDiagnosticDescriptor.Id)
+                {
+                    context.RegisterCodeFix(
+                        CodeAction.Create(
+                            title: (ConfigManager.Configuration.Inferred?.Constructor?.IsInferred is true ? "Infer" : "Declare") + " object constructor",
+                            createChangedDocument: ct => CorrectNewKeywordAsync(context.Document, /*diagnostic.AdditionalLocations.First(),*/ diagnostic.Properties, ct),
+                            equivalenceKey: "Infer"
                         ),
                         diagnostic
                     );
@@ -97,6 +110,41 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
             };
             SyntaxNode newRoot = documentRoot.ReplaceNode(node, newNode);
             return document.WithSyntaxRoot(newRoot);
+        }
+
+        private async Task<Document> CorrectNewKeywordAsync(Document document, ImmutableDictionary<string, string> properties, CancellationToken ct)
+        {
+            if (ConfigManager.Configuration.Inferred?.Constructor is null
+                || await document.GetSyntaxRootAsync(ct) is not SyntaxNode documentRoot)
+                return document;
+
+            SyntaxToken? underlyingToken = null;
+            if (properties.ContainsKey("underlyingStart") || properties.ContainsKey("underlyingLength"))
+            {
+                if (!properties.TryGetValue("underlyingStart", out string? underlyingStartStr)
+                    || !int.TryParse(underlyingStartStr, out int underlyingStartValue)
+                    || !properties.TryGetValue("underlyingLength", out string? underlyingLengthStr)
+                    || !int.TryParse(underlyingLengthStr, out int underlyingLengthValue)) //Not needed for now.
+                    return document;
+
+                underlyingToken = documentRoot.FindToken(underlyingStartValue);
+                if (underlyingToken == default(SyntaxToken))
+                    return document;
+            }
+
+            if (ConfigManager.Configuration.Inferred.Constructor.IsInferred)
+            {
+                //Get constructor type.
+
+                //Replace constructor with implicit new.
+
+                //Replace the underlying token if it is a "var" keyword.
+            }
+            else
+            {
+            }
+
+            throw new NotImplementedException();
         }
     }
 }
