@@ -71,6 +71,7 @@ namespace ReadieFur.SourceAnalyzer.Core.Analyzers
                     TypeDeclarationSyntax typeDeclarationSyntax => typeDeclarationSyntax.Modifiers.FirstOrDefault(m => accessModifiers.Contains(m.Kind())).Kind(),
                     FieldDeclarationSyntax fieldDeclarationSyntax => fieldDeclarationSyntax.Modifiers.FirstOrDefault(m => accessModifiers.Contains(m.Kind())).Kind(),
                     MethodDeclarationSyntax methodDeclarationSyntax => methodDeclarationSyntax.Modifiers.FirstOrDefault(m => accessModifiers.Contains(m.Kind())).Kind(),
+                    PropertyDeclarationSyntax propertyDeclarationSyntax => propertyDeclarationSyntax.Modifiers.FirstOrDefault(m => accessModifiers.Contains(m.Kind())).Kind(),
                     _ => throw new InvalidOperationException()
                 };
             }

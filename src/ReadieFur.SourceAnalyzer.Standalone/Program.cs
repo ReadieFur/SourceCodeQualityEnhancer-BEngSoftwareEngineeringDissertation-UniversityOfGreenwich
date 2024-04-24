@@ -75,7 +75,7 @@ namespace ReadieFur.SourceAnalyzer.Standalone
                 };*/
 
                 //Get a solution to load from the user.
-#if RELEASE || (DEBUG && false)
+#if RELEASE || (DEBUG && true)
                 string path =
                     args.Length > 0 && (args[0].EndsWith(".sln") || args[0].EndsWith(".csproj")) && File.Exists(args[0])
                     ? args[0]
