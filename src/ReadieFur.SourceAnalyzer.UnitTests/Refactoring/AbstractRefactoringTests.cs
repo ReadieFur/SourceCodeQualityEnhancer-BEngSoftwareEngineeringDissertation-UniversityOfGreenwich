@@ -1,4 +1,6 @@
-﻿using Microsoft.Build.Locator;
+﻿#define LOAD_SOLUTION
+
+using Microsoft.Build.Locator;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.MSBuild;
@@ -23,6 +25,13 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Refactoring
                 //Setup MSBuild.
                 //For some reason MSBuildLocator wasn't working from within this test project so I will locate it manually for now.
                 MSBuildLocator.RegisterMSBuildPath("S:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin");
+
+#if LOAD_SOLUTION
+                workspace = MSBuildWorkspace.Create();
+                //Solution solution = await workspace.OpenSolutionAsync(GetSolutionPath() ?? throw new Exception("Could not find solution directory."));
+                Solution solution = await workspace.OpenSolutionAsync(
+                    "D:\\Users\\ReadieFur\\Documents\\GitHub\\ReadieFur\\University_Of_Greenwich-COMP1682-Final-Year-Project\\src\\ReadieFur.SourceAnalyzer.ExampleProject\\ReadieFur.SourceAnalyzer.ExampleProject.sln");
+#else
                 workspace = MSBuildWorkspace.Create();
 
                 Solution solution = workspace.CurrentSolution;
@@ -39,9 +48,10 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Refactoring
                     .WithParseOptions(new CSharpParseOptions(LanguageVersion.Latest)) //Set the language version to the latest.
                     .WithDocuments(sourceFilePaths.Select(filePath => DocumentInfo.Create(DocumentId.CreateNewId(projectId), filePath, filePath: filePath)));
                 solution = solution.AddProject(projectInfo);
+#endif
 
                 //Get the project.
-                Project project = solution.GetProject(projectId) ?? throw new Exception("Could not find project.");
+                Project project = solution.Projects.First() ?? throw new Exception("Could not find project.");
 
                 //Precompile to ensure there are no errors.
                 await Compile(project);
