@@ -28,5 +28,6 @@
         Punctuation_NewLine,
         Inferred_AccessModifier,
         Inferred_NewKeyword,
+        ObjectStructure_PropertiesAtTop,
     }
 }

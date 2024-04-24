@@ -74,5 +74,10 @@ namespace ReadieFur.SourceAnalyzer.UnitTests.Analyzers
         );
         [MTest] public async Task PunctuationNewLineAnalyzer() => await TestAnalyzer<PunctuationAnalyzer>("Punctuation_NewLine.cs", PunctuationNewLineAnalyzerCallback);
         [MTest] public async Task PunctuationNewLineFixProvider() => await TestFixProvider<PunctuationAnalyzer, PunctuationFixProvider>("Punctuation_NewLine.cs", PunctuationNewLineAnalyzerCallback, PunctuationCodeFixDiagnosticCallback);
+
+        private FileInterpreter.AnalyzerDiagnosticCallback PropertiesAtTopAnalyzerCallback => (_, _) => ObjectStructureAnalyzer.PropertiesAtTopDiagnosticDescriptor;
+        private FileInterpreter.CodeFixDiagnosticCallback PropertiesAtTopCodeFixCallback => (diagnosticDescriptor, _) => CSharpCodeFixVerifier<ObjectStructureAnalyzer, ObjectStructureFixProvider>.Diagnostic(diagnosticDescriptor);
+        [MTest] public async Task PropertiesAtTopAnalyzer() => await TestAnalyzer<ObjectStructureAnalyzer>("ObjectStructure_PropertiesAtTop.cs", PropertiesAtTopAnalyzerCallback);
+        [MTest] public async Task PropertiesAtTopFixProvider() => await TestFixProvider<ObjectStructureAnalyzer, ObjectStructureFixProvider>("ObjectStructure_PropertiesAtTop.cs", PropertiesAtTopAnalyzerCallback, PropertiesAtTopCodeFixCallback);
     }
 }

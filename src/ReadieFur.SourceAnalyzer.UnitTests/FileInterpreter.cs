@@ -154,7 +154,8 @@ namespace ReadieFur.SourceAnalyzer.UnitTests
                 string analyzerStartPart = AnalyzerInput.Substring(0, analyzerInputOffset + analyzerSubInputOffset);
                 string analyzerEndPart = AnalyzerInput.Substring(0, analyzerInputOffset + analyzerSubInputOffset + analyzerSubInput.Length);
                 int analyzerStartLine = analyzerEndPart.Count(c => c == '\n') + 1;//The analyzer uses 1-based indexing.
-                int analyzerStartColumn = analyzerSubInputOffset + 1;
+                //int analyzerStartColumn = analyzerSubInputOffset + 1;
+                int analyzerStartColumn = analyzerEndPart.Split('\n').Last().IndexOf(analyzerSubInput) + 1; //TODO: Temporary fix for multi-line sub-inputs.
                 int analyzerEndLine = analyzerEndPart.Count(c => c == '\n') + 1;
                 int analyzerEndColumn = analyzerEndPart.Split('\n').Last().Length; //TODO: Needs updating to match the sub-input.
                 DiagnosticResult analyzerDiagnosticResult = new DiagnosticResult(descriptor)

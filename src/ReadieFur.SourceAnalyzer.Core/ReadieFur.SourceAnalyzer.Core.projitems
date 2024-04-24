@@ -21,6 +21,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\InferredFixProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\NamingAnalyzer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\NamingFixProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\ObjectStructureAnalyzer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\ObjectStructureFixProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\PunctuationAnalyzer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Analyzers\PunctuationFixProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cs" />
@@ -28,6 +30,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\Indentation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\Inferred.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\InferredBlock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\ObjectStructure.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\PropertyBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\ConfigManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\ConfigRoot.cs" />

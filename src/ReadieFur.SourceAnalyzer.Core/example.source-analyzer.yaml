@@ -58,6 +58,8 @@ formatting:
         tokens:
           - "&&"
           - "||"
+  object_structure:
+    properties_at_top: true
 inferred:
   access_modifier:
     mode: "explicit"
