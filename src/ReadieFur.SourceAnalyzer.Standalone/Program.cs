@@ -75,10 +75,14 @@ namespace ReadieFur.SourceAnalyzer.Standalone
                 };*/
 
                 //Get a solution to load from the user.
+#if RELEASE || (DEBUG && false)
                 string path =
                     args.Length > 0 && (args[0].EndsWith(".sln") || args[0].EndsWith(".csproj")) && File.Exists(args[0])
                     ? args[0]
                     : Helpers.GetSolution();
+#else
+                string path = Helpers.GetSolution();
+#endif
                 Console.WriteLine($"Loading solution '{path}'");
 
                 //Attach progress reporter so we print projects as they are loaded.
