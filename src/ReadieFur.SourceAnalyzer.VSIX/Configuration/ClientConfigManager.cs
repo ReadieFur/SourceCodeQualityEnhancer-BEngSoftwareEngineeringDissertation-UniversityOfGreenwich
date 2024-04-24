@@ -18,7 +18,7 @@ namespace ReadieFur.SourceAnalyzer.VSIX.Configuration
 
                 //Wait for the configuration to be received.
                 string path = ReadSharedMemory(
-#if !DEBUG
+#if !DEBUG && false
                     5000 //Allow up to x milliseconds for the configuration to be received, it it takes any longer, assume it failed.
 #endif
                 );
