@@ -400,3 +400,13 @@ src/ReadieFur.SourceAnalyzer.VSIX/Resources/Thumbs.db
 
 .stignore
 *.sync-conflict*
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.bst
+*.idx
+*.ilg
+*.ind
