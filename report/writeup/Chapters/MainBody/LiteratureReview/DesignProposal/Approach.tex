@@ -1,2 +1,24 @@
 % Design
 % Describe your approach to design.
+\subsubsection{Overview}
+The task will be to create a tool that can analyze source code and reformat it such that it makes use of object oriented programming principles in combination with design patterns to create a well structured and higher quality codebase from a pre-existing codebase. In order to do this, use will be made of various static code analysis techniques.
+
+For this task the C\# language will be used. This is a suitable choice as this is object oriented and is popular in the industry, as well as having many features that can be used to create a well structured codebase.
+
+In order for the tool to work a codebase will need to be provided as well as a set of rules to adhere to, however as noted, there is no standardized way to measure software quality. \cite{8681007} proposed definition of software quality is "the degree of conformance to explicit or implicit requirements and expectations". This definition for the project by allowing a user to define a schema that sets the requirements and expectations of the codebase. This way an individual or team can define their own standards and then use this tool to enforce those standards.
+
+The output of this tool will attempt to provide a reformatted codebase that adheres to the set schema. In addition to this, a report can be produced. The report will contain information about the codebase such as UML diagrams as a visual overview of the codebase as well as documentation. This is another important metric because it can allow developers to get an overview of the codebase so they can more easily figure out what a program does and how it works, which can then save time and money when it comes to maintaining and migrating a codebase between developers and teams.
+
+\subsubsection{Techinical Details}
+% TODO: Briefly discuss techniques and technical details of how I will achieve this.
+Static code analysis is the process of analyzing source code without executing it \citep{8802820}. \cite{owasp/StaticCodeAnalysis} discuss various methods for static code analysis, some of which include: Data Flow Analysis \citep{owasp/StaticCodeAnalysis} and Lexical Analysis \citep{owasp/StaticCodeAnalysis}.
+
+There are also various ways of representing the data that is collected from the static code analysis. One way is to use an Abstract Syntax Tree \citep{8802820} and another is to use a Node Graph.
+
+Node graphs can be used to represent the the links between classes and data within a program. By using a node graph it is possible to see how data is linked between classes and methods. This also gives us the ability to build a UML diagram to present to the user.
+
+Abstract syntax trees (ASTs) can be used to represent the structure and flow of how a program works \citep{8802820}. Abstract Syntax Trees could be used to break down the flow and instructions of a program. This can be used to detect code smells such as duplicated code, long methods, poor flow control, cyclical dependencies, etc.
+
+By combining the use of ASTs and node graphs an algorithm can be made to detect the relationship between classes and methods as well as the flow of the program, then the algorithm can decide how to modify and restructure the source code. It is important that both relation and flow are taken into consideration when refactoring the source code otherwise the algorithm may worsen the code by creating code smells such as god classes, or removing data that is required by other classes.
+
+YAML is a good candidate for providing the schema to the tool as it is a human friendly data format, another options is JSON however this format is not as human friendly. YAML will allow the user to define their own schema that the tool will then attempt to adhere to. The schema will allow for the definition of things such as: Naming conventions; Use of OOP principles; Code deduplication; etc.
