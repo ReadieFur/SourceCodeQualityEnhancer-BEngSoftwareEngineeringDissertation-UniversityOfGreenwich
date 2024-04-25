@@ -1,0 +1,166 @@
+### Project proposal
+- Title of degree
+- Provisional title
+- Introduction
+- Problem domain
+- Methodology
+- Evaluation
+- References
+
+### Contextual report
+- Abstract
+- Table of contents
+- Introduction
+  - Background
+  - Aims and objectives
+  - Approach
+- Literature review
+  - Approach to literature searching
+  - Identifying the problem
+  - Conclusions
+- Product research
+- Review/comparison
+- Legal, social, ethical, professional issues and considerations
+- *Requirements*
+  - *Analysis of requirements*
+  - *Requirements elicitation*
+  - *Functional requirements*
+  - *Non-functional requirements*
+- *Design*
+- *Prototype*
+  - *Review of technology*
+- *Bibliography*
+- *Appendices*
+
+### Report structure
+- Title page
+- Abstract
+- Preface
+- Acknowledgements
+- Table of contents (including appendices)
+- List of tables
+- List of figures
+- Introduction
+- Literature review
+- Main chapters
+  - Analysis and requirements specification
+  - Design
+  - Testing and integration
+  - Product evaluation
+- Closing chapters
+- List of references
+- Appendices
+
+### Combined report
+- Title page
+  - Project title
+  - Name
+  - Date of submission
+  - Project supervisors
+  - Title of the undergraduate programme
+- Abstract
+  - *Occupying less than half a page, is a short description of the intention of the project.*
+- Preface
+  - *Describe the context of the project, and the main idea behind work, without giving details.*
+- Acknowledgements
+  - *Acknowledge any substantial help, with either the project work or the report, from people and other informal sources.*
+- Table of contents
+  - *The report should be divided into chapters each of which may be divided into sections which may again be divided into subsections and so on.*
+  - *Each chapter and numbered section should have a title, and the contents page should list the most significant of these.*
+- List of tables
+  - *If the report includes tables, then a list of tables should follow the table of contents using their reference ID.*
+- List of figures
+  - *If the report includes figures, then a list of figures should follow the list of tables using their reference ID.*
+- Main body
+  - *Each chapter should start on a new page. Chapter headings should appear more important than section headings. The following usually have one or more chapters devoted to them.*
+  - Introduction
+    - *The introduction should set the scene for the project, and give the background to the project. It should also state the objectives of the project.*
+    - Background
+      - *The background should describe the context of the project, and the main idea behind the work, without giving details.*
+    - Aims and objectives
+      - *The aims and objectives should describe the purpose of the project, and what it is intended to achieve.*
+    - Approach
+      - *The approach should describe how the project will be carried out, and what methods will be used.*
+    - Justification of the suitability of a Methodology or a Framework followed.
+      - *Justify the choice of methodology or framework followed in the project.*
+  - Literature review
+    - *The literature review should describe the current state of the art in the area of the project, and what work has been done in the area.*
+    - Approach to literature searching
+      - *Discuss where you have looked, what you have looked for, and what sources were used.*
+    - Identifying the problem
+      - *Describe the problem that you are trying to solve, and why it is important.*
+      - *This will hopefully expand what you have looked for into what you have found*
+    - Review of the literature
+      - *Review the literature that you have found, and discuss what you have found.*
+      - *This is not a review of technology; it should be a review of literature. Do not simply summarize each source in sequence.*
+      - *Your literature review should not be a compilation of facts and feelings but a coherent argument that leads into the description of the proposed study.*
+    - Conclusions
+      - *Conclude the literature review, and discuss what you have found.*
+    - Product research
+      - *Comparing of similar products or platforms against a set criteria for Usability purpose.*
+    - Legal, social, ethical, professional issues and considerations
+      - *You may find it helpful to include a list of all applicable laws and perhaps other laws that you have considered and excluded, with reasons why they do not apply, if appropriate. It is generally not a good idea to decompose this section into sections labelled as ‘Legal’, ‘Social’, and so on as these aspects are intimately related.*
+    - Requirements
+      - Analysis of requirements
+        - *Discuss the requirements of the project, and what is needed to complete the project.*
+      - Comparison of  systems
+        - *For some projects there may be similar existing systems. This would be a good place to identify these, compare them and elicit requirements from them.*
+      - Requirements elicitation
+        - *Perhaps you have conducted some actual research with questionnaires and interviews and such like (having obtained research ethics clearance of course). This would be a good place to discuss this.*
+      - Functional requirements
+        - *A clear statement of functional requirements is the starting point for your design. Without this you will look foolish.*
+      - Non-functional requirements
+        - *Clear statement of non-functional requirements. It may be an idea here to refer back to your earlier LSEPi section as compliance is likely to (and should) be an important aspect here.*
+    - Design
+      - *Describe your approach to design.*
+    - Prototype
+      - *Describe your prototype. Prototypes may be functional or theoretical.*
+      - Review of technology
+        - *If you need to review technologies this is perhaps the place to do it. Perhaps you need a data base, in which case state what database engines have you considered, which have you decided to use and for what reason. Perhaps you need an app, in which case you could, for example, state which development frameworks are available, compare and contrast all, select 3 for detailed comparison, choose one and state why you have made this choice.*
+    - Reflection
+      - *Wrap the whole thing up with some conclusions. A reflective approach is increasingly popular but many students struggle with introducing a critical personal perspective.*
+  - Analysis and requirements specification
+    - *This chapter should describe the analysis and requirements specification of the project.*
+    - *What is needed to complete the project?*
+    - *What are the requirements of the project?*
+    - *What are the functional requirements of the project?*
+    - *What are the non-functional requirements of the project?*
+    - *What are the design requirements of the project?*
+    - *What are the testing requirements of the project?*
+    - *What are the evaluation requirements of the project?*
+  - Design
+    - *This chapter should describe the design of the project.*
+    - *What is the design of the project? What is it intended to achieve?*
+    - *How should I go about undertaking the project?*
+    - *What are the design principles and patterns that I should follow?*
+    - *What are the design requirements of the project?*
+  - Testing and integration
+    - *This chapter should describe the testing and integration of the project.*
+    - *What is the testing and integration of the project? What is it intended to achieve?*
+    - *How should I go about testing and integrating the project?*
+    - *What are the testing requirements of the project?*
+    - *What did I actually do?*
+    - *What did I need to do differently from my initial plan?*
+  - Product evaluation
+    - *This chapter should describe the evaluation of the project.*
+    - *How did the project perform?*
+    - *Did it perform as expected/accomplish its goals?*
+    - *What issues arose during the project?*
+- Closing chapters
+  - *The closing chapters commonly include a summary and a conclusion together with any recommendations. In summarizing, highlight the important stages and outcomes of the project. The conclusions would normally consider and comment critically upon the results of the project; this includes both the process and the product.  This should include a consideration of the extent to which the aims of the project have been achieved. Finally, recommend ways in which the work could be applied or extended.*
+  - Summary
+    - *What were its flaws?*
+    - *Did it do what I wanted it to do?*
+  - Conclusion
+    - *How did the project go?*
+    - *What did I learn?*
+    - *What would I do differently next time?*
+    - *How could the project be taken further?*
+  - List of references
+    - *References should be ordered alphabetically by the name of the author, or, if there is more than one, the name of the first author. The Harvard system is used (more information is available on the project website) and each reference should state the author’s name and initials, date (in parentheses), title, publisher, and place of issue (if known).*
+    - *Appropriate references should also be included if material has been used from lecture notes that have been written by members of staff, from previous students’ project reports, or from laboratory manuals. These should cite the programme and course title together with the date of the course instance and the full name of the lecturer concerned.*
+    - *References mentioned in the text of the report should be cited by the name of author and the date, inside parentheses.*
+    - *If you fail to properly cite sources of information you will lay yourself open to accusations of plagiarism.*
+  - Appendices
+    - *This should include detailed and technical documentation such as table of results, diagrams, program source code, etc, which are essential parts of the project but not directly a part of the main discussion in the report.  All contents of appendices should be exclusively, products of the student’s own work.*
+    - *Other materials used during the project work (such as information from user manuals, interview notes, etc), which it is necessary to include, should if possible be summarized to only a few pages before entering into the appendix. Original copies of such material should be kept by the student and may be required to be produced as supporting evidence of their work.  Examples of key coding may be provided in an Appendix but generally it should be on the P drive with its associated software.*
