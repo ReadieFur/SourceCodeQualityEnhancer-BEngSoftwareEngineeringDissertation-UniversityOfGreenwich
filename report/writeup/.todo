@@ -5,12 +5,16 @@ Introductory:
         ✔ Date of submission @done(24-04-26 01:38)
         ✔ Project supervisors @done(24-04-26 01:38)
         ✔ Title of the undergraduate programme @done(24-04-26 01:38)
-    Abstract:
-    Preface:
-    Acknowledgements:
+    - Abstract
+        Occupying less than half a page, is a short description of the intention of the project.
+    - Preface
+        Describe the context of the project, and the main idea behind work, without giving details.
+    - Acknowledgements
+        Acknowledge any substantial help, with either the project work or the report, from people and other informal sources.
     ✔ Table of contents
 
 Introduction:
+    The introduction should set the scene for the project, and give the background to the project. It should also state the objectives of the project.
     - Background
     Aims and objectives:
         - Aims
@@ -20,37 +24,71 @@ Introduction:
     - Justification
 
 Literature Review:
+    The literature review should describe the current state of the art in the area of the project, and what work has been done in the area.
     Introduction:
+        Discuss where you have looked, what you have looked for, and what sources were used.
         - More detail
     Problem domain:
         - Expand on the problem domain
+        Describe the problem that you are trying to solve, and why it is important.
+        This will hopefully expand what you have looked for into what you have found.
     Review:
+        Review the literature that you have found, and discuss what you have found.
+        This is not a review of technology; it should be a review of literature. Do not simply summarize each source in sequence.
+        Your literature review should not be a compilation of facts and feelings but a coherent argument that leads into the description of the proposed study.
         - What do I need to research
         - What can I already do
     Conclusions:
+        Conclude the literature review, and discuss what you have found.
         - How should the system work
 
 Methodology:
     Related work:
+        Comparing of similar products or platforms against a set criteria for Usability purpose.
+        - What has been done
         - Defining software quality
     Considerations:
+        You may find it helpful to include a list of all applicable laws and perhaps other laws that you have considered and excluded, with reasons why they do not apply, if appropriate. It is generally not a good idea to decompose this section into sections labelled as 'Legal', 'Social', and so on as these aspects are intimately related.
         - Software quality attributes
         - Software quality metrics
         - Software quality models
         - What is not possible and why
     Requirements:
+        Analysis of requirements
+        Discuss the requirements of the project, and what is needed to complete the project.
+        Comparison of systems
+        For some projects there may be similar existing systems. This would be a good place to identify these, compare them and elicit requirements from them.
+        Requirements elicitation
+        Perhaps you have conducted some actual research with questionnaires and interviews and such like (having obtained research ethics clearance of course). This would be a good place to discuss this.
+        Functional requirements
+        A clear statement of functional requirements is the starting point for your design. Without this you will look foolish.
+        Non-functional requirements
+        Clear statement of non-functional requirements. It may be an idea here to refer back to your earlier LSEPi section as compliance is likely to (and should) be an important aspect here.
         - Functional requirements
         - Non-functional requirements
 
 Design approach:
+    Describe your approach to design.
     - Overview
     - Techinial details
     - Prototypes
+        Describe your prototype. Prototypes may be functional or theoretical.
+        Review of technology
+        If you need to review technologies this is perhaps the place to do it. Perhaps you need a data base, in which case state what database engines have you considered, which have you decided to use and for what reason. Perhaps you need an app, in which case you could, for example, state which development frameworks are available, compare and contrast all, select 3 for detailed comparison, choose one and state why you have made this choice.
     Reflection:
+        Wrap the whole thing up with some conclusions. A reflective approach is increasingly popular but many students struggle with introducing a critical personal perspective.
         - Further research
 
 Project management:
-    Evaluation:
+    Analysis and evaluation:
+        This chapter should describe the analysis and requirements specification of the project.
+        - What is needed to complete the project?
+        - What are the requirements of the project?
+        - What are the functional requirements of the project?
+        - What are the non-functional requirements of the project?
+        - What are the design requirements of the project?
+        - What are the testing requirements of the project?
+        - What are the evaluation requirements of the project?
         - What is the project
         - What is the project not
         - What is the project trying to achieve
@@ -64,13 +102,22 @@ Project management:
         - Work breakdown structure
         - How will I maintain the project
     Design philosophy:
+        This chapter should describe the design of the project.
+        - What is the design of the project? What is it intended to achieve?
+        - How should I go about undertaking the project?
+        - What are the design principles and patterns that I should follow?
+        - What are the design requirements of the project?
         - Object oriented programming principles and design patterns
 
 Integration and testing:
     Integration:
+        This chapter should describe the testing and integration of the project.
         Before integration:
+            - What are the testing requirements of the project?
+            - How should I go about testing and integrating the project?
             - What existing technologies can I use to enhance the project
             - What possible issues could arise
+            - What is the testing and integration of the project? What is it intended to achieve?
             How does the system work:
                 - Inputs
                 - Outputs
@@ -83,6 +130,8 @@ Integration and testing:
                 - Formatting
                 - YAML configuration
         After integration:
+            - What did I actually do?
+            - What did I need to do differently from my initial plan?
             - What did I have to change
             - What did I have to add
             - What could I not do that I originally wanted to
@@ -95,9 +144,10 @@ Integration and testing:
             - What did I test
             - How did I test it
     Results:
-        - What did I find
-        - What did I not find
-        - What did I expect to find
+        This chapter should describe the evaluation of the project.
+        - How did the project perform?
+        - Did it perform as expected/accomplish its goals?
+        - What issues arose during the project?
     Reflection:
         - What did I learn
         - What could I have done better
@@ -105,14 +155,15 @@ Integration and testing:
 
 Closing chapters:
     Summary:
-        - What did I do
-        - What did I not do
-        - What did I learn
+        - What were its flaws?
+        - Did it do what I wanted it to do?
     Conclusion:
-        - What did I achieve
-        - What did I not achieve
-        - What could I have done better
+        - How did the project go?
+        - What did I learn?
+        - What would I do differently next time?
     Future work:
-        - What could be done if the project was taken further
+        - How could the project be taken further?
     ✔ References
     - Appendices
+        This should include detailed and technical documentation such as table of results, diagrams, program source code, etc, which are essential parts of the project but not directly a part of the main discussion in the report.  All contents of appendices should be exclusively, products of the student's own work.
+        Other materials used during the project work (such as information from user manuals, interview notes, etc), which it is necessary to include, should if possible be summarized to only a few pages before entering into the appendix. Original copies of such material should be kept by the student and may be required to be produced as supporting evidence of their work.  Examples of key coding may be provided in an Appendix but generally it should be on the P drive with its associated software.
