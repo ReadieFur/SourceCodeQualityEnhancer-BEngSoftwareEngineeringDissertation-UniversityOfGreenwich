@@ -8,6 +8,16 @@
 \usepackage{blindtext}
 \usepackage{titlesec}
 
+\renewcommand{\bibsection}{}
+
+% https://tex.stackexchange.com/questions/132646/how-to-remove-the-references-title
+% \usepackage[style=agsm]{biblatex}
+% \addbibresource{bibliography.bib}
+
+% % https://tex.stackexchange.com/questions/132646/how-to-remove-the-references-title
+% \usepackage{etoolbox}
+% \patchcmd{\thebibliography}{\section*{\refname}}{}{}{}
+
 \usepackage{geometry}
 \geometry{
     margin=1in, % 2.5cm CIS = 1in
@@ -21,9 +31,31 @@
 % \setcounter{secnumdepth}{2}
 % \setcounter{tocdepth}{2}
 
+% https://tex.stackexchange.com/questions/604927/how-to-use-chapter-in-article-class
+%Add chapter functionality in article class
+\usepackage[]{hyperref}
+% \newcounter{Chapcounter}
+% \newcommand\showmycounter{\addtocounter{Chapcounter}{1}\themycounter}
+% \newcommand{\chapter}[1] 
+% { {\centering          
+%   \addtocounter{Chapcounter}{1} \Large \underline{\textbf{ \color{blue} Chapter \theChapcounter: ~#1}} }   
+%   \addcontentsline{toc}{section}{ \color{blue} Chapter:~\theChapcounter~~ #1}    
+% }
+% \hypersetup{colorlinks=false}
+% \hypersetup{linkcolor=black}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=black,
+    urlcolor=black,
+    pdfborder={0 0 0}, % No border around links
+}
+
 \begin{document} %start the document
 
+% \chapter{Introductory}
 \import{./Chapters/Introductory/}{TitlePage.tex}
+% \section*{Introductory}
 \import{./Chapters/Introductory/}{AbstractAndPreface.tex}
 \import{./Chapters/Introductory/}{Acknowledgements.tex}
 \import{./Chapters/Introductory/}{Index.tex}
@@ -31,6 +63,7 @@
 \newpage
 % Each chapter should start on a new page. Chapter headings should appear more important than section headings. The following usually have one or more chapters devoted to them.
 % The introduction should set the scene for the project, and give the background to the project. It should also state the objectives of the project.
+\section{Introduction}
 \import{./Chapters/MainBody/Introduction/}{Background.tex}
 \import{./Chapters/MainBody/Introduction/}{AimsAndObjectives.tex}
 \import{./Chapters/MainBody/Introduction/}{Approach.tex}
@@ -38,32 +71,38 @@
 
 \newpage
 % The literature review should describe the current state of the art in the area of the project, and what work has been done in the area.
+\section{Literature review}
 \import{./Chapters/MainBody/LiteratureReview/InitialResearch/}{Approach.tex}
 \import{./Chapters/MainBody/LiteratureReview/InitialResearch/}{Problem.tex}
 \import{./Chapters/MainBody/LiteratureReview/InitialResearch/}{LiteratureReview.tex}
 \import{./Chapters/MainBody/LiteratureReview/InitialResearch/}{Conclusions.tex}
 
 \newpage
+\section{Product research}
 \import{./Chapters/MainBody/LiteratureReview/ProductResearch/}{ExistingSolutions.tex}
 \import{./Chapters/MainBody/LiteratureReview/ProductResearch/}{Considerations.tex}
 \import{./Chapters/MainBody/LiteratureReview/ProductResearch/}{Requirements.tex}
 
 \newpage
+\section{Design proposal}
 \import{./Chapters/MainBody/LiteratureReview/DesignProposal/}{Approach.tex}
 \import{./Chapters/MainBody/LiteratureReview/DesignProposal/}{Prototypes.tex}
 \import{./Chapters/MainBody/LiteratureReview/DesignProposal/}{Reflection.tex}
 
 \newpage
+\section{Project management}
 \import{./Chapters/MainBody/}{AnalysisAndRequirements.tex}
 \import{./Chapters/MainBody/}{DesignPhilosophy.tex}
 
 \newpage
+\section{Integration and testing}
 \import{./Chapters/MainBody/IntegrationAndTesting/}{Integration.tex}
 \import{./Chapters/MainBody/IntegrationAndTesting/}{Testing.tex}
 \import{./Chapters/MainBody/IntegrationAndTesting/}{ProductEvaluation.tex}
 
 \newpage
 % The closing chapters commonly include a summary and a conclusion together with any recommendations. In summarizing, highlight the important stages and outcomes of the project. The conclusions would normally consider and comment critically upon the results of the project; this includes both the process and the product.  This should include a consideration of the extent to which the aims of the project have been achieved. Finally, recommend ways in which the work could be applied or extended.
+\section{Closing chapters} %TODO: Change this title.
 \import{./Chapters/ClosingChapters/}{SummaryAndConclusion.tex}
 \import{./Chapters/ClosingChapters/}{References.tex}
 \import{./Chapters/ClosingChapters/}{Appendices.tex}
