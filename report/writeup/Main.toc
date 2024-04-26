@@ -18,17 +18,17 @@
 \contentsline {subsubsection}{\numberline {2.3.1}Overview}{6}{subsubsection.2.3.1}%
 \contentsline {subsubsection}{\numberline {2.3.2}Techinical details}{6}{subsubsection.2.3.2}%
 \contentsline {subsubsection}{\numberline {2.3.3}Prototypes}{7}{subsubsection.2.3.3}%
-\contentsline {subsubsection}{\numberline {2.3.4}Reflection}{7}{subsubsection.2.3.4}%
-\contentsline {subsubsection}{\numberline {2.3.5}Further research}{7}{subsubsection.2.3.5}%
-\contentsline {section}{\numberline {3}Project development}{8}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Evaluation}{8}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}Design philosophy}{8}{subsection.3.2}%
-\contentsline {subsubsection}{\numberline {3.2.1}Object oriented programming principles and design patterns}{8}{subsubsection.3.2.1}%
-\contentsline {subsection}{\numberline {3.3}Integration}{9}{subsection.3.3}%
-\contentsline {subsection}{\numberline {3.4}Testing}{9}{subsection.3.4}%
-\contentsline {subsection}{\numberline {3.5}Product evaluation}{9}{subsection.3.5}%
-\contentsline {section}{\numberline {4}Closing chapters}{10}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Summary}{10}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Conclusion}{10}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}References}{10}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4}Appendices}{11}{subsection.4.4}%
+\contentsline {subsubsection}{\numberline {2.3.4}Reflection}{8}{subsubsection.2.3.4}%
+\contentsline {subsubsection}{\numberline {2.3.5}Further research}{8}{subsubsection.2.3.5}%
+\contentsline {section}{\numberline {3}Project development}{9}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Evaluation}{9}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Design philosophy}{9}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}Object oriented programming principles and design patterns}{9}{subsubsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.3}Integration}{10}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Testing}{10}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Product evaluation}{10}{subsection.3.5}%
+\contentsline {section}{\numberline {4}Closing chapters}{11}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Summary}{11}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Conclusion}{11}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}References}{11}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Appendices}{12}{subsection.4.4}%

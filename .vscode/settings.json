@@ -10,7 +10,9 @@
         "Checkstyle",
         "Codacy",
         "cyclomatic",
-        "positionings"
+        "nessecaraly",
+        "positionings",
+        "POSIX"
     ],
     "files.exclude": {
         "**/.git": true,
