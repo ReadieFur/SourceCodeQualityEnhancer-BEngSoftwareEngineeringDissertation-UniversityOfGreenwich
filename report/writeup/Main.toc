@@ -8,18 +8,17 @@
 \contentsline {subsection}{\numberline {2.2}Problem domain}{4}{subsection.2.2}%
 \contentsline {subsection}{\numberline {2.3}Review}{5}{subsection.2.3}%
 \contentsline {subsection}{\numberline {2.4}Conclusions}{5}{subsection.2.4}%
-\contentsline {section}{\numberline {3}Product research}{6}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Existing solutions}{6}{subsection.3.1}%
+\contentsline {section}{\numberline {3}Methodology}{6}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Related work}{6}{subsection.3.1}%
 \contentsline {subsubsection}{\numberline {3.1.1}Defining software quality}{6}{subsubsection.3.1.1}%
 \contentsline {subsection}{\numberline {3.2}Considerations}{6}{subsection.3.2}%
 \contentsline {subsection}{\numberline {3.3}Requirements}{6}{subsection.3.3}%
-\contentsline {section}{\numberline {4}Design proposal}{7}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Approach}{7}{subsection.4.1}%
-\contentsline {subsubsection}{\numberline {4.1.1}Overview}{7}{subsubsection.4.1.1}%
-\contentsline {subsubsection}{\numberline {4.1.2}Techinical details}{7}{subsubsection.4.1.2}%
-\contentsline {subsection}{\numberline {4.2}Prototypes}{8}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}Reflection}{8}{subsection.4.3}%
-\contentsline {subsubsection}{\numberline {4.3.1}Further research}{8}{subsubsection.4.3.1}%
+\contentsline {section}{\numberline {4}Design approach}{7}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Overview}{7}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Techinical details}{7}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Prototypes}{8}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Reflection}{8}{subsection.4.4}%
+\contentsline {subsubsection}{\numberline {4.4.1}Further research}{8}{subsubsection.4.4.1}%
 \contentsline {section}{\numberline {5}Project management}{9}{section.5}%
 \contentsline {subsection}{\numberline {5.1}Evaluation}{9}{subsection.5.1}%
 \contentsline {subsection}{\numberline {5.2}Design philosophy}{9}{subsection.5.2}%

@@ -1,0 +1,63 @@
+Introductory:
+    Title page:
+        ✔ Project title @done(24-04-26 01:38)
+        ✔ Name @done(24-04-26 01:38)
+        ✔ Date of submission @done(24-04-26 01:38)
+        ✔ Project supervisors @done(24-04-26 01:38)
+        ✔ Title of the undergraduate programme @done(24-04-26 01:38)
+    Abstract:
+    Preface:
+    Acknowledgements:
+    ✔ Table of contents
+
+Introduction:
+    - Background
+    Aims and objectives:
+        - Aims
+        - Objectives
+        - Scope
+    - Project overview
+    - Justification
+
+Literature Review:
+    - Introduction
+    - Problem domain
+    - Review
+    - Conclusions
+
+Methodology:
+    - Related work
+        - Defining software quality
+    - Considerations
+        - Software quality attributes
+        - Software quality metrics
+        - Software quality models
+    - Requirements
+        - Functional requirements
+        - Non-functional requirements
+
+Design approach:
+    - Overview
+    - Techinial details
+    - Prototypes
+    - Reflection
+        - Further research
+
+Project management:
+    - Evaluation
+    - Planning
+    - Design philosophy
+        - Object oriented programming principles and design patterns
+
+Integration and testing:
+    - Integration
+    - Testing
+    - Results
+    - Reflection
+
+Closing chapters:
+    - Summary
+    - Conclusion
+    - Future work
+    ✔ References
+    - Appendices
