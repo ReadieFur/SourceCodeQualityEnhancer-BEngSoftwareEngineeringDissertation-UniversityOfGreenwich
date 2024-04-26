@@ -26,5 +26,9 @@
         "**/*.log": true,
         "**/*.synctex.gz": true,
         "**/*.bst": true,
+        "**/*.lof": true,
+        "**/*.lot": true,
+        "**/*.out": true,
+        "**/*.toc": true,
     }
 }

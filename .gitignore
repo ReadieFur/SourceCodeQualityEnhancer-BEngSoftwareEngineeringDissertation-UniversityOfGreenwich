@@ -410,3 +410,7 @@ src/ReadieFur.SourceAnalyzer.VSIX/Resources/Thumbs.db
 *.idx
 *.ilg
 *.ind
+*.lof
+*.lot
+*.out
+*.toc
