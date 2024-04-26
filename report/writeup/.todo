@@ -20,19 +20,25 @@ Introduction:
     - Justification
 
 Literature Review:
-    - Introduction
-    - Problem domain
-    - Review
-    - Conclusions
+    Introduction:
+        - More detail
+    Problem domain:
+        - Expand on the problem domain
+    Review:
+        - What do I need to research
+        - What can I already do
+    Conclusions:
+        - How should the system work
 
 Methodology:
-    - Related work
+    Related work:
         - Defining software quality
-    - Considerations
+    Considerations:
         - Software quality attributes
         - Software quality metrics
         - Software quality models
-    - Requirements
+        - What is not possible and why
+    Requirements:
         - Functional requirements
         - Non-functional requirements
 
@@ -40,24 +46,73 @@ Design approach:
     - Overview
     - Techinial details
     - Prototypes
-    - Reflection
+    Reflection:
         - Further research
 
 Project management:
-    - Evaluation
-    - Planning
-    - Design philosophy
+    Evaluation:
+        - What is the project
+        - What is the project not
+        - What is the project trying to achieve
+    Planning:
+        - How will I work with the time available
+        - Risk management
+        Gantt chart:
+            - Deliverables
+            - Research
+        - Product breakdown structure
+        - Work breakdown structure
+        - How will I maintain the project
+    Design philosophy:
         - Object oriented programming principles and design patterns
 
 Integration and testing:
-    - Integration
-    - Testing
-    - Results
-    - Reflection
+    Integration:
+        Before integration:
+            - What existing technologies can I use to enhance the project
+            - What possible issues could arise
+            How does the system work:
+                - Inputs
+                - Outputs
+                - Processes
+        During integration:
+            - What problems did I encounter
+            - How did I solve them
+            Source code features:
+                - Custom regex engine
+                - Formatting
+                - YAML configuration
+        After integration:
+            - What did I have to change
+            - What did I have to add
+            - What could I not do that I originally wanted to
+    Testing:
+        Theory:
+            - What is testing
+            - How can I test the system
+            - What is the expected outcome
+        Practice:
+            - What did I test
+            - How did I test it
+    Results:
+        - What did I find
+        - What did I not find
+        - What did I expect to find
+    Reflection:
+        - What did I learn
+        - What could I have done better
+        - What would I do differently
 
 Closing chapters:
-    - Summary
-    - Conclusion
-    - Future work
+    Summary:
+        - What did I do
+        - What did I not do
+        - What did I learn
+    Conclusion:
+        - What did I achieve
+        - What did I not achieve
+        - What could I have done better
+    Future work:
+        - What could be done if the project was taken further
     ✔ References
     - Appendices
