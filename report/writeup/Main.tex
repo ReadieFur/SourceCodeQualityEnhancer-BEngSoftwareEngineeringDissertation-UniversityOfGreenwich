@@ -10,7 +10,16 @@
 \usepackage{float}
 \usepackage{wrapfig}
 \usepackage{etoolbox}
+% https://tex.stackexchange.com/questions/60209/how-to-add-an-extra-level-of-sections-with-headings-below-subsubsection
 \usepackage{multirow}
+\usepackage{titlesec}
+
+% \setcounter{secnumdepth}{4}
+% \setcounter{tocdepth}{4}
+
+% https://tex.stackexchange.com/questions/32160/new-line-after-paragraph
+% \newcommand{\subsubsubsection}[1]{\paragraph{#1}\mbox{}\\}
+\newcommand{\subsubsubsection}[1]{\paragraph{#1}}
 
 \renewcommand{\bibsection}{}
 
@@ -102,11 +111,14 @@
 % \newpage
 % \section{Integration and testing}
 \import{./Chapters/MainBody/IntegrationAndTesting/}{Integration.tex}
-\import{./Chapters/MainBody/IntegrationAndTesting/}{Testing.tex}
+\import{./Chapters/MainBody/IntegrationAndTesting/}{YAML.tex}
+\import{./Chapters/MainBody/IntegrationAndTesting/}{NamingEngine.tex}
+\import{./Chapters/MainBody/IntegrationAndTesting/}{Formatting.tex}
+\import{./Chapters/MainBody/IntegrationAndTesting/}{LanguageFeatures.tex}
 \import{./Chapters/MainBody/IntegrationAndTesting/}{ProductEvaluation.tex}
 
 \newpage
-% The closing chapters commonly include a summary and a conclusion together with any recommendations. In summarizing, highlight the important stages and outcomes of the project. The conclusions would normally consider and comment critically upon the results of the project; this includes both the process and the product.  This should include a consideration of the extent to which the aims of the project have been achieved. Finally, recommend ways in which the work could be applied or extended.
+% The closing chapters commonly include a summary and a conclusion together with any recommendations. In summarizing, highlight the important stages and outcomes of the project. The conclusions would normally consider and comment critically upon the results of the project; this includes both the process and the product. This should include a consideration of the extent to which the aims of the project have been achieved. Finally, recommend ways in which the work could be applied or extended.
 \section{Closing chapters} %TODO: Change this title.
 \import{./Chapters/ClosingChapters/}{SummaryAndConclusion.tex}
 \import{./Chapters/ClosingChapters/}{References.tex}

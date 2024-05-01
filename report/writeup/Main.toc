@@ -19,16 +19,27 @@
 \contentsline {subsubsection}{\numberline {2.3.2}Techinical details}{6}{subsubsection.2.3.2}%
 \contentsline {subsubsection}{\numberline {2.3.3}Prototypes}{7}{subsubsection.2.3.3}%
 \contentsline {subsubsection}{\numberline {2.3.4}Reflection}{8}{subsubsection.2.3.4}%
-\contentsline {subsubsection}{\numberline {2.3.5}Further research}{8}{subsubsection.2.3.5}%
 \contentsline {section}{\numberline {3}Project development}{9}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Evaluation}{9}{subsection.3.1}%
 \contentsline {subsection}{\numberline {3.2}Design philosophy}{9}{subsection.3.2}%
 \contentsline {subsubsection}{\numberline {3.2.1}Object oriented programming principles and design patterns}{9}{subsubsection.3.2.1}%
 \contentsline {subsection}{\numberline {3.3}Integration}{10}{subsection.3.3}%
-\contentsline {subsection}{\numberline {3.4}Testing}{10}{subsection.3.4}%
-\contentsline {subsection}{\numberline {3.5}Product evaluation}{10}{subsection.3.5}%
-\contentsline {section}{\numberline {4}Closing chapters}{11}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Summary}{11}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Conclusion}{11}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}References}{11}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4}Appendices}{12}{subsection.4.4}%
+\contentsline {subsubsection}{\numberline {3.3.1}User defined configuration}{10}{subsubsection.3.3.1}%
+\contentsline {subsubsection}{\numberline {3.3.2}Naming engine}{12}{subsubsection.3.3.2}%
+\contentsline {paragraph}{Pattern parsing}{12}{paragraph*.1}%
+\contentsline {paragraph}{Input conversion}{12}{paragraph*.2}%
+\contentsline {paragraph}{Output validation}{13}{paragraph*.3}%
+\contentsline {subsubsection}{\numberline {3.3.3}Document formatting}{13}{subsubsection.3.3.3}%
+\contentsline {paragraph}{Comments}{13}{paragraph*.4}%
+\contentsline {paragraph}{Indentation}{13}{paragraph*.5}%
+\contentsline {paragraph}{Punctuation and brace location}{14}{paragraph*.6}%
+\contentsline {paragraph}{Object structure}{14}{paragraph*.7}%
+\contentsline {subsubsection}{\numberline {3.3.4}Language features}{14}{subsubsection.3.3.4}%
+\contentsline {paragraph}{Inferred access modifiers}{14}{paragraph*.8}%
+\contentsline {paragraph}{Implicit object initialization}{15}{paragraph*.9}%
+\contentsline {subsection}{\numberline {3.4}Product evaluation}{16}{subsection.3.4}%
+\contentsline {section}{\numberline {4}Closing chapters}{17}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Summary}{17}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Conclusion}{17}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}References}{17}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Appendices}{18}{subsection.4.4}%

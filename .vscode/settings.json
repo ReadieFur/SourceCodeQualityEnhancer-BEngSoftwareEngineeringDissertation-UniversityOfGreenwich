@@ -12,7 +12,8 @@
         "cyclomatic",
         "nessecaraly",
         "positionings",
-        "POSIX"
+        "POSIX",
+        "VSIX"
     ],
     "files.exclude": {
         "**/.git": true,
