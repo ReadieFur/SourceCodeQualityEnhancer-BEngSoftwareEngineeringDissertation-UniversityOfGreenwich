@@ -13,6 +13,10 @@
 % https://tex.stackexchange.com/questions/60209/how-to-add-an-extra-level-of-sections-with-headings-below-subsubsection
 \usepackage{multirow}
 \usepackage{titlesec}
+% https://tex.stackexchange.com/questions/30657/listings-package-for-c
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tabularx}
 
 % \setcounter{secnumdepth}{4}
 % \setcounter{tocdepth}{4}
@@ -63,6 +67,8 @@
     urlcolor=black,
     pdfborder={0 0 0}, % No border around links
 }
+
+\lstdefinestyle{sharpc}{language=[Sharp]C, frame=l, rulecolor=\color{lightgray}}
 
 \begin{document} %start the document
 
@@ -115,6 +121,7 @@
 \import{./Chapters/MainBody/IntegrationAndTesting/}{NamingEngine.tex}
 \import{./Chapters/MainBody/IntegrationAndTesting/}{Formatting.tex}
 \import{./Chapters/MainBody/IntegrationAndTesting/}{LanguageFeatures.tex}
+\import{./Chapters/MainBody/IntegrationAndTesting/}{Testing.tex}
 \import{./Chapters/MainBody/IntegrationAndTesting/}{ProductEvaluation.tex}
 
 \newpage

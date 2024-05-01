@@ -37,9 +37,13 @@
 \contentsline {subsubsection}{\numberline {3.3.4}Language features}{14}{subsubsection.3.3.4}%
 \contentsline {paragraph}{Inferred access modifiers}{14}{paragraph*.8}%
 \contentsline {paragraph}{Implicit object initialization}{15}{paragraph*.9}%
-\contentsline {subsection}{\numberline {3.4}Product evaluation}{16}{subsection.3.4}%
-\contentsline {section}{\numberline {4}Closing chapters}{17}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Summary}{17}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Conclusion}{17}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}References}{17}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4}Appendices}{18}{subsection.4.4}%
+\contentsline {subsection}{\numberline {3.4}Testing}{16}{subsection.3.4}%
+\contentsline {subsubsection}{\numberline {3.4.1}Unit testing}{16}{subsubsection.3.4.1}%
+\contentsline {subsubsection}{\numberline {3.4.2}Integration testing}{18}{subsubsection.3.4.2}%
+\contentsline {subsubsection}{\numberline {3.4.3}Standalone testing}{18}{subsubsection.3.4.3}%
+\contentsline {subsection}{\numberline {3.5}Product evaluation}{18}{subsection.3.5}%
+\contentsline {section}{\numberline {4}Closing chapters}{19}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Summary}{19}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Conclusion}{19}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}References}{19}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Appendices}{20}{subsection.4.4}%
