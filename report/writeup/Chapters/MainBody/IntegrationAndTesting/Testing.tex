@@ -18,10 +18,11 @@ For testing the code analyzers and fix providers the MSBuild testing framework w
 This framework requires a custom format for the test data as described by the documentation on the Microsoft website. The format that the framework desires is not ideal as it produces a lot of duplicated code, so to reduce this a custom source file parser was created to drastically reduce the amount of code that was required to write the tests. In this custom source file parser, the source file can contain code and diagnostic comments, the diagnostic comments are formatted as seen in Table \ref{tab:FileParserSyntax}.
 \begin{table}[H]
     \centering
+    \caption{File Parser Syntax}
     \label{tab:FileParserSyntax}
     \begin{tabular}{|p{3.5cm}|p{8cm}|p{4cm}|}
-        \hline
-        \multicolumn{3}{|c|}{File Parser Syntax} \\
+        % \hline
+        % \multicolumn{3}{|c|}{File Parser Syntax} \\
         \hline
         Syntax&Description&Example\\
         \hline
