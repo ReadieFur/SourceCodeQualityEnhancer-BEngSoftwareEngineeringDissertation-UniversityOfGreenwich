@@ -104,8 +104,18 @@ public class ClassName
 Using this system the test data can be written in a more human-readable format with much less code duplication. This system also allows for the easy addition and modification for new and existing tests. These unit tests then run the MSBuild diagnostic analyzers and code fix providers with the provided input and expected outputs from the file parser and a reference to the custom modules written for this program, the tests are then run to completion and the results are compared to the expected results, if the tests have a runtime error or the results do not match the expected results the test will fail.
 
 % TODO: Show the custom file parser.
+% TODO: Show screenshots of the unit tests running.
 
 \subsubsection{Integration testing}
+
+\begin{wrapfigure}{r}{0.5\textwidth}
+    \centering
+    \caption{IDE Hints}
+    \label{fig:IDEHints}
+    \includegraphics[width=0.5\textwidth]{Figures/IDEHintsCropped.png}
+\end{wrapfigure}
+
+Using the VSIX build of the project, a plugin compatible with the Visual Studio IDE was created. This plugin allowed for the tool to be interacted with via IDE hints. In order to test this a test project was loaded up into Visual Studio with the plugin loaded. After compiling the project the IDE would gather diagnostics from the build tool and display them in the error list and the code editor. We can see that amongst the diagnostics generated, the tool has provided hints within the IDE that the user can click on to preview and apply the fix. This is shown in Figure \ref{fig:IDEHints}.
 
 % TODO: Show the integration testing in action.
 

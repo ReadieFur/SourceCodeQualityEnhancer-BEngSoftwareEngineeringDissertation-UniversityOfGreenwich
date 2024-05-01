@@ -30,15 +30,20 @@ naming:
   constant:
     pattern: "[A-Z]+(?:_[A-Z]+)*$" #https://stackoverflow.com/questions/43224835/regex-to-match-all-capital-and-underscore
   namespace:
+    severity: "error"
     pattern: "[A-Z][a-z]+(?:\\.?[A-Z][a-z]+)*$" #Pascal.Case
   generic_parameter:
+    severity: "error"
     pattern: "T([A-Z][a-z]+)+" #TPascalCase
 formatting:
   curly_braces:
+    severity: "error"
     new_line: true
   indentation:
+    severity: "error"
     size: 4
   comments:
+    severity: "info"
     new_line: true
     leading_space: false
     trailing_full_stop: true
@@ -48,6 +53,7 @@ formatting:
     space_around:
       - left: true
         right: true
+        severity: "warning"
         tokens:
           - "+"
           - "-"
@@ -55,6 +61,7 @@ formatting:
     new_line:
       - left: true
         right: false
+        severity: "info"
         tokens:
           - "&&"
           - "||"
@@ -62,6 +69,8 @@ formatting:
     properties_at_top: true
 inferred:
   access_modifier:
+    severity: "error"
     mode: "explicit"
   constructor:
+    severity: "error"
     mode: "implicit"
