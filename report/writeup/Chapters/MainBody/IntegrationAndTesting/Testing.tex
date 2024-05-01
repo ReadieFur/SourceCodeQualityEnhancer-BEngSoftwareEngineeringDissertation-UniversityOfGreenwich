@@ -120,3 +120,12 @@ Using the VSIX build of the project, a plugin compatible with the Visual Studio 
 % TODO: Show the integration testing in action.
 
 \subsubsection{Standalone testing}
+
+\begin{wrapfigure}{r}{0.5\textwidth}
+    \centering
+    \caption{Standalone Tool}
+    \label{fig:StandaloneTool}
+    \includegraphics[width=0.5\textwidth]{Figures/StandaloneToolCropped.png}
+\end{wrapfigure}
+
+The standalone package was built to provide a way to run the tool without the need for the Visual Studio IDE. The standalone program is simplistic and takes a C\# solution file which analysis will be run on. Any files that can have fixes applied will be displayed in a graphical window with a file diff view. To validate the results of the standalone tool, checks were made to ensure that it doesn't get stuck in a read-eval loop which did occur during development, in addition to this the output files were visually inspected to check that the fixes were applied correctly (see Figure \ref{fig:StandaloneTool}).
