@@ -14,36 +14,36 @@
 \contentsline {subsubsection}{\numberline {2.2.2}Defining software quality}{6}{subsubsection.2.2.2}%
 \contentsline {subsubsection}{\numberline {2.2.3}Considerations}{7}{subsubsection.2.2.3}%
 \contentsline {subsubsection}{\numberline {2.2.4}Requirements}{7}{subsubsection.2.2.4}%
-\contentsline {subsection}{\numberline {2.3}Design approach}{7}{subsection.2.3}%
-\contentsline {subsubsection}{\numberline {2.3.1}Overview}{7}{subsubsection.2.3.1}%
-\contentsline {subsubsection}{\numberline {2.3.2}Techinical details}{7}{subsubsection.2.3.2}%
-\contentsline {subsubsection}{\numberline {2.3.3}Prototypes}{8}{subsubsection.2.3.3}%
+\contentsline {subsection}{\numberline {2.3}Design approach}{8}{subsection.2.3}%
+\contentsline {subsubsection}{\numberline {2.3.1}Overview}{8}{subsubsection.2.3.1}%
+\contentsline {subsubsection}{\numberline {2.3.2}Techinical details}{8}{subsubsection.2.3.2}%
+\contentsline {subsubsection}{\numberline {2.3.3}Prototypes}{9}{subsubsection.2.3.3}%
 \contentsline {subsubsection}{\numberline {2.3.4}Reflection}{9}{subsubsection.2.3.4}%
 \contentsline {section}{\numberline {3}Project development}{10}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Evaluation}{10}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}Design philosophy}{10}{subsection.3.2}%
-\contentsline {subsubsection}{\numberline {3.2.1}Object oriented programming principles and design patterns}{10}{subsubsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2}Design philosophy}{11}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}Object oriented programming principles and design patterns}{11}{subsubsection.3.2.1}%
 \contentsline {subsection}{\numberline {3.3}Integration}{11}{subsection.3.3}%
-\contentsline {subsubsection}{\numberline {3.3.1}User defined configuration}{11}{subsubsection.3.3.1}%
+\contentsline {subsubsection}{\numberline {3.3.1}User defined configuration}{12}{subsubsection.3.3.1}%
 \contentsline {subsubsection}{\numberline {3.3.2}Naming engine}{13}{subsubsection.3.3.2}%
-\contentsline {paragraph}{Pattern parsing}{13}{paragraph*.1}%
-\contentsline {paragraph}{Input conversion}{13}{paragraph*.2}%
+\contentsline {paragraph}{Pattern parsing}{14}{paragraph*.1}%
+\contentsline {paragraph}{Input conversion}{14}{paragraph*.2}%
 \contentsline {paragraph}{Output validation}{14}{paragraph*.3}%
 \contentsline {subsubsection}{\numberline {3.3.3}Document formatting}{14}{subsubsection.3.3.3}%
 \contentsline {paragraph}{Comments}{14}{paragraph*.4}%
-\contentsline {paragraph}{Indentation}{14}{paragraph*.5}%
+\contentsline {paragraph}{Indentation}{15}{paragraph*.5}%
 \contentsline {paragraph}{Punctuation and brace location}{15}{paragraph*.6}%
 \contentsline {paragraph}{Object structure}{15}{paragraph*.7}%
-\contentsline {subsubsection}{\numberline {3.3.4}Language features}{15}{subsubsection.3.3.4}%
-\contentsline {paragraph}{Inferred access modifiers}{15}{paragraph*.8}%
+\contentsline {subsubsection}{\numberline {3.3.4}Language features}{16}{subsubsection.3.3.4}%
+\contentsline {paragraph}{Inferred access modifiers}{16}{paragraph*.8}%
 \contentsline {paragraph}{Implicit object initialization}{16}{paragraph*.9}%
 \contentsline {subsection}{\numberline {3.4}Testing}{17}{subsection.3.4}%
 \contentsline {subsubsection}{\numberline {3.4.1}Unit testing}{17}{subsubsection.3.4.1}%
 \contentsline {subsubsection}{\numberline {3.4.2}Integration testing}{19}{subsubsection.3.4.2}%
 \contentsline {subsubsection}{\numberline {3.4.3}Standalone testing}{19}{subsubsection.3.4.3}%
-\contentsline {subsection}{\numberline {3.5}Product evaluation}{19}{subsection.3.5}%
-\contentsline {section}{\numberline {4}Closing chapters}{20}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Summary}{20}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Conclusion}{20}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}References}{20}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4}Appendices}{21}{subsection.4.4}%
+\contentsline {subsection}{\numberline {3.5}Product evaluation}{20}{subsection.3.5}%
+\contentsline {section}{\numberline {4}Closing chapters}{21}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Summary}{21}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Conclusion}{21}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}References}{21}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Appendices}{23}{subsection.4.4}%

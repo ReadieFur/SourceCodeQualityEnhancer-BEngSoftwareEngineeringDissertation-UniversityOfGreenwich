@@ -10,6 +10,7 @@
         "Checkstyle",
         "Codacy",
         "cyclomatic",
+        "Gantt",
         "nessecaraly",
         "positionings",
         "POSIX",
