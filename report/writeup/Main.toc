@@ -19,28 +19,28 @@
 \contentsline {subsubsection}{\numberline {2.3.2}Techinical details}{9}{subsubsection.2.3.2}%
 \contentsline {subsubsection}{\numberline {2.3.3}Prototypes}{10}{subsubsection.2.3.3}%
 \contentsline {subsubsection}{\numberline {2.3.4}Reflection}{10}{subsubsection.2.3.4}%
-\contentsline {section}{\numberline {3}Project development}{11}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Evaluation}{11}{subsection.3.1}%
+\contentsline {section}{\numberline {3}Project development}{12}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Evaluation}{12}{subsection.3.1}%
 \contentsline {subsection}{\numberline {3.2}Design philosophy}{12}{subsection.3.2}%
 \contentsline {subsubsection}{\numberline {3.2.1}Object oriented programming principles and design patterns}{12}{subsubsection.3.2.1}%
-\contentsline {subsection}{\numberline {3.3}Integration}{12}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.3}Integration}{13}{subsection.3.3}%
 \contentsline {subsubsection}{\numberline {3.3.1}User defined configuration}{13}{subsubsection.3.3.1}%
 \contentsline {subsubsection}{\numberline {3.3.2}Naming engine}{14}{subsubsection.3.3.2}%
 \contentsline {paragraph}{Pattern parsing}{15}{paragraph*.1}%
 \contentsline {paragraph}{Input conversion}{15}{paragraph*.2}%
 \contentsline {paragraph}{Output validation}{15}{paragraph*.3}%
-\contentsline {subsubsection}{\numberline {3.3.3}Document formatting}{15}{subsubsection.3.3.3}%
-\contentsline {paragraph}{Comments}{15}{paragraph*.4}%
+\contentsline {subsubsection}{\numberline {3.3.3}Document formatting}{16}{subsubsection.3.3.3}%
+\contentsline {paragraph}{Comments}{16}{paragraph*.4}%
 \contentsline {paragraph}{Indentation}{16}{paragraph*.5}%
 \contentsline {paragraph}{Punctuation and brace location}{16}{paragraph*.6}%
-\contentsline {paragraph}{Object structure}{16}{paragraph*.7}%
+\contentsline {paragraph}{Object structure}{17}{paragraph*.7}%
 \contentsline {subsubsection}{\numberline {3.3.4}Language features}{17}{subsubsection.3.3.4}%
 \contentsline {paragraph}{Inferred access modifiers}{17}{paragraph*.8}%
-\contentsline {paragraph}{Implicit object initialization}{17}{paragraph*.9}%
-\contentsline {subsection}{\numberline {3.4}Testing}{18}{subsection.3.4}%
-\contentsline {subsubsection}{\numberline {3.4.1}Unit testing}{18}{subsubsection.3.4.1}%
+\contentsline {paragraph}{Implicit object initialization}{18}{paragraph*.9}%
+\contentsline {subsection}{\numberline {3.4}Testing}{19}{subsection.3.4}%
+\contentsline {subsubsection}{\numberline {3.4.1}Unit testing}{19}{subsubsection.3.4.1}%
 \contentsline {subsubsection}{\numberline {3.4.2}Integration testing}{20}{subsubsection.3.4.2}%
-\contentsline {subsubsection}{\numberline {3.4.3}Standalone testing}{20}{subsubsection.3.4.3}%
+\contentsline {subsubsection}{\numberline {3.4.3}Standalone testing}{21}{subsubsection.3.4.3}%
 \contentsline {subsection}{\numberline {3.5}Product evaluation}{21}{subsection.3.5}%
 \contentsline {section}{\numberline {4}Closing chapters}{22}{section.4}%
 \contentsline {subsection}{\numberline {4.1}Summary}{22}{subsection.4.1}%

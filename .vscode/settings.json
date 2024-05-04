@@ -15,7 +15,8 @@
         "positionings",
         "POSIX",
         "RFSA",
-        "VSIX"
+        "VSIX",
+        "Xplore"
     ],
     "files.exclude": {
         "**/.git": true,
