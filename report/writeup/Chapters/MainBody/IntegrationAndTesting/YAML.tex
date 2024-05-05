@@ -1,11 +1,34 @@
+% TODO: Fix the figure wrapping here
+\newpage
+
 \subsubsection{User defined configuration}
 
+% \begin{figure}[htbp]
 \begin{wrapfigure}{r}{0.5\textwidth}
+    % \vspace{-50px}
     \centering
     \caption{YAML Schema}
     \label{fig:YAMLSchema}
     \includegraphics[width=0.5\textwidth]{Figures/YAMLSchemaCropped.png}
+% \end{figure}
 \end{wrapfigure}
+
+% \begin{figure}[htbp]
+%     \centering
+%     \begin{minipage}[b]{0.5\textwidth}
+%         \centering
+%         \caption{YAML Schema}
+%         \label{fig:YAMLSchema}
+%         \includegraphics[width=0.5\textwidth]{Figures/YAMLSchemaCropped.png}
+%     \end{minipage}
+%     \hfill
+%     \begin{minipage}[b]{0.4\textwidth}
+%         \centering
+%         \caption{YAML Configuration}
+%         \label{fig:YAMLConfiguration}
+%         \includegraphics[width=0.4\textwidth]{Figures/YAMLConfigurationCropped.png}
+%     \end{minipage}
+% \end{figure}
 
 As discussed in the literature review, due to the lack of standardization in code formatting, the tool should be able to be configured by the user. This is achieved through the use of a YAML configuration file. As configuration parsing isn't the goal of this work, the well-known, open source YAML parsing library YamlDotNet was used. This library is under the MIT license which grants us full permission to use the library in this project.
 

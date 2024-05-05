@@ -7,7 +7,6 @@
 \subsection{Design philosophy}
 
 \subsubsection{Object oriented programming principles and design patterns}
-
 There are many object oriented programming principles and design patterns that can be used to create a well structured codebase. In the paper \cite{10.1145/3428029.3428047} a few principles and patterns are discussed in relation to code quality. The principles and patterns discussed are as follows:
 \begin{itemize}
 	\item Documentation - Comments;
@@ -19,3 +18,6 @@ There are many object oriented programming principles and design patterns that c
 Ideally this project will want to make use of as many of these principles and patterns as possible in order to improve the quality of the code that can be produced. Abstraction and inherence can be extremely useful when it comes to the structure of a program and the deduplication of code as well as maintainability, which was also mentioned by \cite{8681007} where it was stated "Modularization of code marks better reuse of the code and compilation time".
 
 However it is important that one doesn't abuse these abilities as they can lead to code smells which affect program comprehensibility \citep{8681007, ImpactOfAntipatterns}, maintainability \citep{8681007, ImpactOfAntipatterns2, CodeSmellsAndMaintainability} and testability \citep{8681007, TestCasesAndCodeQuality}. As indicated in the paper by \cite{10.1145/3555228.3555268} there are several types of code smells, such as: comments; duplicated code; feature envy; large class/God class; long method; lazy class; long parameter lis; and shotgun surgery. Therefore, in considering a solution, care will be needed about the use of these principles and patterns such as abstraction and inheritance and automated comments as they can lead to these undesirable code smells.
+
+\subsubsection{Project management}
+When undertaking large projects, it is often a good idea to use a project management tool to help keep track of the progress and changes made to the project. Throughout the development lifecycle of this project GitHub was used to track changes and issues. GitHub is a web-based platform that uses the Git version control system to track changes made to a project. For this project in particular it allowed for updating existing features with new experiential approaches without the risk of making permanent breaking changes to the existing code, this is because through Git we can create branches that are separate from the main tree and roll back changes if necessary. This is a very useful feature as it allows for the project to be developed in a more agile way, where changes can be made quickly and easily without the risk of having to spend time reintegrating old code if the experimental branches do not work out.
