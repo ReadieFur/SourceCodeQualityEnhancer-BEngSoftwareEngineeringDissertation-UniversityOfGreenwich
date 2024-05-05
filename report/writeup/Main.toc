@@ -29,22 +29,22 @@
 \contentsline {subsubsection}{\numberline {3.3.2}Naming engine}{15}{subsubsection.3.3.2}%
 \contentsline {paragraph}{Pattern parsing}{16}{paragraph*.7}%
 \contentsline {paragraph}{Input conversion}{17}{paragraph*.9}%
-\contentsline {paragraph}{Output validation}{17}{paragraph*.10}%
-\contentsline {subsubsection}{\numberline {3.3.3}Document formatting}{17}{subsubsection.3.3.3}%
-\contentsline {paragraph}{Comments}{17}{paragraph*.11}%
-\contentsline {paragraph}{Indentation}{18}{paragraph*.12}%
-\contentsline {paragraph}{Punctuation and brace location}{18}{paragraph*.13}%
-\contentsline {paragraph}{Object structure}{19}{paragraph*.15}%
-\contentsline {subsubsection}{\numberline {3.3.4}Language features}{19}{subsubsection.3.3.4}%
-\contentsline {paragraph}{Inferred access modifiers}{20}{paragraph*.16}%
-\contentsline {paragraph}{Implicit object initialization}{20}{paragraph*.17}%
-\contentsline {subsection}{\numberline {3.4}Testing}{21}{subsection.3.4}%
-\contentsline {subsubsection}{\numberline {3.4.1}Unit testing}{21}{subsubsection.3.4.1}%
-\contentsline {subsubsection}{\numberline {3.4.2}Integration testing}{23}{subsubsection.3.4.2}%
-\contentsline {subsubsection}{\numberline {3.4.3}Standalone testing}{23}{subsubsection.3.4.3}%
-\contentsline {subsection}{\numberline {3.5}Product evaluation}{23}{subsection.3.5}%
-\contentsline {section}{\numberline {4}Closing chapters}{24}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Summary}{24}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Conclusion}{24}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}References}{24}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4}Appendices}{26}{subsection.4.4}%
+\contentsline {paragraph}{Output validation}{19}{paragraph*.12}%
+\contentsline {subsubsection}{\numberline {3.3.3}Document formatting}{19}{subsubsection.3.3.3}%
+\contentsline {paragraph}{Comments}{19}{paragraph*.13}%
+\contentsline {paragraph}{Indentation}{20}{paragraph*.14}%
+\contentsline {paragraph}{Punctuation and brace location}{20}{paragraph*.15}%
+\contentsline {paragraph}{Object structure}{21}{paragraph*.17}%
+\contentsline {subsubsection}{\numberline {3.3.4}Language features}{21}{subsubsection.3.3.4}%
+\contentsline {paragraph}{Inferred access modifiers}{21}{paragraph*.18}%
+\contentsline {paragraph}{Implicit object initialization}{22}{paragraph*.19}%
+\contentsline {subsection}{\numberline {3.4}Testing}{23}{subsection.3.4}%
+\contentsline {subsubsection}{\numberline {3.4.1}Unit testing}{23}{subsubsection.3.4.1}%
+\contentsline {subsubsection}{\numberline {3.4.2}Integration testing}{24}{subsubsection.3.4.2}%
+\contentsline {subsubsection}{\numberline {3.4.3}Standalone testing}{25}{subsubsection.3.4.3}%
+\contentsline {subsection}{\numberline {3.5}Product evaluation}{25}{subsection.3.5}%
+\contentsline {section}{\numberline {4}Closing chapters}{26}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Summary}{26}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Conclusion}{26}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}References}{26}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Appendices}{28}{subsection.4.4}%

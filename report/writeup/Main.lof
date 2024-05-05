@@ -6,6 +6,8 @@
 \contentsline {figure}{\numberline {6}{\ignorespaces Regex Token Recursive Parse}}{16}{figure.caption.8}%
 \contentsline {subfigure}{\numberline {6a}{\ignorespaces Group Construct Recursive Parse}}{16}{figure.caption.8}%
 \contentsline {subfigure}{\numberline {6b}{\ignorespaces Recursive Token Parser}}{16}{figure.caption.8}%
-\contentsline {figure}{\numberline {7}{\ignorespaces YAML Configuration for Punctuation}}{19}{figure.caption.14}%
-\contentsline {figure}{\numberline {8}{\ignorespaces IDE Hints}}{23}{figure.caption.20}%
-\contentsline {figure}{\numberline {9}{\ignorespaces Standalone Tool}}{23}{figure.caption.21}%
+\contentsline {figure}{\numberline {7}{\ignorespaces Quantifier Conform Parameters}}{18}{figure.caption.10}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Character Range Conform}}{18}{figure.caption.11}%
+\contentsline {figure}{\numberline {9}{\ignorespaces YAML Configuration for Punctuation}}{20}{figure.caption.16}%
+\contentsline {figure}{\numberline {10}{\ignorespaces IDE Hints}}{24}{figure.caption.22}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Standalone Tool}}{25}{figure.caption.23}%
