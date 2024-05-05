@@ -3,6 +3,9 @@
 \contentsline {figure}{\numberline {3}{\ignorespaces YAML Schema}}{14}{figure.caption.4}%
 \contentsline {figure}{\numberline {4}{\ignorespaces YAML Configuration}}{14}{figure.caption.5}%
 \contentsline {figure}{\numberline {5}{\ignorespaces VSIX Configuration manager}}{15}{figure.caption.6}%
-\contentsline {figure}{\numberline {6}{\ignorespaces YAML Configuration for Punctuation}}{18}{figure.caption.13}%
-\contentsline {figure}{\numberline {7}{\ignorespaces IDE Hints}}{22}{figure.caption.19}%
-\contentsline {figure}{\numberline {8}{\ignorespaces Standalone Tool}}{22}{figure.caption.20}%
+\contentsline {figure}{\numberline {6}{\ignorespaces Regex Token Recursive Parse}}{16}{figure.caption.8}%
+\contentsline {subfigure}{\numberline {6a}{\ignorespaces Group Construct Recursive Parse}}{16}{figure.caption.8}%
+\contentsline {subfigure}{\numberline {6b}{\ignorespaces Recursive Token Parser}}{16}{figure.caption.8}%
+\contentsline {figure}{\numberline {7}{\ignorespaces YAML Configuration for Punctuation}}{19}{figure.caption.14}%
+\contentsline {figure}{\numberline {8}{\ignorespaces IDE Hints}}{23}{figure.caption.20}%
+\contentsline {figure}{\numberline {9}{\ignorespaces Standalone Tool}}{23}{figure.caption.21}%
