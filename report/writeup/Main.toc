@@ -33,15 +33,15 @@
 \contentsline {subsubsection}{\numberline {3.3.3}Document formatting}{16}{subsubsection.3.3.3}%
 \contentsline {paragraph}{Comments}{16}{paragraph*.10}%
 \contentsline {paragraph}{Indentation}{17}{paragraph*.11}%
-\contentsline {paragraph}{Punctuation and brace location}{17}{paragraph*.12}%
-\contentsline {paragraph}{Object structure}{17}{paragraph*.13}%
-\contentsline {subsubsection}{\numberline {3.3.4}Language features}{18}{subsubsection.3.3.4}%
-\contentsline {paragraph}{Inferred access modifiers}{18}{paragraph*.14}%
-\contentsline {paragraph}{Implicit object initialization}{18}{paragraph*.15}%
-\contentsline {subsection}{\numberline {3.4}Testing}{19}{subsection.3.4}%
-\contentsline {subsubsection}{\numberline {3.4.1}Unit testing}{19}{subsubsection.3.4.1}%
-\contentsline {subsubsection}{\numberline {3.4.2}Integration testing}{21}{subsubsection.3.4.2}%
-\contentsline {subsubsection}{\numberline {3.4.3}Standalone testing}{21}{subsubsection.3.4.3}%
+\contentsline {paragraph}{Punctuation and brace location}{18}{paragraph*.12}%
+\contentsline {paragraph}{Object structure}{18}{paragraph*.14}%
+\contentsline {subsubsection}{\numberline {3.3.4}Language features}{19}{subsubsection.3.3.4}%
+\contentsline {paragraph}{Inferred access modifiers}{19}{paragraph*.15}%
+\contentsline {paragraph}{Implicit object initialization}{19}{paragraph*.16}%
+\contentsline {subsection}{\numberline {3.4}Testing}{20}{subsection.3.4}%
+\contentsline {subsubsection}{\numberline {3.4.1}Unit testing}{20}{subsubsection.3.4.1}%
+\contentsline {subsubsection}{\numberline {3.4.2}Integration testing}{22}{subsubsection.3.4.2}%
+\contentsline {subsubsection}{\numberline {3.4.3}Standalone testing}{22}{subsubsection.3.4.3}%
 \contentsline {subsection}{\numberline {3.5}Product evaluation}{22}{subsection.3.5}%
 \contentsline {section}{\numberline {4}Closing chapters}{23}{section.4}%
 \contentsline {subsection}{\numberline {4.1}Summary}{23}{subsection.4.1}%
