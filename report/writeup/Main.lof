@@ -1,16 +1,17 @@
 \contentsline {figure}{\numberline {1}{\ignorespaces Project Timeline Chart}}{8}{figure.caption.1}%
 \contentsline {figure}{\numberline {2}{\ignorespaces Token Breakdown}}{10}{figure.caption.2}%
-\contentsline {figure}{\numberline {3}{\ignorespaces YAML Schema}}{14}{figure.caption.4}%
-\contentsline {figure}{\numberline {4}{\ignorespaces YAML Configuration}}{14}{figure.caption.5}%
-\contentsline {figure}{\numberline {5}{\ignorespaces VSIX Configuration manager}}{15}{figure.caption.6}%
-\contentsline {figure}{\numberline {6}{\ignorespaces Regex Token Recursive Parse}}{16}{figure.caption.8}%
-\contentsline {subfigure}{\numberline {6a}{\ignorespaces Group Construct Recursive Parse}}{16}{figure.caption.8}%
-\contentsline {subfigure}{\numberline {6b}{\ignorespaces Recursive Token Parser}}{16}{figure.caption.8}%
-\contentsline {figure}{\numberline {7}{\ignorespaces Quantifier Conform Parameters}}{18}{figure.caption.10}%
-\contentsline {figure}{\numberline {8}{\ignorespaces Character Range Conform}}{18}{figure.caption.11}%
-\contentsline {figure}{\numberline {9}{\ignorespaces YAML Configuration for Punctuation}}{20}{figure.caption.16}%
-\contentsline {figure}{\numberline {10}{\ignorespaces Unit Tests}}{25}{figure.caption.22}%
-\contentsline {subfigure}{\numberline {10a}{\ignorespaces Unit Test Results}}{25}{figure.caption.22}%
-\contentsline {subfigure}{\numberline {10b}{\ignorespaces Failing Unit Test}}{25}{figure.caption.22}%
-\contentsline {figure}{\numberline {11}{\ignorespaces Integrated IDE Hints}}{26}{figure.caption.23}%
-\contentsline {figure}{\numberline {12}{\ignorespaces Standalone Tool}}{26}{figure.caption.24}%
+\contentsline {figure}{\numberline {3}{\ignorespaces Using GitHub to track changes and issues}}{13}{figure.caption.4}%
+\contentsline {figure}{\numberline {4}{\ignorespaces YAML Schema}}{14}{figure.caption.5}%
+\contentsline {figure}{\numberline {5}{\ignorespaces YAML Configuration}}{14}{figure.caption.6}%
+\contentsline {figure}{\numberline {6}{\ignorespaces VSIX Configuration manager}}{15}{figure.caption.7}%
+\contentsline {figure}{\numberline {7}{\ignorespaces Regex Token Recursive Parse}}{16}{figure.caption.9}%
+\contentsline {subfigure}{\numberline {7a}{\ignorespaces Group Construct Recursive Parse}}{16}{figure.caption.9}%
+\contentsline {subfigure}{\numberline {7b}{\ignorespaces Recursive Token Parser}}{16}{figure.caption.9}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Quantifier Conform Parameters}}{18}{figure.caption.11}%
+\contentsline {figure}{\numberline {9}{\ignorespaces Character Range Conform}}{18}{figure.caption.12}%
+\contentsline {figure}{\numberline {10}{\ignorespaces YAML Configuration for Punctuation}}{20}{figure.caption.17}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Unit Tests}}{25}{figure.caption.23}%
+\contentsline {subfigure}{\numberline {11a}{\ignorespaces Unit Test Results}}{25}{figure.caption.23}%
+\contentsline {subfigure}{\numberline {11b}{\ignorespaces Failing Unit Test}}{25}{figure.caption.23}%
+\contentsline {figure}{\numberline {12}{\ignorespaces Integrated IDE Hints}}{26}{figure.caption.24}%
+\contentsline {figure}{\numberline {13}{\ignorespaces Standalone Tool}}{26}{figure.caption.25}%

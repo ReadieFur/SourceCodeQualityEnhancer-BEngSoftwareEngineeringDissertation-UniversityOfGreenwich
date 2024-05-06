@@ -27,17 +27,17 @@
 \contentsline {subsection}{\numberline {3.3}Integration}{13}{subsection.3.3}%
 \contentsline {subsubsection}{\numberline {3.3.1}User defined configuration}{14}{subsubsection.3.3.1}%
 \contentsline {subsubsection}{\numberline {3.3.2}Naming engine}{15}{subsubsection.3.3.2}%
-\contentsline {paragraph}{Pattern parsing}{16}{paragraph*.7}%
-\contentsline {paragraph}{Input conversion}{17}{paragraph*.9}%
-\contentsline {paragraph}{Output validation}{19}{paragraph*.12}%
+\contentsline {paragraph}{Pattern parsing}{16}{paragraph*.8}%
+\contentsline {paragraph}{Input conversion}{17}{paragraph*.10}%
+\contentsline {paragraph}{Output validation}{19}{paragraph*.13}%
 \contentsline {subsubsection}{\numberline {3.3.3}Document formatting}{19}{subsubsection.3.3.3}%
-\contentsline {paragraph}{Comments}{19}{paragraph*.13}%
-\contentsline {paragraph}{Indentation}{20}{paragraph*.14}%
-\contentsline {paragraph}{Punctuation and brace location}{20}{paragraph*.15}%
-\contentsline {paragraph}{Object structure}{21}{paragraph*.17}%
+\contentsline {paragraph}{Comments}{19}{paragraph*.14}%
+\contentsline {paragraph}{Indentation}{20}{paragraph*.15}%
+\contentsline {paragraph}{Punctuation and brace location}{20}{paragraph*.16}%
+\contentsline {paragraph}{Object structure}{21}{paragraph*.18}%
 \contentsline {subsubsection}{\numberline {3.3.4}Language features}{21}{subsubsection.3.3.4}%
-\contentsline {paragraph}{Inferred access modifiers}{21}{paragraph*.18}%
-\contentsline {paragraph}{Implicit object initialization}{22}{paragraph*.19}%
+\contentsline {paragraph}{Inferred access modifiers}{21}{paragraph*.19}%
+\contentsline {paragraph}{Implicit object initialization}{22}{paragraph*.20}%
 \contentsline {subsection}{\numberline {3.4}Testing}{23}{subsection.3.4}%
 \contentsline {subsubsection}{\numberline {3.4.1}Unit testing}{23}{subsubsection.3.4.1}%
 \contentsline {subsubsection}{\numberline {3.4.2}Integration testing}{25}{subsubsection.3.4.2}%
