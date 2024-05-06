@@ -9,5 +9,8 @@
 \contentsline {figure}{\numberline {7}{\ignorespaces Quantifier Conform Parameters}}{18}{figure.caption.10}%
 \contentsline {figure}{\numberline {8}{\ignorespaces Character Range Conform}}{18}{figure.caption.11}%
 \contentsline {figure}{\numberline {9}{\ignorespaces YAML Configuration for Punctuation}}{20}{figure.caption.16}%
-\contentsline {figure}{\numberline {10}{\ignorespaces IDE Hints}}{25}{figure.caption.22}%
-\contentsline {figure}{\numberline {11}{\ignorespaces Standalone Tool}}{25}{figure.caption.23}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Unit Tests}}{25}{figure.caption.22}%
+\contentsline {subfigure}{\numberline {10a}{\ignorespaces Unit Test Results}}{25}{figure.caption.22}%
+\contentsline {subfigure}{\numberline {10b}{\ignorespaces Failing Unit Test}}{25}{figure.caption.22}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Integrated IDE Hints}}{26}{figure.caption.23}%
+\contentsline {figure}{\numberline {12}{\ignorespaces Standalone Tool}}{26}{figure.caption.24}%

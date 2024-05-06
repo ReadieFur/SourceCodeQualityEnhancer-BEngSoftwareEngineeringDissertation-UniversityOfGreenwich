@@ -40,9 +40,9 @@
 \contentsline {paragraph}{Implicit object initialization}{22}{paragraph*.19}%
 \contentsline {subsection}{\numberline {3.4}Testing}{23}{subsection.3.4}%
 \contentsline {subsubsection}{\numberline {3.4.1}Unit testing}{23}{subsubsection.3.4.1}%
-\contentsline {subsubsection}{\numberline {3.4.2}Integration testing}{24}{subsubsection.3.4.2}%
-\contentsline {subsubsection}{\numberline {3.4.3}Standalone testing}{25}{subsubsection.3.4.3}%
-\contentsline {subsection}{\numberline {3.5}Product evaluation}{25}{subsection.3.5}%
+\contentsline {subsubsection}{\numberline {3.4.2}Integration testing}{25}{subsubsection.3.4.2}%
+\contentsline {subsubsection}{\numberline {3.4.3}Standalone testing}{26}{subsubsection.3.4.3}%
+\contentsline {subsection}{\numberline {3.5}Product evaluation}{26}{subsection.3.5}%
 \contentsline {section}{\numberline {4}Epilogue}{27}{section.4}%
 \contentsline {subsection}{\numberline {4.1}Summary}{27}{subsection.4.1}%
 \contentsline {subsection}{\numberline {4.2}Conclusion}{27}{subsection.4.2}%
