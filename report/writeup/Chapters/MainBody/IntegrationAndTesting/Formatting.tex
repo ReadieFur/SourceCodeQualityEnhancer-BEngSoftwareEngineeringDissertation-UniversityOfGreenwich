@@ -21,7 +21,6 @@ Within the user configuration file, an optional option can also be specified to 
 \subsubsubsection{Indentation}
 To determine indentation levels for a given line the document is navigated line-by-line. A last-in-first-out (LIFO) stack is created to hold information about the current context level. A context level is determined by the following tokens: \texttt{\{ \} ( ) [ ]}. When a token is found that increases the context level the current context level is pushed onto the stack, and when a token is found that decreases the context level the stack is popped. The indentation level is then determined by the number of items in the stack multiplied by the user-defined indentation size. This method allows for the tool to determine the correct indentation level for each line in the document.
 A simple text search for the tokens cannot be relied upon as they may be part of a string or comment, therefore we have to navigate the AST to find the tokens. Additionally, the indentation level cannot be properly be calculated if the stack contains an invalid sequence of tokens. For example, if the stack contains \texttt{\{ [ \}}, the indentation level cannot be calculated as the stack is in an invalid state. However, this should not occur as our custom analyzers are configured to only be run on syntactically valid C\# code which is determined by the compiler.
-% TODO: Show how the AST is navigated to determine the indentation level.
 
 \subsubsubsection{Punctuation and brace location}
 

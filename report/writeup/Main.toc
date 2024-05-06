@@ -43,8 +43,8 @@
 \contentsline {subsubsection}{\numberline {3.4.2}Integration testing}{24}{subsubsection.3.4.2}%
 \contentsline {subsubsection}{\numberline {3.4.3}Standalone testing}{25}{subsubsection.3.4.3}%
 \contentsline {subsection}{\numberline {3.5}Product evaluation}{25}{subsection.3.5}%
-\contentsline {section}{\numberline {4}Closing chapters}{26}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Summary}{26}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Conclusion}{26}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}References}{26}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4}Appendices}{28}{subsection.4.4}%
+\contentsline {section}{\numberline {4}Epilogue}{27}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Summary}{27}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Conclusion}{27}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}References}{27}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Appendices}{29}{subsection.4.4}%
