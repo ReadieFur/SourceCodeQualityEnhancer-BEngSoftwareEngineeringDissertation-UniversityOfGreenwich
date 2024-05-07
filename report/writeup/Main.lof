@@ -1,6 +1,6 @@
-\contentsline {figure}{\numberline {1}{\ignorespaces Project Timeline Chart}}{8}{figure.caption.1}%
-\contentsline {figure}{\numberline {2}{\ignorespaces Token Breakdown}}{10}{figure.caption.2}%
-\contentsline {figure}{\numberline {3}{\ignorespaces Using GitHub to track changes and issues}}{13}{figure.caption.4}%
+\contentsline {figure}{\numberline {1}{\ignorespaces Code TODO List}}{8}{figure.caption.1}%
+\contentsline {figure}{\numberline {2}{\ignorespaces Token Breakdown}}{9}{figure.caption.2}%
+\contentsline {figure}{\numberline {3}{\ignorespaces Using GitHub to track changes and issues}}{12}{figure.caption.4}%
 \contentsline {figure}{\numberline {4}{\ignorespaces YAML Schema}}{14}{figure.caption.5}%
 \contentsline {figure}{\numberline {5}{\ignorespaces YAML Configuration}}{14}{figure.caption.6}%
 \contentsline {figure}{\numberline {6}{\ignorespaces VSIX Configuration manager}}{15}{figure.caption.7}%
@@ -15,3 +15,6 @@
 \contentsline {subfigure}{\numberline {11b}{\ignorespaces Failing Unit Test}}{25}{figure.caption.23}%
 \contentsline {figure}{\numberline {12}{\ignorespaces Integrated IDE Hints}}{26}{figure.caption.24}%
 \contentsline {figure}{\numberline {13}{\ignorespaces Standalone Tool}}{26}{figure.caption.25}%
+\contentsline {figure}{\numberline {14}{\ignorespaces Project Timeline}}{31}{figure.caption.26}%
+\contentsline {subfigure}{\numberline {14a}{\ignorespaces Timeline table}}{31}{figure.caption.26}%
+\contentsline {subfigure}{\numberline {14b}{\ignorespaces Gantt chart}}{31}{figure.caption.26}%

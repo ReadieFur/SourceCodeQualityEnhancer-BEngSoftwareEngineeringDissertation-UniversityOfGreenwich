@@ -14,16 +14,16 @@
 \contentsline {subsubsection}{\numberline {2.2.2}Defining software quality}{6}{subsubsection.2.2.2}%
 \contentsline {subsubsection}{\numberline {2.2.3}Considerations}{7}{subsubsection.2.2.3}%
 \contentsline {subsubsection}{\numberline {2.2.4}Requirements}{7}{subsubsection.2.2.4}%
-\contentsline {subsection}{\numberline {2.3}Design approach}{9}{subsection.2.3}%
-\contentsline {subsubsection}{\numberline {2.3.1}Overview}{9}{subsubsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3}Design approach}{8}{subsection.2.3}%
+\contentsline {subsubsection}{\numberline {2.3.1}Overview}{8}{subsubsection.2.3.1}%
 \contentsline {subsubsection}{\numberline {2.3.2}Techinical details}{9}{subsubsection.2.3.2}%
-\contentsline {subsubsection}{\numberline {2.3.3}Prototypes}{10}{subsubsection.2.3.3}%
+\contentsline {subsubsection}{\numberline {2.3.3}Prototypes}{9}{subsubsection.2.3.3}%
 \contentsline {subsubsection}{\numberline {2.3.4}Reflection}{10}{subsubsection.2.3.4}%
-\contentsline {section}{\numberline {3}Project development}{12}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Evaluation}{12}{subsection.3.1}%
+\contentsline {section}{\numberline {3}Project development}{11}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Evaluation}{11}{subsection.3.1}%
 \contentsline {subsection}{\numberline {3.2}Design philosophy}{12}{subsection.3.2}%
 \contentsline {subsubsection}{\numberline {3.2.1}Object oriented programming principles and design patterns}{12}{subsubsection.3.2.1}%
-\contentsline {subsubsection}{\numberline {3.2.2}Project management}{13}{subsubsection.3.2.2}%
+\contentsline {subsubsection}{\numberline {3.2.2}Project management}{12}{subsubsection.3.2.2}%
 \contentsline {subsection}{\numberline {3.3}Integration}{13}{subsection.3.3}%
 \contentsline {subsubsection}{\numberline {3.3.1}User defined configuration}{14}{subsubsection.3.3.1}%
 \contentsline {subsubsection}{\numberline {3.3.2}Naming engine}{15}{subsubsection.3.3.2}%
@@ -43,8 +43,8 @@
 \contentsline {subsubsection}{\numberline {3.4.2}Integration testing}{25}{subsubsection.3.4.2}%
 \contentsline {subsubsection}{\numberline {3.4.3}Standalone testing}{26}{subsubsection.3.4.3}%
 \contentsline {subsection}{\numberline {3.5}Product evaluation}{26}{subsection.3.5}%
-\contentsline {section}{\numberline {4}Epilogue}{27}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Summary}{27}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Conclusion}{27}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}References}{27}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4}Appendices}{29}{subsection.4.4}%
+\contentsline {section}{\numberline {4}Epilogue}{28}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Summary}{28}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Conclusion}{28}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}References}{28}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Appendices}{30}{subsection.4.4}%
