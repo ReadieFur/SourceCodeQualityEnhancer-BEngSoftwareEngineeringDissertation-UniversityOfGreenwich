@@ -1,0 +1,302 @@
+//https://code.visualstudio.com/docs/languages/json#_define-snippets-in-json-schemas
+{
+	"definitions":
+	{
+		"enabled":
+		{
+			"type": "boolean",
+			"description": "Enable the feature."
+		},
+		"severity":
+		{
+			"type": "string",
+			"enum": ["none", "info", "warning", "error"],
+			"description": "The severity of the rule violation."
+		},
+		"naming_convention":
+		{
+			"type": "object",
+			"properties":
+			{
+				"pattern":
+				{
+					"type": "string",
+					"description": "The regular expression pattern to use for the naming convention."
+				},
+				"severity": { "$ref": "#/definitions/severity" }
+			},
+			"required": ["pattern"]
+		},
+		"punctuation_tokens":
+		{
+			//https://stackoverflow.com/questions/30924271/correct-way-to-define-array-of-enums-in-json-schema
+			"type": "array",
+			"items":
+			{
+				"type": "string",
+				"enum":
+				[
+					"~",
+					"!",
+					"$",
+					"%",
+					"^",
+					"&",
+					"*",
+					"(",
+					")",
+					"-",
+					"+",
+					"=",
+					"{",
+					"}",
+					"[",
+					"]",
+					"|",
+					"\\",
+					":",
+					";",
+					"\"",
+					"'",
+					"<",
+					",",
+					">",
+					".",
+					"?",
+					"#",
+					"/",
+					"..",
+					"||",
+					"&&",
+					"--",
+					"++",
+					"::",
+					"??",
+					"->",
+					"!=",
+					"==",
+					"=>",
+					"<=",
+					"<<",
+					"<<=",
+					">=",
+					">>",
+					">>=",
+					"/=",
+					"*=",
+					"|=",
+					"&=",
+					"+=",
+					"-=",
+					"^=",
+					"??=",
+					">>>",
+					">>>="
+				]
+			},
+			"description": "The punctuation to include in this rule."
+		},
+		"base_block":
+		{
+			"type": "object",
+			"properties":
+			{
+				"severity": { "$ref": "#/definitions/severity" },
+				"required": { "$ref": "#/definitions/enabled" }
+			},
+			"required": ["required"]
+		},
+		"inferred_block":
+		{
+			"type": "object",
+			"properties":
+			{
+				"severity": { "$ref": "#/definitions/severity" },
+				"mode":
+				{
+					"type": "string",
+					"enum": ["implicit", "explicit"],
+					"description": "The mode to use for inferred rules."
+				}
+			},
+			"required": ["mode"]
+		}
+	},
+	"type": "object",
+	"properties":
+	{
+		"naming":
+		{
+			"type": "object",
+			"description": "Naming conventions for the source code.",
+			"properties":
+			{
+				"private_field": { "$ref": "#/definitions/naming_convention" },
+				"public_field": { "$ref": "#/definitions/naming_convention" },
+				"protected_field": { "$ref": "#/definitions/naming_convention" },
+				"internal_field": { "$ref": "#/definitions/naming_convention" },
+				"property": { "$ref": "#/definitions/naming_convention" },
+				"method": { "$ref": "#/definitions/naming_convention" },
+				"class": { "$ref": "#/definitions/naming_convention" },
+				"interface": { "$ref": "#/definitions/naming_convention" },
+				"enum": { "$ref": "#/definitions/naming_convention" },
+				"struct": { "$ref": "#/definitions/naming_convention" },
+				"local_variable": { "$ref": "#/definitions/naming_convention" },
+				"parameter": { "$ref": "#/definitions/naming_convention" },
+				"constant": { "$ref": "#/definitions/naming_convention" },
+				"namespace": { "$ref": "#/definitions/naming_convention" },
+				"generic_parameter": { "$ref": "#/definitions/naming_convention" }
+			}
+		},
+		"formatting":
+		{
+			"type": "object",
+			"description": "Symbol positionings in the source code.",
+			"properties":
+			{
+				"curly_braces":
+				{
+					"type": "object",
+					"properties":
+					{
+						"severity": { "$ref": "#/definitions/severity" },
+						"new_line":
+						{
+							"type": "boolean",
+							"description": "Whether to place the opening curly brace on a new line."
+						}
+					},
+					"required": ["new_line"]
+				},
+				"indentation":
+				{
+					"type": "object",
+					"properties":
+					{
+						"severity": { "$ref": "#/definitions/severity" },
+						"size":
+						{
+							"type": "integer",
+							"description": "The number of spaces to use for indentation."
+						}
+					},
+					"required": ["size"]
+				},
+				"comments":
+				{
+					"type": "object",
+					"properties":
+					{
+						"severity": { "$ref": "#/definitions/severity" },
+						"new_line":
+						{
+							"type": "boolean",
+							"description": "Whether to place comments on a new line."
+						},
+						"leading_space":
+						{
+							"type": "boolean",
+							"description": "Whether to place a space after the comment delimiter."
+						},
+						"trailing_full_stop":
+						{
+							"type": "boolean",
+							"description": "Whether to place a full stop at the end of the comment."
+						},
+						"capitalize_first_letter":
+						{
+							"type": "boolean",
+							"description": "Whether to capitalize the first letter of the comment."
+						},
+						"comment_detection_sensitivity":
+						{
+							"type": "number",
+							"description": "The sensitivity of the comment detection algorithm."
+						}
+					}
+				},
+				"punctuation":
+				{
+					"type": "object",
+					"properties":
+					{
+						"space_around":
+						{
+							"type": "array",
+							"items":
+							{
+								"type": "object",
+								"properties":
+								{
+									"severity": { "$ref": "#/definitions/severity" },
+									"left":
+									{
+										"type": "boolean",
+										"description": "Whether to require a space to the left of the punctuation token."
+									},
+									"right":
+									{
+										"type": "boolean",
+										"description": "Whether to require a space to the right of the punctuation token."
+									},
+									"tokens": { "$ref": "#/definitions/punctuation_tokens" }
+								},
+								"required": ["left", "right", "tokens"]
+							}
+						},
+						"new_line":
+						{
+							"type": "array",
+							"items":
+							{
+								"type": "object",
+								"properties":
+								{
+									"severity": { "$ref": "#/definitions/severity" },
+									"left":
+									{
+										"type": "boolean",
+										"description": "Whether to require a newline to the left of the punctuation token."
+									},
+									"right":
+									{
+										"type": "boolean",
+										"description": "Whether to require a newline to the right of the punctuation token."
+									},
+									"tokens": { "$ref": "#/definitions/punctuation_tokens" }
+								},
+								"required": ["left", "right", "tokens"]
+							}
+						}
+					}
+				},
+				"object_structure":
+				{
+					"type": "object",
+					"description": "The structure of objects in the source code.",
+					"properties":
+					{
+						"severity": { "$ref": "#/definitions/severity" },
+						"properties_at_top":
+						{
+							"type": "boolean",
+							"description": "Whether to place properties at the top of the object."
+						}
+					}
+				}
+			}
+		},
+		"implicit":
+		{
+			"type": "object",
+			"description": "Implicit rules for the source code.",
+			"properties":
+			{
+				"this": { "$ref": "#/definitions/inferred_block" },
+				"access_modifier": { "$ref": "#/definitions/inferred_block" },
+				"constructor": { "$ref": "#/definitions/inferred_block" },
+				"type": { "$ref": "#/definitions/inferred_block" }
+			}
+		}
+	}
+}

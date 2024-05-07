@@ -1,0 +1,139 @@
+\documentclass{article} %specifies the document being created is an article
+% \documentclass[12pt]{article} %specifies the document being created is an article
+% \documentclass{COMPXXXX}
+\usepackage{graphicx} %tells LaTeX we want to include images in the document 
+\usepackage{natbib} %this allows you work on the references and citations in Harvard format
+\usepackage{import} %this allows you to import other files into the document
+\usepackage{array}
+\usepackage{blindtext}
+\usepackage{titlesec}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{etoolbox}
+% https://tex.stackexchange.com/questions/60209/how-to-add-an-extra-level-of-sections-with-headings-below-subsubsection
+\usepackage{multirow}
+\usepackage{titlesec}
+% https://tex.stackexchange.com/questions/30657/listings-package-for-c
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tabularx}
+% https://tex.stackexchange.com/questions/97094/how-to-change-the-display-of-subfigures-in-list-of-figures
+\usepackage[list=true,listformat=simple]{subcaption}
+\usepackage[export]{adjustbox}
+
+% \setcounter{secnumdepth}{4}
+% \setcounter{tocdepth}{4}
+
+% https://tex.stackexchange.com/questions/32160/new-line-after-paragraph
+% \newcommand{\subsubsubsection}[1]{\paragraph{#1}\mbox{}\\}
+\newcommand{\subsubsubsection}[1]{\paragraph{#1}}
+
+\renewcommand{\bibsection}{}
+
+% https://tex.stackexchange.com/questions/132646/how-to-remove-the-references-title
+% \usepackage[style=agsm]{biblatex}
+% \addbibresource{bibliography.bib}
+
+% % https://tex.stackexchange.com/questions/132646/how-to-remove-the-references-title
+% \usepackage{etoolbox}
+% \patchcmd{\thebibliography}{\section*{\refname}}{}{}{}
+
+\usepackage{geometry}
+\geometry{
+    margin=1in, % 2.5cm CIS = 1in
+    includeheadfoot
+}
+\usepackage{setspace}
+\onehalfspacing
+% \usepackage{fontspec}
+% \setmainfont{Times New Roman}
+
+% \setcounter{secnumdepth}{2}
+% \setcounter{tocdepth}{2}
+
+% https://tex.stackexchange.com/questions/604927/how-to-use-chapter-in-article-class
+%Add chapter functionality in article class
+\usepackage[]{hyperref}
+% \newcounter{Chapcounter}
+% \newcommand\showmycounter{\addtocounter{Chapcounter}{1}\themycounter}
+% \newcommand{\chapter}[1] 
+% { {\centering          
+%   \addtocounter{Chapcounter}{1} \Large \underline{\textbf{ \color{blue} Chapter \theChapcounter: ~#1}} }   
+%   \addcontentsline{toc}{section}{ \color{blue} Chapter:~\theChapcounter~~ #1}    
+% }
+% \hypersetup{colorlinks=false}
+% \hypersetup{linkcolor=black}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=black,
+    urlcolor=black,
+    pdfborder={0 0 0}, % No border around links
+}
+
+\lstdefinestyle{sharpc}{language=[Sharp]C, frame=l, rulecolor=\color{lightgray}}
+
+\begin{document} %start the document
+
+% \chapter{Introductory}
+\import{./Chapters/Introductory/}{TitlePage.tex}
+% \section*{Introductory}
+\import{./Chapters/Introductory/}{AbstractAndPreface.tex}
+\import{./Chapters/Introductory/}{Acknowledgements.tex}
+\import{./Chapters/Introductory/}{Index.tex}
+
+\newpage
+% Each chapter should start on a new page. Chapter headings should appear more important than section headings. The following usually have one or more chapters devoted to them.
+% The introduction should set the scene for the project, and give the background to the project. It should also state the objectives of the project.
+\section{Introduction}
+\import{./Chapters/MainBody/Introduction/}{Background.tex}
+\import{./Chapters/MainBody/Introduction/}{AimsAndObjectives.tex}
+\import{./Chapters/MainBody/Introduction/}{Approach.tex}
+\import{./Chapters/MainBody/Introduction/}{FrameworkJustification.tex}
+
+\newpage
+% The literature review should describe the current state of the art in the area of the project, and what work has been done in the area.
+\section{Literature review}
+\subsection{Domain research}
+\import{./Chapters/MainBody/LiteratureReview/InitialResearch/}{Approach.tex}
+\import{./Chapters/MainBody/LiteratureReview/InitialResearch/}{Problem.tex}
+\import{./Chapters/MainBody/LiteratureReview/InitialResearch/}{LiteratureReview.tex}
+\import{./Chapters/MainBody/LiteratureReview/InitialResearch/}{Conclusions.tex}
+
+% \newpage
+\subsection{Methodology}
+\import{./Chapters/MainBody/LiteratureReview/ProductResearch/}{ExistingSolutions.tex}
+\import{./Chapters/MainBody/LiteratureReview/ProductResearch/}{Considerations.tex}
+\import{./Chapters/MainBody/LiteratureReview/ProductResearch/}{Requirements.tex}
+
+% \newpage
+\subsection{Design approach}
+\import{./Chapters/MainBody/LiteratureReview/DesignProposal/}{Approach.tex}
+\import{./Chapters/MainBody/LiteratureReview/DesignProposal/}{Prototypes.tex}
+\import{./Chapters/MainBody/LiteratureReview/DesignProposal/}{Reflection.tex}
+
+\newpage
+\section{Project development}
+\import{./Chapters/MainBody/}{AnalysisAndRequirements.tex}
+\import{./Chapters/MainBody/}{DesignPhilosophy.tex}
+
+% \newpage
+% \section{Integration and testing}
+\import{./Chapters/MainBody/IntegrationAndTesting/}{Integration.tex}
+\import{./Chapters/MainBody/IntegrationAndTesting/}{YAML.tex}
+\import{./Chapters/MainBody/IntegrationAndTesting/}{NamingEngine.tex}
+\import{./Chapters/MainBody/IntegrationAndTesting/}{Formatting.tex}
+\import{./Chapters/MainBody/IntegrationAndTesting/}{LanguageFeatures.tex}
+\import{./Chapters/MainBody/IntegrationAndTesting/}{Testing.tex}
+\import{./Chapters/MainBody/IntegrationAndTesting/}{ProductEvaluation.tex}
+
+\newpage
+% The closing chapters commonly include a summary and a conclusion together with any recommendations. In summarizing, highlight the important stages and outcomes of the project. The conclusions would normally consider and comment critically upon the results of the project; this includes both the process and the product. This should include a consideration of the extent to which the aims of the project have been achieved. Finally, recommend ways in which the work could be applied or extended.
+% \section{Closing chapters}
+\section{Epilogue}
+\import{./Chapters/ClosingChapters/}{SummaryAndConclusion.tex}
+\import{./Chapters/ClosingChapters/}{References.tex}
+\import{./Chapters/ClosingChapters/}{Appendices.tex}
+\import{./Chapters/ClosingChapters/}{Appendices_Figures.tex}
+
+\end{document} %end the document

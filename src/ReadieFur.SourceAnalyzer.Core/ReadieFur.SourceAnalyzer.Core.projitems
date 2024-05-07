@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>cfe8e53c-d2b4-4a65-a79b-f7e8fb460dd0</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>ReadieFur.SourceAnalyzer.Core</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\BraceAnalyzer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\BraceFixProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\CommentAnalyzer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\CommentFixProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\EAnalyzerID.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\Helpers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\IndentationFixProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\IndentationAnalyzer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\InferredAnalyzer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\InferredFixProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\NamingAnalyzer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\NamingFixProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\ObjectStructureAnalyzer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\ObjectStructureFixProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\PunctuationAnalyzer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Analyzers\PunctuationFixProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\Comments.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\Indentation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\Inferred.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\InferredBlock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\ObjectStructure.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\PropertyBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\ConfigManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\ConfigRoot.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\CurlyBraces.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\ESeverity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\IConfigManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\Formatting.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\Naming.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\NamingConvention.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\Punctuation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\PunctuationToken.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\AroundToken.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\YamlLoader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Refactoring\AbstractRefactoringProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\Anchor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\Atom.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\CharacterClass.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\CharacterRange.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\ConformParameters.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\ConformOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\GroupConstruct.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\MetaSequence.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\Quantifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\Regex.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\ConformQuantifierOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RegexEngine\AToken.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SyntaxNodeTokenOrTrivia.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)example.source-analyzer.yaml" />
+    <None Include="$(MSBuildThisFileDirectory)source-anlyzer.schema.jsonc" />
+  </ItemGroup>
+</Project>

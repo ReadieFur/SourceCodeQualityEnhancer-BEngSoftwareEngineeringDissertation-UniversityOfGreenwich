@@ -1,0 +1,67 @@
+#Originally I had placed my definitions here, however the YAML parser I am using has issues with undefined C# properties so I am using some janky inline referencing instead.
+#I was running into race conditions with the parser when using anchors and due to the above issue I have decided to just fill all of the properties in manually for now.
+#https://stackoverflow.com/questions/2103596/regex-that-matches-camel-and-pascal-case
+
+naming:
+  private_field:
+    pattern: "_[a-z]+([A-Z][a-z]+)*" #_camelCase
+  internal_field:
+    pattern: "([A-Z][a-z]+)+"
+  protected_field:
+    pattern: "([A-Z][a-z]+)+"
+  public_field:
+    pattern: "([A-Z][a-z]+)+"
+  property:
+    pattern: "([A-Z][a-z]+)+"
+  method:
+    pattern: "([A-Z][a-z]+)+"
+  class:
+    pattern: "([A-Z][a-z]+)+"
+  interface:
+    pattern: "I([A-Z][a-z]+)+" #IPascalCase
+  enum:
+    pattern: "E([A-Z][a-z]+)+" #EPascalCase
+  struct:
+    pattern: "S([A-Z][a-z]+)+" #EPascalCase
+  local_variable:
+    pattern: "[a-z]+([A-Z][a-z]+)*"
+  parameter:
+    pattern: "[a-z]+([A-Z][a-z]+)*"
+  constant:
+    pattern: "[A-Z]+(?:_[A-Z]+)*$" #https://stackoverflow.com/questions/43224835/regex-to-match-all-capital-and-underscore
+  namespace:
+    pattern: "[A-Z][a-z]+(?:\\.?[A-Z][a-z]+)*$" #Pascal.Case
+  generic_parameter:
+    pattern: "T([A-Z][a-z]+)+" #TPascalCase
+formatting:
+  curly_braces:
+    new_line: true
+  indentation:
+    size: 4
+  comments:
+    new_line: true
+    leading_space: false
+    trailing_full_stop: true
+    capitalize_first_letter: true
+    comment_detection_sensitivity: 0.5
+  punctuation:
+    space_around:
+      - left: true
+        right: true
+        tokens:
+          - "+"
+          - "-"
+          - "="
+    new_line:
+      - left: true
+        right: false
+        tokens:
+          - "&&"
+          - "||"
+  object_structure:
+    properties_at_top: true
+inferred:
+  access_modifier:
+    mode: "explicit"
+  constructor:
+    mode: "implicit"

@@ -1,0 +1,54 @@
+\contentsline {section}{\numberline {1}Introduction}{4}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Background}{4}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Aims and objectives}{4}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Project overview}{4}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}Justification}{4}{subsection.1.4}%
+\contentsline {section}{\numberline {2}Literature review}{5}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Domain research}{5}{subsection.2.1}%
+\contentsline {subsubsection}{\numberline {2.1.1}Introduction}{5}{subsubsection.2.1.1}%
+\contentsline {subsubsection}{\numberline {2.1.2}Problem domain}{5}{subsubsection.2.1.2}%
+\contentsline {subsubsection}{\numberline {2.1.3}Review}{6}{subsubsection.2.1.3}%
+\contentsline {subsubsection}{\numberline {2.1.4}Conclusions}{6}{subsubsection.2.1.4}%
+\contentsline {subsection}{\numberline {2.2}Methodology}{6}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1}Related work}{6}{subsubsection.2.2.1}%
+\contentsline {subsubsection}{\numberline {2.2.2}Defining software quality}{6}{subsubsection.2.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.3}Considerations}{7}{subsubsection.2.2.3}%
+\contentsline {subsubsection}{\numberline {2.2.4}Requirements}{7}{subsubsection.2.2.4}%
+\contentsline {subsection}{\numberline {2.3}Design approach}{8}{subsection.2.3}%
+\contentsline {subsubsection}{\numberline {2.3.1}Overview}{8}{subsubsection.2.3.1}%
+\contentsline {subsubsection}{\numberline {2.3.2}Techinical details}{9}{subsubsection.2.3.2}%
+\contentsline {subsubsection}{\numberline {2.3.3}Prototypes}{9}{subsubsection.2.3.3}%
+\contentsline {subsubsection}{\numberline {2.3.4}Reflection}{10}{subsubsection.2.3.4}%
+\contentsline {section}{\numberline {3}Project development}{11}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Evaluation}{11}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Design philosophy}{12}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}Object oriented programming principles and design patterns}{12}{subsubsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.2}Project management}{12}{subsubsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.3}Integration}{13}{subsection.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.1}User defined configuration}{14}{subsubsection.3.3.1}%
+\contentsline {subsubsection}{\numberline {3.3.2}Naming engine}{15}{subsubsection.3.3.2}%
+\contentsline {paragraph}{Pattern parsing}{15}{paragraph*.5}%
+\contentsline {paragraph}{Input conversion}{16}{paragraph*.6}%
+\contentsline {paragraph}{Output validation}{17}{paragraph*.7}%
+\contentsline {subsubsection}{\numberline {3.3.3}Document formatting}{17}{subsubsection.3.3.3}%
+\contentsline {paragraph}{Comments}{18}{paragraph*.8}%
+\contentsline {paragraph}{Indentation}{18}{paragraph*.9}%
+\contentsline {paragraph}{Punctuation and brace location}{19}{paragraph*.10}%
+\contentsline {paragraph}{Object structure}{19}{paragraph*.12}%
+\contentsline {subsubsection}{\numberline {3.3.4}Language features}{20}{subsubsection.3.3.4}%
+\contentsline {paragraph}{Inferred access modifiers}{20}{paragraph*.13}%
+\contentsline {paragraph}{Implicit object initialization}{20}{paragraph*.14}%
+\contentsline {subsection}{\numberline {3.4}Testing}{21}{subsection.3.4}%
+\contentsline {subsubsection}{\numberline {3.4.1}Unit testing}{21}{subsubsection.3.4.1}%
+\contentsline {subsubsection}{\numberline {3.4.2}Integration testing}{23}{subsubsection.3.4.2}%
+\contentsline {subsubsection}{\numberline {3.4.3}Standalone testing}{24}{subsubsection.3.4.3}%
+\contentsline {subsection}{\numberline {3.5}Product evaluation}{24}{subsection.3.5}%
+\contentsline {section}{\numberline {4}Epilogue}{26}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Summary}{26}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Conclusion}{26}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}References}{26}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Appendices}{28}{subsection.4.4}%
+\contentsline {subsubsection}{\numberline {4.4.1}Custom unit test file parser}{28}{subsubsection.4.4.1}%
+\contentsline {subsubsection}{\numberline {4.4.2}Manual testing}{29}{subsubsection.4.4.2}%
+\contentsline {subsubsection}{\numberline {4.4.3}Debugging research process}{29}{subsubsection.4.4.3}%
+\contentsline {subsubsection}{\numberline {4.4.4}Additional figures}{30}{subsubsection.4.4.4}%

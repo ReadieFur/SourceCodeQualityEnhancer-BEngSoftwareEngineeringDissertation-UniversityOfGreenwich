@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ReadieFur.SourceAnalyzer.Standalone": {
+      "commandName": "Project",
+      "commandLineArgs": "\"D:\\Users\\ReadieFur\\Documents\\GitHub\\ReadieFur\\University_Of_Greenwich-COMP1682-Final-Year-Project\\src\\ReadieFur.SourceAnalyzer.ExampleProject\\ReadieFur.SourceAnalyzer.ExampleProject.sln\" \"D:\\Users\\ReadieFur\\Documents\\GitHub\\ReadieFur\\University_Of_Greenwich-COMP1682-Final-Year-Project\\src\\ReadieFur.SourceAnalyzer.Core\\example.source-analyzer.yaml\""
+    }
+  }
+}

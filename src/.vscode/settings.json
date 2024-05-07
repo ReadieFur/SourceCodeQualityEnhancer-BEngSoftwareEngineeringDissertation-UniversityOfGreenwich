@@ -1,0 +1,7 @@
+{
+    "yaml.schemas": {
+        "ReadieFur.SourceAnalyzer.Shared/source-anlyzer.schema.jsonc": [
+            "ReadieFur.SourceAnalyzer.Shared/*.source-analyzer.yaml"
+        ]
+    }
+}

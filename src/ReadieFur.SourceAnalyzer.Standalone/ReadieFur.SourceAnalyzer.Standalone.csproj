@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWPF>true</UseWPF>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>ReadieFur.SourceAnalyzer.Standalone.App</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Remove="C:\Users\ReadieFur\.nuget\packages\diffplex.wpf\1.4.0\contentFiles\any\net46\DiffPlex.ico" />
+    <Content Remove="C:\Users\ReadieFur\.nuget\packages\diffplex.wpf\1.4.0\contentFiles\any\net46\License.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="DiffPlex" Version="1.7.2" />
+    <PackageReference Include="DiffPlex.Wpf" Version="1.4.0" />
+    <PackageReference Include="FolderBrowserEx" Version="1.0.1" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Build.Locator" Version="1.7.8" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.9.2" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="4.9.2" />
+    <PackageReference Include="YamlDotNet" Version="15.1.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="WPFTemplate">
+      <HintPath>libs\WPFTemplate.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="..\ReadieFur.SourceAnalyzer.Core\ReadieFur.SourceAnalyzer.Core.projitems" Label="Shared" />
+  <Import Project="..\ReadieFur.SourceAnalyzer.StandaloneHelpers\ReadieFur.SourceAnalyzer.StandaloneHelpers.projitems" Label="Shared" />
+</Project>
