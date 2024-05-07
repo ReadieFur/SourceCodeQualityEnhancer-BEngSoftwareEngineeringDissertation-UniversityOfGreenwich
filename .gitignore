@@ -410,3 +410,5 @@ src/ReadieFur.SourceAnalyzer.VSIX/Resources/Thumbs.db
 *.idx
 *.ilg
 *.ind
+
+submission_files/
