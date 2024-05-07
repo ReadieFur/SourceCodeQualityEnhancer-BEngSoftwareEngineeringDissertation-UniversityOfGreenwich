@@ -9,6 +9,7 @@ using System.IO.Compression;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using GitignoreParserNet;
 
 // Define source and destination paths
 string srcStandalone = @".\src\ReadieFur.SourceAnalyzer.Standalone\bin\Debug\net472";
@@ -70,31 +71,28 @@ void CopyFiles(string sourceDir, string destDir)
 
 void ArchiveFiles()
 {
-    // Ignore.Ignore ignore = new();
-
-    // IEnumerable<string> gitignoreContents = File.ReadAllText(".gitignore")
-    //     .Split('\n')
-    //     .Where(line => !string.IsNullOrWhiteSpace(line) && !line.StartsWith("#") && line != "[Bb]in/"); //Force inclusion of build output files for this use case.
-    
-    // //Perfect that this isn't working :3.
-    // ignore.Add(gitignoreContents);
-
-    // IEnumerable<string> files = Directory.EnumerateFiles(srcDir, "*", SearchOption.AllDirectories)
-    //     // .Select(file => (Environment.CurrentDirectory + file.Substring(1)).Replace('\\', '/'));
-    //     .Select(file => file.Substring(2).Replace('\\', '/'));
-    // IEnumerable<string> filesToArchive = ignore.Filter(files);
-
-    // using (ZipArchive archive = ZipFile.Open(srcZipPath, ZipArchiveMode.Create))
-    // {
-    //     foreach (string file in filesToArchive)
-    //     {
-    //         string relativePath = Path.GetRelativePath(srcDir, file);
-    //         archive.CreateEntryFromFile(file, relativePath);
-    //     }
-    // }
+    string[] excludeOverrides = { "[Bb]in/", "[Rr]elease/", "[Dd]ebug/" };
+    string[] additionalExcludes = { "TestResults/" };
 
     IEnumerable<string> gitignoreContents = File.ReadAllText(".gitignore")
         .Split('\n')
-        .Where(line => !string.IsNullOrWhiteSpace(line) && !line.StartsWith("#") && line != "[Bb]in/"); //Force inclusion of build output files for this use case.
-    GitignoreParser.Parse(string.Join('\n', gitignoreContents), srcDir, srcZipPath);
+        .Where(line =>
+            (!string.IsNullOrWhiteSpace(line)
+            && !line.StartsWith("#")
+            && !excludeOverrides.Any(line.Contains))
+            || additionalExcludes.Any(line.Contains));
+    
+    GitignoreParser parser = new(string.Join('\n', gitignoreContents));
+    
+    IEnumerable<string> archiveFiles = Directory.EnumerateFiles(srcDir, "*", SearchOption.AllDirectories)
+        .Where(file => parser.Accepts(file));
+
+    using (ZipArchive archive = ZipFile.Open(srcZipPath, ZipArchiveMode.Create))
+    {
+        foreach (string file in archiveFiles)
+        {
+            string relativePath = Path.GetRelativePath(srcDir, file);
+            archive.CreateEntryFromFile(file, relativePath);
+        }
+    }
 }
