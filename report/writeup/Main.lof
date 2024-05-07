@@ -1,20 +1,20 @@
-\contentsline {figure}{\numberline {1}{\ignorespaces Code TODO List}}{8}{figure.caption.1}%
-\contentsline {figure}{\numberline {2}{\ignorespaces Token Breakdown}}{9}{figure.caption.2}%
-\contentsline {figure}{\numberline {3}{\ignorespaces YAML Configuration}}{14}{figure.caption.4}%
-\contentsline {figure}{\numberline {4}{\ignorespaces YAML Configuration for Punctuation}}{19}{figure.caption.11}%
-\contentsline {figure}{\numberline {5}{\ignorespaces Unit Tests}}{23}{figure.caption.15}%
-\contentsline {subfigure}{\numberline {5a}{\ignorespaces Unit Test Results}}{23}{figure.caption.15}%
-\contentsline {subfigure}{\numberline {5b}{\ignorespaces Failing Unit Test}}{23}{figure.caption.15}%
-\contentsline {figure}{\numberline {6}{\ignorespaces Integrated IDE Hints}}{24}{figure.caption.16}%
-\contentsline {figure}{\numberline {7}{\ignorespaces Standalone Tool}}{24}{figure.caption.17}%
-\contentsline {figure}{\numberline {8}{\ignorespaces Debugging research process}}{30}{figure.caption.20}%
-\contentsline {figure}{\numberline {9}{\ignorespaces Project Timeline}}{31}{figure.caption.21}%
-\contentsline {subfigure}{\numberline {9a}{\ignorespaces Timeline table}}{31}{figure.caption.21}%
-\contentsline {subfigure}{\numberline {9b}{\ignorespaces Gantt chart}}{31}{figure.caption.21}%
-\contentsline {figure}{\numberline {10}{\ignorespaces Using GitHub to track changes and issues}}{32}{figure.caption.22}%
-\contentsline {figure}{\numberline {11}{\ignorespaces YAML Schema}}{32}{figure.caption.22}%
-\contentsline {figure}{\numberline {12}{\ignorespaces Regex Token Recursive Parse}}{32}{figure.caption.23}%
-\contentsline {subfigure}{\numberline {12a}{\ignorespaces Group Construct Recursive Parse}}{32}{figure.caption.23}%
-\contentsline {subfigure}{\numberline {12b}{\ignorespaces Recursive Token Parser}}{32}{figure.caption.23}%
-\contentsline {figure}{\numberline {13}{\ignorespaces Character Range Conform}}{32}{figure.caption.23}%
-\contentsline {figure}{\numberline {14}{\ignorespaces Quantifier Conform Parameters}}{33}{figure.caption.24}%
+\contentsline {figure}{\numberline {1}{\ignorespaces Code TODO List}}{9}{figure.caption.1}%
+\contentsline {figure}{\numberline {2}{\ignorespaces Token Breakdown}}{10}{figure.caption.2}%
+\contentsline {figure}{\numberline {3}{\ignorespaces YAML Configuration}}{15}{figure.caption.4}%
+\contentsline {figure}{\numberline {4}{\ignorespaces YAML Configuration for Punctuation}}{20}{figure.caption.11}%
+\contentsline {figure}{\numberline {5}{\ignorespaces Unit Tests}}{24}{figure.caption.15}%
+\contentsline {subfigure}{\numberline {5a}{\ignorespaces Unit Test Results}}{24}{figure.caption.15}%
+\contentsline {subfigure}{\numberline {5b}{\ignorespaces Failing Unit Test}}{24}{figure.caption.15}%
+\contentsline {figure}{\numberline {6}{\ignorespaces Integrated IDE Hints}}{25}{figure.caption.16}%
+\contentsline {figure}{\numberline {7}{\ignorespaces Standalone Tool}}{25}{figure.caption.17}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Debugging research process}}{31}{figure.caption.21}%
+\contentsline {figure}{\numberline {9}{\ignorespaces Project Timeline}}{32}{figure.caption.22}%
+\contentsline {subfigure}{\numberline {9a}{\ignorespaces Timeline table}}{32}{figure.caption.22}%
+\contentsline {subfigure}{\numberline {9b}{\ignorespaces Gantt chart}}{32}{figure.caption.22}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Using GitHub to track changes and issues}}{33}{figure.caption.23}%
+\contentsline {figure}{\numberline {11}{\ignorespaces YAML Schema}}{33}{figure.caption.23}%
+\contentsline {figure}{\numberline {12}{\ignorespaces Regex Token Recursive Parse}}{33}{figure.caption.24}%
+\contentsline {subfigure}{\numberline {12a}{\ignorespaces Group Construct Recursive Parse}}{33}{figure.caption.24}%
+\contentsline {subfigure}{\numberline {12b}{\ignorespaces Recursive Token Parser}}{33}{figure.caption.24}%
+\contentsline {figure}{\numberline {13}{\ignorespaces Character Range Conform}}{33}{figure.caption.24}%
+\contentsline {figure}{\numberline {14}{\ignorespaces Quantifier Conform Parameters}}{34}{figure.caption.25}%

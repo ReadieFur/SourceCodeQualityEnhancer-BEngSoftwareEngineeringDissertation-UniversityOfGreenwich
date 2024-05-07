@@ -2,7 +2,8 @@
 
 % https://tex.stackexchange.com/questions/542803/removing-blank-pages
 % \let\cleardoublepage=\clearpage
-\subsubsection{Additional figures}
+\subsection*{Additional figures}
+\addcontentsline{toc}{subsection}{\protect\numberline{}Additional figures}
 
 \begin{figure}
     \vspace{-50px}
@@ -12,7 +13,7 @@
     \begin{subfigure}[t]{0.5\textwidth}
         \caption{Timeline table}
         \label{fig:ProjectTimelineChart}
-        \includegraphics[width=0.5\textheight]{../TimelineChart.png}
+        \includegraphics[width=0.5\textheight]{Figures/TimelineChart.png}
     \end{subfigure}
     % \vspace{10px}
     \begin{subfigure}[b]{1.0\textwidth}
