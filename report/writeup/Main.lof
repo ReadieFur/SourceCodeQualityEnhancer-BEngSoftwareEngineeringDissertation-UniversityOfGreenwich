@@ -1,21 +1,21 @@
 \contentsline {figure}{\numberline {1}{\ignorespaces Code TODO List}}{9}{figure.caption.1}%
 \contentsline {figure}{\numberline {2}{\ignorespaces Token Breakdown}}{10}{figure.caption.2}%
-\contentsline {figure}{\numberline {3}{\ignorespaces Using GitHub to track changes and issues}}{13}{figure.caption.4}%
-\contentsline {figure}{\numberline {4}{\ignorespaces YAML Schema}}{15}{figure.caption.5}%
-\contentsline {figure}{\numberline {5}{\ignorespaces YAML Configuration}}{15}{figure.caption.6}%
-\contentsline {figure}{\numberline {6}{\ignorespaces VSIX Configuration manager}}{16}{figure.caption.7}%
-\contentsline {figure}{\numberline {7}{\ignorespaces Regex Token Recursive Parse}}{17}{figure.caption.9}%
-\contentsline {subfigure}{\numberline {7a}{\ignorespaces Group Construct Recursive Parse}}{17}{figure.caption.9}%
-\contentsline {subfigure}{\numberline {7b}{\ignorespaces Recursive Token Parser}}{17}{figure.caption.9}%
-\contentsline {figure}{\numberline {8}{\ignorespaces Quantifier Conform Parameters}}{19}{figure.caption.11}%
-\contentsline {figure}{\numberline {9}{\ignorespaces Character Range Conform}}{19}{figure.caption.12}%
-\contentsline {figure}{\numberline {10}{\ignorespaces YAML Configuration for Punctuation}}{21}{figure.caption.17}%
-\contentsline {figure}{\numberline {11}{\ignorespaces Unit Tests}}{25}{figure.caption.21}%
-\contentsline {subfigure}{\numberline {11a}{\ignorespaces Unit Test Results}}{25}{figure.caption.21}%
-\contentsline {subfigure}{\numberline {11b}{\ignorespaces Failing Unit Test}}{25}{figure.caption.21}%
-\contentsline {figure}{\numberline {12}{\ignorespaces Integrated IDE Hints}}{26}{figure.caption.22}%
-\contentsline {figure}{\numberline {13}{\ignorespaces Standalone Tool}}{26}{figure.caption.23}%
-\contentsline {figure}{\numberline {14}{\ignorespaces Debugging research process}}{32}{figure.caption.26}%
-\contentsline {figure}{\numberline {15}{\ignorespaces Project Timeline}}{33}{figure.caption.27}%
-\contentsline {subfigure}{\numberline {15a}{\ignorespaces Timeline table}}{33}{figure.caption.27}%
-\contentsline {subfigure}{\numberline {15b}{\ignorespaces Gantt chart}}{33}{figure.caption.27}%
+\contentsline {figure}{\numberline {3}{\ignorespaces YAML Configuration}}{15}{figure.caption.4}%
+\contentsline {figure}{\numberline {4}{\ignorespaces YAML Configuration for Punctuation}}{20}{figure.caption.11}%
+\contentsline {figure}{\numberline {5}{\ignorespaces Unit Tests}}{24}{figure.caption.15}%
+\contentsline {subfigure}{\numberline {5a}{\ignorespaces Unit Test Results}}{24}{figure.caption.15}%
+\contentsline {subfigure}{\numberline {5b}{\ignorespaces Failing Unit Test}}{24}{figure.caption.15}%
+\contentsline {figure}{\numberline {6}{\ignorespaces Integrated IDE Hints}}{25}{figure.caption.16}%
+\contentsline {figure}{\numberline {7}{\ignorespaces Standalone Tool}}{25}{figure.caption.17}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Debugging research process}}{31}{figure.caption.20}%
+\contentsline {figure}{\numberline {9}{\ignorespaces Project Timeline}}{32}{figure.caption.21}%
+\contentsline {subfigure}{\numberline {9a}{\ignorespaces Timeline table}}{32}{figure.caption.21}%
+\contentsline {subfigure}{\numberline {9b}{\ignorespaces Gantt chart}}{32}{figure.caption.21}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Using GitHub to track changes and issues}}{33}{figure.caption.22}%
+\contentsline {figure}{\numberline {11}{\ignorespaces YAML Schema}}{33}{figure.caption.23}%
+\contentsline {figure}{\numberline {12}{\ignorespaces VSIX Configuration manager}}{34}{figure.caption.24}%
+\contentsline {figure}{\numberline {13}{\ignorespaces Regex Token Recursive Parse}}{34}{figure.caption.25}%
+\contentsline {subfigure}{\numberline {13a}{\ignorespaces Group Construct Recursive Parse}}{34}{figure.caption.25}%
+\contentsline {subfigure}{\numberline {13b}{\ignorespaces Recursive Token Parser}}{34}{figure.caption.25}%
+\contentsline {figure}{\numberline {14}{\ignorespaces Quantifier Conform Parameters}}{35}{figure.caption.26}%
+\contentsline {figure}{\numberline {15}{\ignorespaces Character Range Conform}}{35}{figure.caption.27}%

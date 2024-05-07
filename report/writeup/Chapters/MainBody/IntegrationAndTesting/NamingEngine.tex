@@ -14,21 +14,21 @@ The regex engine has three main functions: parse; convert; and match. The parse 
 During construction of the regex engine object, a regex pattern is to be provided which will be parsed into a token tree. The choice for representing the pattern data in a tree structure was made to allow for easy manipulation of the pattern. For example, if a quantifier token is found, it makes it significantly easier to determine what the quantifier token is linked to as one can either navigate up the tree or back one token to find the relevant token or set that needs to be quantified.
 Due to current limitations with the regex parser, the regex pattern gets wrapped in a group construct. The reason for this is that the regex parser uses group constructs as the base token for the tree structure. All recognized token classes within this regex engine inherit from the base \texttt{AToken} abstract class which contains common properties and interfaces that all tokens must implement. This base class contains properties for the local pattern that the token represents, its parent, children, previous and next tokens in addition to the following abstract methods: \texttt{CanParse}; \texttt{Parse}; \texttt{Test}; and \texttt{Conform}. And the protected helper methods for recursively parsing children and reading individual tokens from a string.
 
-\begin{wrapfigure}{r}{0.5\textwidth}
-    \caption{Regex Token Recursive Parse}
-    \label{fig:RegexTokenRecursiveParse}
-    \centering
-    \begin{subfigure}[b]{0.5\textwidth}
-        \caption{Group Construct Recursive Parse}
-        \label{fig:GroupConstructRecursiveParse}
-        \includegraphics[width=\linewidth, height=0.3\textheight, keepaspectratio]{Figures/GroupConstructRecursiveParse.png}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.5\textwidth}
-        \caption{Recursive Token Parser}
-        \label{fig:AToken_RecursiveParse}
-        \includegraphics[width=\linewidth, height=\textheight, keepaspectratio]{Figures/AToken_RecursiveParse.png}
-    \end{subfigure}
-\end{wrapfigure}
+% \begin{wrapfigure}{r}{0.5\textwidth}
+%     \caption{Regex Token Recursive Parse}
+%     \label{fig:RegexTokenRecursiveParse}
+%     \centering
+%     \begin{subfigure}[b]{0.5\textwidth}
+%         \caption{Group Construct Recursive Parse}
+%         \label{fig:GroupConstructRecursiveParse}
+%         \includegraphics[width=\linewidth, height=0.3\textheight, keepaspectratio]{Figures/GroupConstructRecursiveParse.png}
+%     \end{subfigure}
+%     \begin{subfigure}[b]{0.5\textwidth}
+%         \caption{Recursive Token Parser}
+%         \label{fig:AToken_RecursiveParse}
+%         \includegraphics[width=\linewidth, height=\textheight, keepaspectratio]{Figures/AToken_RecursiveParse.png}
+%     \end{subfigure}
+% \end{wrapfigure}
 
 The parse method is responsible for converting a pattern into a tree structure of tokens. Every token class has a different implementation of this method, for example, the group construct class will first check the construct type which could be for example a positive lookbehind. After this the helper, recursive parse method is called to parse the children within the group construct. This recursive parse method takes three parameters: a list of valid child tokens, a consumable pattern to parse, and a closing token to look for. The method will then proceed to consume the pattern and parse tokens (see figure \ref{fig:AToken_RecursiveParse}). For any valid tokens found a new instance of that token class is constructed and the parse method on that child will be called. After the child token has been parsed, the child tokens parent gets updated to the calling contexts token. The previous token of the child is set to the last token in the parent's children list, and the child token is added to the parent's children list. The method will then continue to consume the pattern until the closing token is found. If the closing token is not found, the method will throw an exception due to the pattern being invalid. If the closing token is found, the method will return the parsed tokens. The parse method is called recursively on the root token to parse the entire pattern into a tree structure of tokens.
 
@@ -42,19 +42,19 @@ The conversion process is a recursive process that starts at the root token of t
 
 The most complex operation in this process will be shown using the code from the \texttt{Quantifier} class. The quantifier parse method starts out by getting any quantifier options for the current index in the parsing process. This method will search up the tree for a quantifier token and return the options for that quantifier, which will become apparent later on. Following this, the method will determine if the quantifier is greedy or not. A greedy quantifier is one that matches a pattern up to infinity times. Within the conform parameters a value can be set to configure a greedy quantifier to break under certain conditions. The method will then attempt to run the conform method on its children, if the conform method fails the quantifier will break and return the current index in the input string if the quantifier was configured in the zero-or-more mode. After successfully parsing the children at least once, checks are then run to see if the quantifier should break. If it is greedy the quantifier will run until it can no longer match the pattern. If it is not greedy the quantifier will run either until the upper bound is reached or until the break condition is met. Currently, this break condition allows for breaking on: character case changes; alphanumeric changes; and delimiter changes. If the quantifier breaks the method will return the current index in the input string while if the quantifier does not break the method will return the index of the last successful match (see figure \ref{fig:QuantifierConformParameters}). The quantifier needs to initially search up the tree because it needs to know its current context depth, if it is a nested quantifier then it should only conform to its local context and not a parent one, as the context is shared within the conform parameters object. When this method returns, the parent context will continue to parse the input string from the index that the quantifier has set within the conform parameters object.
 
-\begin{figure}[H]
-    \centering
-    \caption{Quantifier Conform Parameters}
-    \label{fig:QuantifierConformParameters}
-    \includegraphics[width=1.0\textwidth]{Figures/QuantifierConformParameters.png}
-\end{figure}
+% \begin{figure}[H]
+%     \centering
+%     \caption{Quantifier Conform Parameters}
+%     \label{fig:QuantifierConformParameters}
+%     \includegraphics[width=1.0\textwidth]{Figures/QuantifierConformParameters.png}
+% \end{figure}
 
-\begin{wrapfigure}{r}{0.5\textwidth}
-    \centering
-    \caption{Character Range Conform}
-    \label{fig:CharacterRangeConform}
-    \includegraphics[width=0.5\textwidth]{Figures/CharacterRangeConform.png}
-\end{wrapfigure}
+% \begin{wrapfigure}{r}{0.5\textwidth}
+%     \centering
+%     \caption{Character Range Conform}
+%     \label{fig:CharacterRangeConform}
+%     \includegraphics[width=0.5\textwidth]{Figures/CharacterRangeConform.png}
+% \end{wrapfigure}
 
 To give an example of how an implementation of the conform method generates a corrected string, we can look at the \texttt{CharacterRange} class. The character range class in regex is used to match a single character to a range of valid characters. In the instance of this classes conform method. Firstly, the character at the current index in the input string is checked to see if it is within the range of valid characters, which is achieved by comparing the characters unicode value to the unicode values of the start and end characters of the range. If the character is within the range, the character is added to the output string and the index is incremented. If the character is not within the range the method will attempt to see if the character can be converted to a valid character by changing the case of the character. For example, if the valid range of characters was \texttt{[a-c]} and the input character was \texttt{A}, the method would convert the character to its lowercase variant and see if that character is within the range. If the character is within the range after the case change, the character is added to the output string and the index is incremented. If the character is still not within the range after the case change, the method will either drop the character if configured to do so, or return false indicating that it was unable to conform the input string to the pattern (see figure \ref{fig:CharacterRangeConform}).
 
