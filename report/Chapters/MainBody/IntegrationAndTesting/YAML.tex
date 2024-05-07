@@ -1,5 +1,5 @@
 % TODO: Fix the figure wrapping here
-\newpage
+% \newpage
 
 \subsubsection{User defined configuration}
 
@@ -30,16 +30,17 @@
 %     \end{minipage}
 % \end{figure}
 
-As already noted, the lack of standardization in code formatting has lead to a key aim of this tool to be able to be configured by the user. It was also noted that this would be achieved through the use of a YAML configuration file. As configuration parsing isn't the goal of this work, the well-known, open source YAML parsing library YamlDotNet was used. This library is under the MIT license which grants full permission to use the library in this project.
-
-YAML was chosen as the configuration language due to its human readability, as well as being very easy to implement and understand by the end user. A custom schema was created for the configuration to aid the user in creating the configuration file by providing IDE hints and validation on their configuration (see figure \ref{fig:YAMLSchema}).
-
 \begin{wrapfigure}{r}{0.4\textwidth}
+    \vspace{-10px}
     \centering
     \caption{YAML Configuration}
     \label{fig:YAMLConfiguration}
     \includegraphics[width=0.4\textwidth]{Figures/YAMLConfigurationCropped.png}
 \end{wrapfigure}
+
+As already noted, the lack of standardization in code formatting has lead to a key aim of this tool to be able to be configured by the user. It was also noted that this would be achieved through the use of a YAML configuration file. As configuration parsing isn't the goal of this work, the well-known, open source YAML parsing library YamlDotNet was used. This library is under the MIT license which grants full permission to use the library in this project.
+
+YAML was chosen as the configuration language due to its human readability, as well as being very easy to implement and understand by the end user. A custom schema was created for the configuration to aid the user in creating the configuration file by providing IDE hints and validation on their configuration (see figure \ref{fig:YAMLSchema}).
 
 As with the program, the configuration is split up into multiple sections. Each section corresponds to a different module in the program with each module having a wide range of configuration options to allow for fine tuning of the program. In Figure \ref{fig:YAMLConfiguration} we can see an example of a configuration file, the visible snippet showing the configuration for the custom naming engine. Each module inherits from a base set of rules that allow the user to either enable or disable a module and set the severity of the issue that the module is checking for. By default, all modules are disabled and the severity is set to 'info'. Depending on how strict the work environment to be made, the severity can be set to cause an error which will result in not allowing the program to compile. This can be beneficial in a large team where you want to enforce a strict code style to improve readability and maintainability of the codebase.
 
