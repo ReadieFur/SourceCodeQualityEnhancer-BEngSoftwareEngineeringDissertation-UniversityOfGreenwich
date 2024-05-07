@@ -16,93 +16,95 @@ To ensure that the custom regex engine was robust, a comprehensive set of unit t
 % TODO: Could put these in the appendix. Say "see appendix X".
 
 For testing the code analyzers and fix providers the MSBuild testing framework was used. This framework provides the basic functionality to compile input source files, run the analyzers and fix providers on the compiled source files and then compare the generated diagnostics and fixes to expected results provided by the test.
-This framework requires a custom format for the test data as described by the documentation on the Microsoft website. The format that the framework desires is not ideal as it produces a lot of duplicated code, so to reduce this a custom source file parser was created to drastically cut down the amount of code that was required to write the tests. In this custom source file parser, the source file can contain code and diagnostic comments. The diagnostic comments are formatted as seen in Table \ref{tab:FileParserSyntax}.
-\begin{table}[H]
-    \centering
-    \caption{File Parser Syntax}
-    \label{tab:FileParserSyntax}
-    \begin{tabular}{|p{3.5cm}|p{8cm}|p{4cm}|}
-        % \hline
-        % \multicolumn{3}{|c|}{File Parser Syntax} \\
-        \hline
-        Syntax&Description&Example\\
-        \hline
-        \texttt{//\#\textless Diagnostic ID\textgreater}&Indicates the start of a diagnostic block&\texttt{//\#RFSA0001}\\
-        \texttt{//-\textless Code\textgreater}&Indicates code that should be removed from the source file&\texttt{//- void Test()}\\
-        \texttt{//+\textless Code\textgreater}&Indicates code that should be added to the source file&\texttt{//+ private void Test()}\\
-        \texttt{//''\textless Code\textgreater''}&Indicates the area that the diagnostic should occur&\texttt{//- return 2''+''3; }\\
-        \hline
-    \end{tabular}
-\end{table}
+The work put into making this testing framework more streamlined and easier to use was a significant development in ensuring the reliability of this tool, more detailed information of the workings behind this testing framework can be found in the appendix section \ref{subsec:CustomUnitTestFileParser}.
+% This framework requires a custom format for the test data as described by the documentation on the Microsoft website. The format that the framework desires is not ideal as it produces a lot of duplicated code, so to reduce this a custom source file parser was created to drastically cut down the amount of code that was required to write the tests. In this custom source file parser, the source file can contain code and diagnostic comments. The diagnostic comments are formatted as seen in Table \ref{tab:FileParserSyntax}.
+% \begin{table}[H]
+%     \centering
+%     \caption{File Parser Syntax}
+%     \label{tab:FileParserSyntax}
+%     \begin{tabular}{|p{3.5cm}|p{8cm}|p{4cm}|}
+%         % \hline
+%         % \multicolumn{3}{|c|}{File Parser Syntax} \\
+%         \hline
+%         Syntax&Description&Example\\
+%         \hline
+%         \texttt{//\#\textless Diagnostic ID\textgreater}&Indicates the start of a diagnostic block&\texttt{//\#RFSA0001}\\
+%         \texttt{//-\textless Code\textgreater}&Indicates code that should be removed from the source file&\texttt{//- void Test()}\\
+%         \texttt{//+\textless Code\textgreater}&Indicates code that should be added to the source file&\texttt{//+ private void Test()}\\
+%         \texttt{//''\textless Code\textgreater''}&Indicates the area that the diagnostic should occur&\texttt{//- return 2''+''3; }\\
+%         \hline
+%     \end{tabular}
+% \end{table}
 
-The file interpreter creates three copies of the source file in memory for the analyzer input, code fix input and expected output. The source file is then parsed for diagnostic comments using a regular expression. Once a diagnostic block is found, each copy of the source file is modified according to the syntax required by the MSBuild testing framework.
-For example, if a single source file had the following content:
-\begin{lstlisting}[style=sharpc]
-using System;
-//#0007
-//- public class ''_class_name_''
-//+ public class ClassName
-{}
-\end{lstlisting}
-
-The file interpreter will then parse this to produce three files with the required syntax and data for each of MSBuild inputs as well as the diagnostics to be expected from the analyzer. The three files that are produced are as follows:
-% \textbf{Analyzer input}
+% The file interpreter creates three copies of the source file in memory for the analyzer input, code fix input and expected output. The source file is then parsed for diagnostic comments using a regular expression. Once a diagnostic block is found, each copy of the source file is modified according to the syntax required by the MSBuild testing framework.
+% For example, if a single source file had the following content:
 % \begin{lstlisting}[style=sharpc]
+% using System;
+% //#0007
+% //- public class ''_class_name_''
+% //+ public class ClassName
+% {}
+% \end{lstlisting}
+
+% The file interpreter will then parse this to produce three files with the required syntax and data for each of MSBuild inputs as well as the diagnostics to be expected from the analyzer. The three files that are produced are as follows:
+% % \textbf{Analyzer input}
+% % \begin{lstlisting}[style=sharpc]
+% % using System;
+% % public class _class_name_
+% % {}
+% % \end{lstlisting}
+% % \textbf{Code fix input}
+% % \begin{lstlisting}[style=sharpc]
+% % using System;
+% % public class {{|#0:_class_name_|}}
+% % {}
+% % \end{lstlisting}
+% % \textbf{Expected output}
+% % \begin{lstlisting}[style=sharpc]
+% % using System;
+% % public class ClassName
+% % {}
+% % \end{lstlisting}
+% % \textbf{Expected diagnostics}
+% % \texttt{ID: RFSA0007, Message: Class name should match the pattern [A-Z][a-z]+, Severity: Error, Location: Line 2, Column 7}
+
+% \begin{table}[h!]
+%     \centering
+%     \begin{tabular}{p{9cm}p{8cm}}
+%         % \hline
+%         \textbf{Expected diagnostic} & \textbf{Analyzer input} \\
+%         % \hline
+%         \texttt{ID: RFSA0007}\newline
+%         \texttt{Message: Class name should match the pattern "[A-Z][a-z]+"}\newline
+%         \texttt{Location: Line 2, Column 13, Span: 12}
+%         &
+%         \begin{lstlisting}[style=sharpc]
 % using System;
 % public class _class_name_
 % {}
-% \end{lstlisting}
-% \textbf{Code fix input}
-% \begin{lstlisting}[style=sharpc]
+%         \end{lstlisting}
+%         \\
+%         % \hline
+%         \textbf{Code fix input} & \textbf{Code fix expected output} \\
+%         % \hline
+%         \begin{lstlisting}[style=sharpc]
 % using System;
 % public class {{|#0:_class_name_|}}
 % {}
-% \end{lstlisting}
-% \textbf{Expected output}
-% \begin{lstlisting}[style=sharpc]
+%         \end{lstlisting}
+%         &
+%         \begin{lstlisting}[style=sharpc]
 % using System;
 % public class ClassName
 % {}
-% \end{lstlisting}
-% \textbf{Expected diagnostics}
-% \texttt{ID: RFSA0007, Message: Class name should match the pattern [A-Z][a-z]+, Severity: Error, Location: Line 2, Column 7}
+%         \end{lstlisting}
+%         \\
+%         % \hline
+%     \end{tabular}
+% \end{table}
 
-\begin{table}[h!]
-    \centering
-    \begin{tabular}{p{9cm}p{8cm}}
-        % \hline
-        \textbf{Expected diagnostic} & \textbf{Analyzer input} \\
-        % \hline
-        \texttt{ID: RFSA0007}\newline
-        \texttt{Message: Class name should match the pattern "[A-Z][a-z]+"}\newline
-        \texttt{Location: Line 2, Column 13, Span: 12}
-        &
-        \begin{lstlisting}[style=sharpc]
-using System;
-public class _class_name_
-{}
-        \end{lstlisting}
-        \\
-        % \hline
-        \textbf{Code fix input} & \textbf{Code fix expected output} \\
-        % \hline
-        \begin{lstlisting}[style=sharpc]
-using System;
-public class {{|#0:_class_name_|}}
-{}
-        \end{lstlisting}
-        &
-        \begin{lstlisting}[style=sharpc]
-using System;
-public class ClassName
-{}
-        \end{lstlisting}
-        \\
-        % \hline
-    \end{tabular}
-\end{table}
-
-Using this system the test data can be written in a more human-readable format with much less code duplication. This system also allows for the easy addition and modification for new and existing tests. These unit tests then run the MSBuild diagnostic analyzers and code fix providers with the provided input and expected outputs from the file parser and a reference to the custom modules written for this program. The tests are then run to completion and the results are compared to the expected results. If the tests have a runtime error or the results do not match the expected results the test will fail.
+% Using this system the test data can be written in a more human-readable format with much less code duplication. This system also allows for the easy addition and modification for new and existing tests.
+These unit tests then run the MSBuild diagnostic analyzers and code fix providers with the provided input and expected outputs from the file parser and a reference to the custom modules written for this program. The tests are then run to completion and the results are compared to the expected results. If the tests have a runtime error or the results do not match the expected results the test will fail.
 Unit tests also allow for rapid testing and development because unit tests are written to be small and so are often fast to run. The results of these tests can also be easily interpreted as they are either pass or fail and most modern IDEs have built-in integration with unit testing frameworks. This project was developed within Visual Studio Community Edition which has built-in support for the MSTest framework which allowed for the tests to be run and the results to be viewed within the IDE itself with inline hints on where tests may have failed (see figure \ref{fig:UnitTestResults}).
 
 A significant amount of time was spent constantly testing the components of the tool to ensure that they were functioning correctly and as expected. Automated unit test executions were setup so that after each new build of the program, the tests would be re-run. Most of the tests yielded the expected results most of the time, with the exception of a few edge cases that were not major enough to be fixed, in particular any code fix providers that would enter new lines to a document would not always use the correct line ending for the operating system that the tool was running on (see figure \ref{fig:UnitTestFailing}). This was not fixed as it was not a major issue and would not affect the functionality of the tool.
@@ -124,7 +126,7 @@ A significant amount of time was spent constantly testing the components of the 
     \end{subfigure}
 \end{figure}
 
-% TODO: Show the custom file parser.
+Of the automated tests conducted, fifty-eight were created of which fifty-five were successful. The three tests that failed were due to the line ending issue mentioned above. The tests that failed were not fixed as they were not major issues, would not affect the functionality of the tool and due to a lack of time to resolve the issue. The tests that passed were able to validate the functionality of the tool and ensure that the tool was functioning correctly and as expected. Given the success rate of 94.8\%, it can be concluded that the tool is functioning well within a passable margin of error and is ready enough for real-world use.
 
 \subsubsection{Integration testing}
 Using the VSIX build of the project, a plugin compatible with the Visual Studio IDE gets created. This plugin allowed for the tool to be interacted with via IDE hints. In order to examine this a test project was loaded up into Visual Studio with the plugin loaded. After compiling the project the IDE would gather diagnostics from the build tool and display them in the error list and the code editor. It can be seen that amongst the diagnostics generated, the tool has provided hints within the IDE that the user can click on to preview and apply the fix. (see figure \ref{fig:IDEHints}).
@@ -139,7 +141,7 @@ Using the VSIX build of the project, a plugin compatible with the Visual Studio 
 \end{figure}
 
 \subsubsection{Standalone testing}
-The standalone package was built to provide a way to run the tool without the need for the Visual Studio IDE. The standalone program is simplistic and takes a C\# solution file from which the analysis can be run on. Any files that can have fixes applied will be displayed in a graphical window with a file differential view. To validate the results of the standalone tool, checks were made to ensure that it doesn't get stuck in a read-eval loop, which did occur during development. In addition to this, the output files were visually inspected to check that the fixes were applied correctly (see figure \ref{fig:StandaloneTool}).
+The standalone package was built to provide a way to run the tool without the need for the Visual Studio IDE. The standalone program is simplistic and takes a C\# solution file from which the analysis can be run on. Any files that can have fixes applied will be displayed in a graphical window with a file differential view. To validate the results of the standalone tool, checks were made to ensure that it doesn't get stuck in a read-eval loop, which did occur during development. In addition to this, the output files were visually inspected to check that the fixes were applied correctly (see figure \ref{fig:StandaloneTool}). Additional, less significant, tests were conducted for the standalone tool which can be read about in the appendix section \ref{sec:StandaloneToolTests}.
 
 \begin{figure}[H]
     \centering
