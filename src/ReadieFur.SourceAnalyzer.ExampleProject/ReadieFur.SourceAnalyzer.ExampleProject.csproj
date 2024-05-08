@@ -43,6 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BadFormatting\Compact.cs" />
+    <Compile Include="BadFormatting\pi_digit_calculator.cs" />
+    <Compile Include="BadFormatting\prime_calculator.cs" />
+    <Compile Include="MixedFormatting\PiDigitCalculator.cs" />
+    <Compile Include="MixedFormatting\PrimeCalculator.cs" />
     <Compile Include="PoorFormatting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -50,5 +55,6 @@
     <None Include="App.config" />
     <None Include="source-analyzer.yaml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
